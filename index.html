@@ -157,7 +157,7 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 1.0.6</div>
+  <div id="version">beta 1.0.7</div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -1212,7 +1212,7 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// ПИСТОЛЕТ В СТИЛЕ CS2 — вид сбоку, с руками
+// ПИСТОЛЕТ В СТИЛЕ CS2 — зеркалён, ствол смотрит ВЛЕВО
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
   var gunW = Math.min(W * 0.40, 360);
@@ -1227,13 +1227,15 @@ function drawGun(){
   var bobX = Math.sin(state.bob) * 8;
   var bobY = Math.sin(state.bob * 2) * 4;
 
-  // Нижний правый угол, чуть повёрнут
-  var gx = W * 0.75 + bobX;
-  var gy = H * 0.90 + kick + bobY + reloadOffset;
+  // Правый нижний угол, ВЫШЕ и правее
+  var gx = W * 0.80 + bobX;
+  var gy = H * 0.78 + kick + bobY + reloadOffset;
 
   ctx.save();
   ctx.translate(gx, gy);
-  ctx.rotate(-0.30);
+  // ЗЕРКАЛИМ — ствол влево
+  ctx.scale(-1, 1);
+  ctx.rotate(0.20);
 
   // ===== ПРЕДПЛЕЧЬЕ =====
   ctx.fillStyle = '#2d4a24';
@@ -1244,7 +1246,6 @@ function drawGun(){
   ctx.lineTo(-gunW*0.14, gunH*0.72);
   ctx.closePath();
   ctx.fill();
-  // Полосы камуфляжа
   ctx.fillStyle = '#1f3518';
   ctx.beginPath();
   ctx.moveTo(-gunW*0.07, gunH*0.45);
@@ -1254,7 +1255,7 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // ===== РУКОЯТЬ ПИСТОЛЕТА (магазин) =====
+  // ===== РУКОЯТЬ (магазин) =====
   ctx.fillStyle = '#1a1a22';
   ctx.beginPath();
   ctx.moveTo(-gunW*0.02, gunH*0.10);
@@ -1281,7 +1282,6 @@ function drawGun(){
   ctx.fillRect(gunW*0.20, -gunH*0.05, gunW*0.22, gunH*0.10);
   ctx.fillStyle = '#4a4a52';
   ctx.fillRect(gunW*0.20, -gunH*0.05, gunW*0.22, gunH*0.015);
-  // Отверстие
   ctx.fillStyle = '#000';
   ctx.beginPath();
   ctx.ellipse(gunW*0.42, gunH*0.00, gunW*0.012, gunH*0.035, 0, 0, Math.PI*2);
@@ -1299,7 +1299,7 @@ function drawGun(){
   ctx.fillStyle = '#666';
   ctx.fillRect(gunW*0.33, -gunH*0.11, gunW*0.02, gunH*0.015);
 
-  // ===== СПУСКОВОЙ КРЮЧОК =====
+  // ===== СПУСК =====
   ctx.fillStyle = '#1a1a22';
   ctx.beginPath();
   ctx.moveTo(gunW*0.08, gunH*0.10);
@@ -1309,13 +1309,13 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // ===== ПАЛЕЦ НА СПУСКЕ =====
+  // ===== ПАЛЕЦ =====
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.ellipse(gunW*0.13, gunH*0.15, gunW*0.03, gunH*0.02, 0.3, 0, Math.PI*2);
   ctx.fill();
 
-  // ===== ЛАДОНЬ, ОБХВАТЫВАЮЩАЯ РУКОЯТЬ =====
+  // ===== ЛАДОНЬ =====
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.moveTo(-gunW*0.02, gunH*0.10);
@@ -1324,22 +1324,20 @@ function drawGun(){
   ctx.lineTo(-gunW*0.04, gunH*0.42);
   ctx.closePath();
   ctx.fill();
-  // Тёмные линии между пальцами
   ctx.fillStyle = '#8a6050';
   for (var f = 0; f < 3; f++){
     ctx.fillRect(-gunW*0.02, gunH*0.16 + f*gunH*0.07, gunW*0.14, gunH*0.008);
   }
-  // Большой палец
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.ellipse(gunW*0.16, gunH*0.14, gunW*0.04, gunH*0.025, -0.4, 0, Math.PI*2);
   ctx.fill();
 
-  // ===== БЛИК НА КОРПУСЕ =====
+  // ===== БЛИК =====
   ctx.fillStyle = 'rgba(255,255,255,0.15)';
   ctx.fillRect(-gunW*0.08, -gunH*0.04, gunW*0.26, gunH*0.008);
 
-  // ===== ВСПЫШКА ВЫСТРЕЛА =====
+  // ===== ВСПЫШКА =====
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
     var mx = gunW*0.44, my = gunH*0.00;
@@ -1351,7 +1349,6 @@ function drawGun(){
     grd.addColorStop(1, 'rgba(255,80,0,0)');
     ctx.fillStyle = grd;
     ctx.beginPath(); ctx.arc(mx, my, R, 0, Math.PI*2); ctx.fill();
-    // Языки пламени
     ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
     ctx.beginPath();
     ctx.moveTo(mx - R*0.15, my);
@@ -1373,7 +1370,7 @@ function drawGun(){
   ctx.restore();
 }
 
-// НОЖ В СТИЛЕ CS2 — вид сбоку с рукой
+// НОЖ — зеркалён
 function drawKnife(){
   var kW = Math.min(W * 0.40, 360);
   var kH = kW * 0.85;
@@ -1381,14 +1378,14 @@ function drawKnife(){
   var bobX = Math.sin(state.bob) * 8;
   var bobY = Math.sin(state.bob * 2) * 4;
 
-  var kx = W * 0.75 + bobX + swing * 50;
-  var ky = H * 0.90 + bobY + swing * 25;
+  var kx = W * 0.80 + bobX + swing * 40;
+  var ky = H * 0.78 + bobY + swing * 20;
 
   ctx.save();
   ctx.translate(kx, ky);
-  ctx.rotate(-0.30 + swing * 0.5);
+  ctx.scale(-1, 1);
+  ctx.rotate(0.20 + swing * 0.5);
 
-  // ===== ПРЕДПЛЕЧЬЕ =====
   ctx.fillStyle = '#2d4a24';
   ctx.beginPath();
   ctx.moveTo(-kW*0.08, kH*0.32);
@@ -1406,7 +1403,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // ===== ЛАДОНЬ НА РУКОЯТИ =====
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.moveTo(-kW*0.02, kH*0.10);
@@ -1420,7 +1416,6 @@ function drawKnife(){
     ctx.fillRect(-kW*0.02, kH*0.16 + f*kH*0.07, kW*0.13, kH*0.008);
   }
 
-  // ===== РУКОЯТЬ НОЖА =====
   ctx.fillStyle = '#3a2a1a';
   ctx.beginPath();
   ctx.moveTo(-kW*0.02, kH*0.10);
@@ -1429,18 +1424,15 @@ function drawKnife(){
   ctx.lineTo(kW*0.00, kH*0.47);
   ctx.closePath();
   ctx.fill();
-  // Обмотка
   ctx.fillStyle = '#1a0e05';
   for (var h = 0; h < 5; h++){
     ctx.fillRect(-kW*0.005, kH*0.14 + h*kH*0.055, kW*0.11, kH*0.012);
   }
-  // Гайка на торце
   ctx.fillStyle = '#8a7a3a';
   ctx.beginPath(); ctx.arc(kW*0.05, kH*0.09, kW*0.022, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#5a4a1a';
   ctx.beginPath(); ctx.arc(kW*0.05, kH*0.09, kW*0.010, 0, Math.PI*2); ctx.fill();
 
-  // ===== ГАРДА =====
   ctx.fillStyle = '#4a4a4a';
   ctx.beginPath();
   ctx.moveTo(-kW*0.06, kH*0.04);
@@ -1452,10 +1444,8 @@ function drawKnife(){
   ctx.fillStyle = '#2a2a2a';
   ctx.fillRect(-kW*0.06, kH*0.04, kW*0.20, kH*0.015);
 
-  // ===== КЛИНОК (изогнутый, вверх-вправо) =====
   ctx.save();
   ctx.rotate(-0.35);
-  // Основная форма
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
   ctx.moveTo(kW*0.02, kH*0.00);
@@ -1466,7 +1456,6 @@ function drawKnife(){
   ctx.lineTo(kW*0.12, kH*0.00);
   ctx.closePath();
   ctx.fill();
-  // Тень (нижняя грань)
   ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
   ctx.moveTo(kW*0.08, kH*0.00);
@@ -1477,7 +1466,6 @@ function drawKnife(){
   ctx.lineTo(kW*0.12, kH*0.00);
   ctx.closePath();
   ctx.fill();
-  // Блик по центру
   ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
   ctx.moveTo(kW*0.05, -kH*0.10);
@@ -1487,7 +1475,6 @@ function drawKnife(){
   ctx.quadraticCurveTo(kW*0.13, -kH*0.55, kW*0.07, -kH*0.10);
   ctx.closePath();
   ctx.fill();
-  // Зазубрины (сверху)
   ctx.fillStyle = '#a8b4c0';
   for (var z = 0; z < 4; z++){
     var zt = 0.25 + z * 0.15;
