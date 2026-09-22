@@ -11,12 +11,10 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff;position:fixed;top:0;left:0}
 .screen{position:fixed;inset:0;z-index:50;display:none}
-#menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))}
-#menuTitle{position:absolute;top:calc(16px + env(safe-area-inset-top));right:22px;font-size:50px;letter-spacing:10px;font-weight:900;color:#fff;text-shadow:4px 4px 0 #000,0 0 40px #000,0 0 12px #000;z-index:10}
-#menuSubtitle{position:absolute;top:calc(74px + env(safe-area-inset-top));right:22px;font-size:14px;letter-spacing:4px;color:#fff;text-shadow:2px 2px 0 #000,0 0 8px #000;z-index:10}
-#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;z-index:2;margin-top:50px;margin-bottom:8px}
-#menuSoldier svg{height:100%;max-height:50vh;width:auto;image-rendering:pixelated}
-#menuPlay{padding:16px 62px;font-size:22px;font-weight:900;letter-spacing:7px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 28px rgba(255,215,0,0.7);z-index:2;margin-bottom:30px}
+#menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:calc(20px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom))}
+#menuTitle{position:absolute;top:calc(16px + env(safe-area-inset-top));right:22px;font-size:52px;letter-spacing:12px;font-weight:900;color:#fff;text-shadow:4px 4px 0 #000,0 0 40px #000,0 0 12px #000;z-index:10}
+#menuSubtitle{position:absolute;top:calc(78px + env(safe-area-inset-top));right:22px;font-size:14px;letter-spacing:4px;color:#fff;text-shadow:2px 2px 0 #000,0 0 8px #000;z-index:10}
+#menuPlay{padding:18px 68px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.8),inset 0 0 15px rgba(255,215,0,0.2);z-index:2}
 #menuPlay:active{background:#ffd700;color:#1a1a1a}
 #levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #levelsTitle{font-size:26px;letter-spacing:8px;color:#ffcc00;margin-bottom:16px;font-weight:900;flex-shrink:0}
@@ -75,40 +73,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
-  <div id="menuSubtitle">BETA 2.4.0</div>
-  <div id="menuSoldier">
-    <svg viewBox="0 0 160 260" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-      <ellipse cx="80" cy="252" rx="48" ry="6" fill="rgba(0,0,0,0.5)"/>
-      <rect x="88" y="170" width="16" height="66" fill="#2d4a24"/>
-      <rect x="88" y="228" width="26" height="22" fill="#1a1a12"/>
-      <rect x="56" y="170" width="18" height="70" fill="#3a5a2a"/>
-      <rect x="50" y="232" width="30" height="20" fill="#222215"/>
-      <rect x="48" y="88" width="64" height="88" fill="#4a6a3a"/>
-      <rect x="54" y="96" width="12" height="12" fill="#3a5528"/>
-      <rect x="74" y="108" width="14" height="10" fill="#3a5528"/>
-      <rect x="48" y="112" width="64" height="46" fill="#2a3a1a"/>
-      <rect x="52" y="120" width="22" height="14" fill="#0057b7"/>
-      <rect x="52" y="127" width="22" height="7" fill="#ffd700"/>
-      <rect x="112" y="104" width="16" height="52" fill="#3a5a2a"/>
-      <rect x="112" y="148" width="16" height="12" fill="#c9a07a"/>
-      <rect x="32" y="110" width="16" height="48" fill="#4a6a3a"/>
-      <rect x="32" y="150" width="16" height="12" fill="#c9a07a"/>
-      <rect x="0" y="146" width="46" height="7" fill="#1a1a22"/>
-      <rect x="24" y="153" width="12" height="20" fill="#0a0a10"/>
-      <rect x="46" y="147" width="12" height="10" fill="#3a2a1a"/>
-      <rect x="56" y="42" width="48" height="48" fill="#c9a07a"/>
-      <rect x="64" y="62" width="8" height="6" fill="#1a1a1a"/>
-      <rect x="72" y="84" width="16" height="4" fill="#8a4030"/>
-      <rect x="48" y="30" width="64" height="16" fill="#3a5a2a"/>
-      <rect x="54" y="24" width="52" height="8" fill="#4a6a3a"/>
-      <rect x="62" y="18" width="36" height="8" fill="#4a6a3a"/>
-      <rect x="40" y="42" width="80" height="8" fill="#2d4a24"/>
-      <rect x="76" y="24" width="4" height="12" fill="#ffd700"/>
-      <rect x="72" y="28" width="3" height="8" fill="#ffd700"/>
-      <rect x="81" y="28" width="3" height="8" fill="#ffd700"/>
-      <rect x="72" y="34" width="12" height="3" fill="#ffd700"/>
-    </svg>
-  </div>
+  <div id="menuSubtitle">BETA 2.5.0</div>
   <button id="menuPlay">PLAY</button>
 </div>
 
@@ -157,7 +122,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   <div id="hurt"></div>
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
-  <div id="version">beta 2.4.0</div>
+  <div id="version">beta 2.5.0</div>
   <div id="vhsLine"></div>
   <div id="killstreak"></div>
 
@@ -201,30 +166,6 @@ function pauseBgMusic(){
   try { BG_MUSIC.pause(); } catch(e){}
 }
 
-var pistolImg = new Image();
-var pistolReady = false;
-var pistolClean = null;
-pistolImg.onload = function(){
-  try {
-    var c = document.createElement('canvas');
-    c.width = pistolImg.width; c.height = pistolImg.height;
-    var ic = c.getContext('2d');
-    ic.drawImage(pistolImg, 0, 0);
-    var imgData = ic.getImageData(0, 0, c.width, c.height);
-    var d = imgData.data;
-    for (var i = 0; i < d.length; i += 4){
-      var r = d[i], g = d[i+1], b = d[i+2];
-      var maxv = Math.max(r,g,b), minv = Math.min(r,g,b);
-      if (maxv - minv < 20 && minv > 185){ d[i+3] = 0; }
-    }
-    ic.putImageData(imgData, 0, 0);
-    pistolClean = c;
-  } catch(e){ pistolClean = null; }
-  pistolReady = true;
-};
-pistolImg.onerror = function(){ pistolReady = false; };
-pistolImg.src = 'pistol.png.jpg';
-
 var MAX_LEVEL = 20;
 var progress = 1;
 try {
@@ -249,13 +190,13 @@ function updateLevelButtons(){
 }
 
 var WEAPONS = {
-  pistol: { name:'PISTOL', speed:1.7, damage:25, magSize:7, reloadTime:3.0 },
+  pistol: { name:'DEAGLE', speed:1.7, damage:25, magSize:7, reloadTime:3.0 },
   knife:  { name:'KNIFE',  speed:2.7, damage:0 }
 };
 
 var KNIFE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"><path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/><path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/><rect x="38" y="18" width="8" height="14" fill="#4a4a4a"/><rect x="8" y="19" width="32" height="12" fill="#3a2a1a"/><circle cx="36" cy="25" r="3" fill="#8a7a3a"/></svg>';
-var PISTOL_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="14" width="82" height="14" fill="#3a3a42"/><rect x="18" y="16" width="82" height="3" fill="#5a5a62"/><circle cx="97" cy="21" r="5" fill="#000"/><rect x="12" y="17" width="28" height="16" fill="#2a2a32"/><path d="M 18 30 L 36 30 L 40 48 L 18 48 Z" fill="#1a1a20"/></svg>';
-function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : PISTOL_SVG; }
+var DEAGLE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="12" width="80" height="18" fill="#1a1a1a"/><rect x="20" y="14" width="80" height="3" fill="#3a3a3a"/><rect x="28" y="18" width="6" height="6" fill="#000"/><rect x="40" y="18" width="6" height="6" fill="#000"/><rect x="52" y="18" width="6" height="6" fill="#000"/><rect x="64" y="18" width="6" height="6" fill="#000"/><rect x="14" y="15" width="26" height="18" fill="#0a0a0a"/><path d="M 20 33 L 38 33 L 42 50 L 20 50 Z" fill="#0a0a0a"/><circle cx="99" cy="20" r="6" fill="#000"/><circle cx="99" cy="20" r="3" fill="#1a1a1a"/></svg>';
+function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : DEAGLE_SVG; }
 
 var SPAWN = {
   1:{n:5,f:2,s:1}, 2:{n:5,f:5,s:0}, 3:{n:5,f:0,s:5}, 4:{n:3,f:3,s:3},
@@ -309,9 +250,9 @@ function noiseBurst(dur, vol, filterFreq, type){
   } catch(e){}
 }
 function sndGun(){
-  beep(220, 0.28, 0.45, 'sine', 40);
-  beep(180, 0.12, 0.25, 'square', 60);
-  noiseBurst(0.15, 0.35, 2500, 'highpass');
+  beep(220, 0.28, 0.5, 'sine', 40);
+  beep(180, 0.12, 0.28, 'square', 60);
+  noiseBurst(0.18, 0.4, 2500, 'highpass');
   setTimeout(function(){ beep(700, 0.06, 0.12, 'triangle', 300); }, 55);
 }
 function sndHit(){ beep(180, 0.09, 0.28, 'sine', 70); noiseBurst(0.07, 0.18, 900); }
@@ -466,8 +407,7 @@ var state = {
   enemies:[], blood:[], particles:[], enemyBullets:[],
   magAmmo:7, reloading:false, reloadTimer:0,
   headshotFlash:0,
-  recoilPitch: 0, screenShake: 0, shakeX: 0, shakeY: 0,
-  walkCycle: 0, moving: false
+  recoilPitch: 0, screenShake: 0, shakeX: 0, shakeY: 0
 };
 
 function isWall(x, y){
@@ -579,7 +519,6 @@ function startLevel(level){
   state.headshotFlash = 0; state.bob = 0;
   state.recoilPitch = 0; state.screenShake = 0;
   state.shakeX = 0; state.shakeY = 0;
-  state.walkCycle = 0; state.moving = false;
   state.timeStart = performance.now();
   resetKillstreak();
   spawnLevel(level);
@@ -759,11 +698,11 @@ function fire(){
   sndGun();
   state.pistolKick = 1;
   state.muzzleFlash = 1;
-  state.recoilPitch -= 22;
-  state.screenShake = 12;
+  state.recoilPitch -= 25;
+  state.screenShake = 14;
   var flash = document.getElementById('flash');
   flash.style.transition = 'none';
-  flash.style.opacity = '0.28';
+  flash.style.opacity = '0.32';
   requestAnimationFrame(function(){ flash.style.transition = 'opacity 0.12s'; flash.style.opacity = '0'; });
   var dx = Math.cos(state.dir), dy = Math.sin(state.dir);
   var hit = null, hitDist = Infinity, hitVerticalPct = 0;
@@ -903,8 +842,6 @@ function update(dt){
   var len = Math.hypot(mx, my);
   if (len > 1){ mx /= len; my /= len; }
   if (len > 0.05){
-    state.moving = true;
-    state.walkCycle += dt * 8;
     var cos = Math.cos(state.dir), sin = Math.sin(state.dir);
     var fx = -my*cos + mx*-sin;
     var fy = -my*sin + mx*cos;
@@ -926,10 +863,7 @@ function update(dt){
         if (!isWall(pz.x, pny)) pz.y = pny;
       }
     }
-  } else {
-    state.moving = false;
-    state.bob *= 0.9;
-  }
+  } else state.bob *= 0.9;
 
   unstickPlayer();
 
@@ -1212,9 +1146,6 @@ function render(){
     ctx.globalAlpha = 1;
   }
 
-  // ===== PLAYER LEGS =====
-  drawPlayerLegs(horizon, bobY);
-
   drawGun();
   drawMinimap();
 
@@ -1228,56 +1159,6 @@ function render(){
     ctx.textAlign = 'center';
     ctx.fillText('HEADSHOT!', W/2, H*0.3);
   }
-}
-
-// ===== PLAYER LEGS ANIMATION =====
-function drawPlayerLegs(horizon, bobY){
-  // Only visible when looking down or at normal level
-  var legAlpha = 1;
-  if (state.pitch < -H * 0.1) legAlpha = Math.max(0, 1 + state.pitch / (H * 0.2));
-  if (legAlpha <= 0.01) return;
-
-  var legW = Math.min(W, H) * 0.10;
-  var legH = Math.min(W, H) * 0.16;
-  var centerX = W/2;
-  // Legs appear at bottom of screen, shifted by bob
-  var baseY = H + bobY * 2 - legH * 0.3;
-
-  // Walk cycle: swing legs alternately
-  var swing = 0;
-  if (state.moving){
-    swing = Math.sin(state.walkCycle) * legW * 0.5;
-  }
-
-  // Colors of military pants
-  var pantsColor = '#3a5a2a';
-  var pantsDark = '#2a3a1a';
-  var bootColor = '#1a1a12';
-  var bootDark = '#0a0a08';
-
-  ctx.save();
-  ctx.globalAlpha = legAlpha;
-
-  // LEFT LEG (behind, slightly darker)
-  ctx.fillStyle = pantsDark;
-  ctx.fillRect(centerX - legW * 1.4 + swing * 0.5, baseY, legW, legH * 1.2);
-  // Left boot
-  ctx.fillStyle = bootDark;
-  ctx.fillRect(centerX - legW * 1.5 + swing * 0.5, baseY + legH * 1.1, legW * 1.2, legH * 0.35);
-
-  // RIGHT LEG (front, brighter)
-  ctx.fillStyle = pantsColor;
-  ctx.fillRect(centerX + legW * 0.4 - swing * 0.5, baseY - 4, legW, legH * 1.2);
-  // Right boot
-  ctx.fillStyle = bootColor;
-  ctx.fillRect(centerX + legW * 0.3 - swing * 0.5, baseY + legH * 1.1 - 4, legW * 1.2, legH * 0.35);
-
-  // Knee highlights
-  ctx.fillStyle = 'rgba(255,255,255,0.08)';
-  ctx.fillRect(centerX - legW * 1.4 + swing * 0.5, baseY + legH * 0.5, legW, legH * 0.05);
-  ctx.fillRect(centerX + legW * 0.4 - swing * 0.5, baseY + legH * 0.5 - 4, legW, legH * 0.05);
-
-  ctx.restore();
 }
 
 function drawMinimap(){
@@ -1389,6 +1270,7 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
+// ===== DESERT EAGLE - HANDPAINTED CODE =====
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
 
@@ -1396,63 +1278,289 @@ function drawGun(){
   if (state.reloading){
     var pct = state.reloadTimer / WEAPONS.pistol.reloadTime;
     var phase = pct < 0.5 ? pct*2 : (1-pct)*2;
-    reloadOffset = phase * H * 0.25;
+    reloadOffset = phase * H * 0.28;
   }
 
-  var kick = state.pistolKick * 26;
-  var bobX = Math.sin(state.bob) * 6;
+  var kick = state.pistolKick * 30;
+  var bobX = Math.sin(state.bob) * 7;
   var bobY = Math.sin(state.bob * 2) * 3;
-  var recoilRot = -state.pistolKick * 0.10;
+  var recoilRot = -state.pistolKick * 0.14;
 
-  var anchorX = W * 0.92 + bobX;
-  var anchorY = H * 0.98 + bobY + reloadOffset - kick * 0.6;
+  var cx = W * 0.60 + bobX;
+  var cy = H * 1.02 + bobY + reloadOffset - kick * 0.7;
+  var S = Math.min(W, H) * 0.14;
 
   ctx.save();
-  ctx.translate(anchorX, anchorY);
+  ctx.translate(cx, cy);
   ctx.rotate(recoilRot);
 
-  if (pistolReady){
-    var srcImg = pistolClean || pistolImg;
-    var srcW = (pistolClean ? pistolClean.width : pistolImg.width) || 512;
-    var srcH = (pistolClean ? pistolClean.height : pistolImg.height) || 512;
-    var imgW = Math.min(W * 0.62, 520);
-    var imgH = imgW * (srcH / srcW);
-    ctx.drawImage(srcImg, -imgW, -imgH, imgW, imgH);
-    if (state.muzzleFlash > 0.05){
-      var mf = state.muzzleFlash;
-      var fx = -imgW * 0.65, fy2 = -imgH * 0.78;
-      var R = Math.min(W,H) * 0.22 * mf;
-      var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
-      grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
-      grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
-      grd.addColorStop(0.7, 'rgba(255,120,20,' + (mf*0.5) + ')');
-      grd.addColorStop(1, 'rgba(255,80,0,0)');
-      ctx.fillStyle = grd;
-      ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
-    }
-  } else {
-    var S = Math.min(W, H) * 0.10;
-    ctx.fillStyle = '#2d4a24';
+  // ===== ARM/FOREARM (from bottom-right) =====
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.moveTo(S*1.6, S*0.6);
+  ctx.lineTo(S*5.0, S*1.2);
+  ctx.lineTo(S*5.0, S*6.0);
+  ctx.lineTo(S*1.2, S*5.0);
+  ctx.closePath();
+  ctx.fill();
+  // Shadow on arm
+  ctx.fillStyle = '#a88060';
+  ctx.beginPath();
+  ctx.moveTo(S*2.8, S*1.8);
+  ctx.lineTo(S*5.0, S*2.2);
+  ctx.lineTo(S*5.0, S*4.0);
+  ctx.lineTo(S*2.4, S*3.6);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== GRIP (Desert Eagle - large angular grip) =====
+  // Main grip body
+  ctx.fillStyle = '#0a0a0a';
+  ctx.beginPath();
+  ctx.moveTo(S*1.0, -S*0.4);
+  ctx.lineTo(S*2.2, -S*0.4);
+  ctx.lineTo(S*2.9, S*3.6);
+  ctx.lineTo(S*1.4, S*3.9);
+  ctx.closePath();
+  ctx.fill();
+  // Right side of grip (lighter for volume)
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath();
+  ctx.moveTo(S*1.0, -S*0.4);
+  ctx.lineTo(S*1.6, -S*0.4);
+  ctx.lineTo(S*2.2, S*3.7);
+  ctx.lineTo(S*1.4, S*3.9);
+  ctx.closePath();
+  ctx.fill();
+
+  // Grip texture - diamond pattern
+  ctx.strokeStyle = '#2a2a2a';
+  ctx.lineWidth = S*0.04;
+  for (var i = 0; i < 5; i++){
+    var y1 = S*0.0 + i*S*0.7;
     ctx.beginPath();
-    ctx.moveTo(-S*1.0, -S*0.5);
-    ctx.lineTo(-S*0.4, -S*0.2);
-    ctx.lineTo(-S*0.4, -S*3.5);
-    ctx.lineTo(-S*1.6, -S*3.5);
-    ctx.closePath(); ctx.fill();
+    ctx.moveTo(S*1.1, y1);
+    ctx.lineTo(S*2.6, y1 + S*0.5);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(S*2.6, y1);
+    ctx.lineTo(S*1.1, y1 + S*0.5);
+    ctx.stroke();
+  }
+
+  // Magazine base plate (metal)
+  ctx.fillStyle = '#3a3a3a';
+  ctx.beginPath();
+  ctx.moveTo(S*1.35, S*3.7);
+  ctx.lineTo(S*2.9, S*3.7);
+  ctx.lineTo(S*2.85, S*4.1);
+  ctx.lineTo(S*1.4, S*4.15);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(S*1.5, S*3.9, S*1.2, S*0.08);
+
+  // ===== MAIN SLIDE (huge block, Desert Eagle signature) =====
+  // Slide body - dark
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.2, -S*1.7);
+  ctx.lineTo(S*2.0, -S*1.5);
+  ctx.lineTo(S*2.1, S*0.4);
+  ctx.lineTo(-S*3.0, S*0.5);
+  ctx.closePath();
+  ctx.fill();
+
+  // Top edge of slide (highlighted)
+  ctx.fillStyle = '#3a3a3a';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.2, -S*1.7);
+  ctx.lineTo(S*2.0, -S*1.5);
+  ctx.lineTo(S*2.0, -S*1.3);
+  ctx.lineTo(-S*3.2, -S*1.5);
+  ctx.closePath();
+  ctx.fill();
+
+  // Bottom edge (shadow)
+  ctx.fillStyle = '#0a0a0a';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.0, S*0.4);
+  ctx.lineTo(S*2.1, S*0.4);
+  ctx.lineTo(S*2.1, S*0.5);
+  ctx.lineTo(-S*3.0, S*0.5);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== BARREL (extends forward and up-left, with vents) =====
+  // Main barrel block
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.2, -S*1.7);
+  ctx.lineTo(-S*6.0, -S*2.8);
+  ctx.lineTo(-S*6.0, -S*1.4);
+  ctx.lineTo(-S*3.0, -S*0.4);
+  ctx.closePath();
+  ctx.fill();
+
+  // Top of barrel (highlight)
+  ctx.fillStyle = '#3a3a3a';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.2, -S*1.7);
+  ctx.lineTo(-S*6.0, -S*2.8);
+  ctx.lineTo(-S*6.0, -S*2.5);
+  ctx.lineTo(-S*3.2, -S*1.4);
+  ctx.closePath();
+  ctx.fill();
+
+  // Ventilation slots (Desert Eagle signature)
+  ctx.fillStyle = '#000';
+  for (var v = 0; v < 4; v++){
+    var vx = -S*3.6 - v*S*0.5;
+    var vy = -S*1.5 - v*S*0.3;
+    ctx.beginPath();
+    ctx.moveTo(vx, vy);
+    ctx.lineTo(vx - S*0.25, vy - S*0.2);
+    ctx.lineTo(vx - S*0.25, vy + S*0.2);
+    ctx.lineTo(vx, vy + S*0.4);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // Muzzle - big round hole
+  ctx.fillStyle = '#000';
+  ctx.beginPath();
+  ctx.ellipse(-S*5.9, -S*2.1, S*0.25, S*0.5, -0.5, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#4a4a4a';
+  ctx.lineWidth = S*0.06;
+  ctx.beginPath();
+  ctx.ellipse(-S*5.9, -S*2.1, S*0.25, S*0.5, -0.5, 0, Math.PI*2);
+  ctx.stroke();
+
+  // ===== REAR SLIDE SERRATIONS =====
+  ctx.fillStyle = '#000';
+  for (var ns = 0; ns < 6; ns++){
+    ctx.fillRect(-S*2.9, -S*1.5 + ns*S*0.3, S*0.12, S*0.2);
+  }
+
+  // ===== HAMMER (rear, above grip) =====
+  ctx.fillStyle = '#0a0a0a';
+  ctx.beginPath();
+  ctx.moveTo(-S*2.9, -S*1.6);
+  ctx.lineTo(-S*2.4, -S*2.4);
+  ctx.lineTo(-S*2.15, -S*1.9);
+  ctx.lineTo(-S*2.7, -S*1.3);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillStyle = '#5a5a5a';
+  ctx.fillRect(-S*2.85, -S*2.2, S*0.35, S*0.15);
+
+  // ===== TRIGGER GUARD =====
+  ctx.strokeStyle = '#0a0a0a';
+  ctx.lineWidth = S*0.18;
+  ctx.beginPath();
+  ctx.moveTo(S*0.15, S*0.3);
+  ctx.quadraticCurveTo(S*0.4, S*1.2, S*1.15, S*1.1);
+  ctx.stroke();
+
+  // Trigger
+  ctx.fillStyle = '#0a0a0a';
+  ctx.beginPath();
+  ctx.moveTo(S*0.30, S*0.5);
+  ctx.quadraticCurveTo(S*0.5, S*0.9, S*0.42, S*1.05);
+  ctx.lineTo(S*0.58, S*1.0);
+  ctx.quadraticCurveTo(S*0.65, S*0.75, S*0.5, S*0.5);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== REAR SIGHT =====
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(-S*3.05, -S*2.0, S*1.3, S*0.22);
+  // Rear notch
+  ctx.fillStyle = '#5a5a5a';
+  ctx.fillRect(-S*2.9, -S*2.2, S*0.15, S*0.3);
+  ctx.fillRect(-S*2.0, -S*2.2, S*0.15, S*0.3);
+
+  // ===== FRONT SIGHT =====
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(-S*5.7, -S*3.1, S*0.5, S*0.2);
+  ctx.fillStyle = '#ddd';
+  ctx.fillRect(-S*5.55, -S*3.3, S*0.15, S*0.25);
+
+  // ===== HAND GRIPPING =====
+  // Thumb (over the grip top)
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.ellipse(S*1.9, -S*0.15, S*0.5, S*0.35, -0.3, 0, Math.PI*2);
+  ctx.fill();
+  ctx.fillStyle = '#a88060';
+  ctx.beginPath();
+  ctx.ellipse(S*2.0, S*0.0, S*0.25, S*0.15, -0.3, 0, Math.PI*2);
+  ctx.fill();
+
+  // Fingers wrapping the grip
+  ctx.fillStyle = '#c9a07a';
+  for (var f = 0; f < 4; f++){
+    var fy = S*0.3 + f*S*0.55;
+    ctx.beginPath();
+    ctx.moveTo(S*1.15, fy);
+    ctx.lineTo(S*2.15, fy - S*0.05);
+    ctx.lineTo(S*2.25, fy + S*0.35);
+    ctx.lineTo(S*1.15, fy + S*0.45);
+    ctx.closePath();
+    ctx.fill();
+    // Finger shadow between fingers
+    ctx.fillStyle = '#a88060';
+    ctx.fillRect(S*1.15, fy + S*0.35, S*1.1, S*0.06);
     ctx.fillStyle = '#c9a07a';
+  }
+
+  // Index finger on trigger
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.ellipse(S*0.55, S*0.75, S*0.42, S*0.22, 0.2, 0, Math.PI*2);
+  ctx.fill();
+
+  // ===== BLIK ON SLIDE =====
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.0, -S*1.55);
+  ctx.lineTo(S*1.85, -S*1.35);
+  ctx.lineTo(S*1.85, -S*1.20);
+  ctx.lineTo(-S*3.0, -S*1.40);
+  ctx.closePath();
+  ctx.fill();
+
+  // Small highlight on barrel top
+  ctx.fillStyle = 'rgba(255,255,255,0.10)';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.2, -S*1.6);
+  ctx.lineTo(-S*5.9, -S*2.7);
+  ctx.lineTo(-S*5.9, -S*2.5);
+  ctx.lineTo(-S*3.2, -S*1.4);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== MUZZLE FLASH =====
+  if (state.muzzleFlash > 0.05){
+    var mf = state.muzzleFlash;
+    var fx = -S*6.2, fy2 = -S*2.1;
+    var R = S * 3.5 * mf;
+    var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
+    grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
+    grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
+    grd.addColorStop(0.7, 'rgba(255,120,20,' + (mf*0.5) + ')');
+    grd.addColorStop(1, 'rgba(255,80,0,0)');
+    ctx.fillStyle = grd;
+    ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
+    // Core flame
+    ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
     ctx.beginPath();
-    ctx.moveTo(-S*1.2, -S*2.0);
-    ctx.lineTo(-S*0.3, -S*2.2);
-    ctx.lineTo(-S*0.3, -S*3.6);
-    ctx.lineTo(-S*1.4, -S*3.6);
-    ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#1a1a20';
-    ctx.beginPath();
-    ctx.moveTo(-S*0.4, -S*3.2);
-    ctx.lineTo(-S*2.4, -S*3.6);
-    ctx.lineTo(-S*2.5, -S*2.6);
-    ctx.lineTo(-S*0.5, -S*2.2);
-    ctx.closePath(); ctx.fill();
+    ctx.moveTo(fx + R*0.2, fy2 - R*0.25);
+    ctx.lineTo(fx - R*0.9, fy2);
+    ctx.lineTo(fx + R*0.2, fy2 + R*0.25);
+    ctx.closePath();
+    ctx.fill();
   }
 
   ctx.restore();
@@ -1504,7 +1612,6 @@ function drawKnife(){
   ctx.restore();
 }
 
-// ===== BIND BUTTONS (touch + click for iOS) =====
 function bindBtn(id, fn){
   var el = document.getElementById(id);
   if (!el) return;
@@ -1522,7 +1629,6 @@ function bindBtn(id, fn){
   });
 }
 
-// Level buttons via delegation
 document.getElementById('levelsGrid').addEventListener('touchstart', function(e){
   var btn = e.target;
   while (btn && btn !== this && !btn.classList.contains('lvlBtn')){ btn = btn.parentNode; }
