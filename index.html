@@ -14,10 +14,10 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff}
 .screen{position:fixed;inset:0;z-index:50;display:none}
-#menuScreen{background:linear-gradient(180deg,#4a4a4a 0%,#6a6a6a 50%,#3a3a3a 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
+#menuScreen{background:linear-gradient(180deg,#3a3a3a 0%,#5a5a5a 50%,#2a2a2a 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
 #menuTitle{position:absolute;top:calc(20px + env(safe-area-inset-top));right:24px;font-size:40px;letter-spacing:10px;font-weight:900;color:#e8e8e8;text-shadow:3px 3px 0 #1a1a1a,0 0 20px rgba(0,0,0,0.6)}
 #menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:70vh}
-#menuSoldier svg{max-height:100%;height:auto;width:auto;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.5))}
+#menuSoldier svg{max-height:100%;height:auto;width:auto;image-rendering:pixelated;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6))}
 #menuPlay{padding:16px 60px;font-size:22px;font-weight:900;letter-spacing:6px;background:#1a1a1a;color:#ffcc00;border:3px solid #ffcc00;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 20px rgba(255,200,0,0.4),inset 0 0 10px rgba(255,200,0,0.15)}
 #menuPlay:active{background:#ffcc00;color:#1a1a1a}
 #levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
@@ -42,8 +42,6 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 .hud-hp{color:#ff4444}
 .hud-am{color:#66ddff}
 .hud-sc{color:#88ff88}
-#menuBtn{position:fixed;left:calc(12px + env(safe-area-inset-left));top:calc(58px + env(safe-area-inset-top));width:52px;height:52px;z-index:11;cursor:pointer;background:rgba(0,0,0,0.7);border:3px solid #aaa;box-shadow:0 0 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;font-size:22px;color:#ccc;font-weight:900;font-family:"Courier New",monospace}
-#menuBtn:active{transform:scale(0.93);background:#333}
 #weaponBtn{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(58px + env(safe-area-inset-top));width:70px;height:70px;z-index:11;cursor:pointer;background:rgba(0,0,0,0.7);border:3px solid #ffcc00;box-shadow:0 0 16px rgba(255,200,0,0.5)}
 #weaponBtn:active{transform:scale(0.93)}
 #weaponBtn svg{width:100%;height:100%}
@@ -68,16 +66,12 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 .btn{font-family:"Courier New",monospace;font-weight:900;font-size:15px;letter-spacing:3px;padding:14px 30px;cursor:pointer;border:none}
 .btn.primary{background:#ffcc00;color:#000}
 .btn.primary:active{background:#fff}
-.btn.danger{background:#ff3344;color:#fff}
 .btn.ghost{background:transparent;color:#ccc;border:2px solid #666}
 .btn.ghost:active{background:#333}
 #win{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,40,10,0.92);z-index:20;text-align:center;font-family:"Courier New",monospace;padding:20px}
 #win h1{font-size:40px;color:#88ff88;margin-bottom:18px;letter-spacing:8px;font-weight:900;text-shadow:0 0 30px #0f0}
 #win .stat{font-size:22px;color:#ffcc00;letter-spacing:4px;margin:6px 0}
 #win .btnRow{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;justify-content:center}
-#pause{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.88);z-index:25;text-align:center;font-family:"Courier New",monospace;padding:20px}
-#pause h1{font-size:36px;color:#ffcc00;margin-bottom:24px;letter-spacing:8px}
-#pause .btnRow{display:flex;flex-direction:column;gap:14px;margin-top:20px}
 #rotate{position:fixed;inset:0;background:#05050a;color:#ffcc00;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:100;font-family:"Courier New",monospace;font-size:20px;font-weight:900;letter-spacing:3px;text-align:center;padding:20px}
 #rotate .box{width:70px;height:120px;border:3px solid #ffcc00;margin-bottom:24px;animation:rot 2s ease-in-out infinite;box-shadow:0 0 20px #ff8800}
 @keyframes rot{0%,100%{transform:rotate(0)}50%{transform:rotate(90deg)}}
@@ -88,37 +82,72 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
   <div id="menuSoldier">
-    <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="100" cy="308" rx="55" ry="7" fill="rgba(0,0,0,0.4)"/>
-      <rect x="103" y="200" width="22" height="78" fill="#2d4a24" rx="4"/>
-      <rect x="103" y="270" width="32" height="26" fill="#181810" rx="3"/>
-      <rect x="76" y="200" width="24" height="82" fill="#3a5a2a" rx="4"/>
-      <rect x="70" y="274" width="36" height="28" fill="#1f1f16" rx="3"/>
-      <rect x="68" y="108" width="62" height="98" fill="#4a6a3a" rx="6"/>
-      <rect x="70" y="118" width="58" height="72" fill="#3a5528" rx="4"/>
-      <rect x="74" y="128" width="18" height="14" fill="#2a4018" rx="2"/>
-      <rect x="74" y="148" width="18" height="14" fill="#2a4018" rx="2"/>
-      <rect x="96" y="128" width="18" height="14" fill="#2a4018" rx="2"/>
-      <rect x="96" y="148" width="18" height="14" fill="#2a4018" rx="2"/>
-      <rect x="66" y="196" width="66" height="8" fill="#1a1a10"/>
-      <rect x="92" y="196" width="14" height="8" fill="#8a7a2a"/>
-      <rect x="113" y="120" width="14" height="58" fill="#3a5a2a" rx="4"/>
-      <circle cx="120" cy="180" r="8" fill="#c9a07a"/>
-      <path d="M 76 122 L 42 130 L 42 142 L 76 140 Z" fill="#4a6a3a"/>
-      <circle cx="42" cy="136" r="9" fill="#c9a07a"/>
-      <rect x="8" y="132" width="36" height="9" fill="#2a2a2a" rx="1"/>
-      <rect x="22" y="141" width="10" height="14" fill="#1a1a1a" rx="1"/>
-      <rect x="16" y="154" width="20" height="4" fill="#1a1a1a"/>
-      <rect x="10" y="133" width="4" height="7" fill="#555"/>
-      <ellipse cx="100" cy="82" rx="24" ry="27" fill="#c9a07a"/>
-      <ellipse cx="120" cy="86" rx="5" ry="8" fill="#b89070"/>
-      <circle cx="83" cy="78" r="3" fill="#1a1a1a"/>
-      <path d="M 78 86 L 72 91 L 78 94" fill="#b89070"/>
-      <path d="M 82 100 Q 88 104 94 101" stroke="#7a5030" stroke-width="2" fill="none"/>
-      <ellipse cx="100" cy="82" rx="34" ry="10" fill="#2d4a24"/>
-      <path d="M 68 76 Q 100 38 132 76 L 134 84 L 66 84 Z" fill="#3a5a2a"/>
-      <ellipse cx="100" cy="80" rx="34" ry="9" fill="#4a6a3a"/>
-      <path d="M 80 58 Q 100 46 120 58" stroke="#5f7f4a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- 2D пиксельный солдат -->
+    <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <!-- Тень -->
+      <ellipse cx="60" cy="196" rx="40" ry="4" fill="rgba(0,0,0,0.5)"/>
+      <!-- Задняя нога -->
+      <rect x="68" y="130" width="14" height="50" fill="#2d4a24"/>
+      <rect x="68" y="175" width="20" height="18" fill="#1a1a12"/>
+      <!-- Передняя нога -->
+      <rect x="42" y="130" width="16" height="54" fill="#3a5a2a"/>
+      <rect x="38" y="180" width="24" height="16" fill="#222215"/>
+      <!-- Торс -->
+      <rect x="38" y="70" width="46" height="64" fill="#4a6a3a"/>
+      <!-- Камуфляж на торсе - пятна -->
+      <rect x="42" y="74" width="8" height="8" fill="#3a5528"/>
+      <rect x="56" y="82" width="10" height="8" fill="#3a5528"/>
+      <rect x="68" y="76" width="8" height="10" fill="#3a5528"/>
+      <rect x="46" y="94" width="10" height="8" fill="#3a5528"/>
+      <rect x="62" y="100" width="10" height="8" fill="#3a5528"/>
+      <rect x="44" y="114" width="8" height="8" fill="#3a5528"/>
+      <rect x="66" y="116" width="10" height="8" fill="#3a5528"/>
+      <!-- Разгрузка -->
+      <rect x="40" y="90" width="42" height="6" fill="#2a2018"/>
+      <rect x="40" y="108" width="42" height="6" fill="#2a2018"/>
+      <!-- Магазины/подсумки -->
+      <rect x="44" y="92" width="8" height="14" fill="#3a2a1a"/>
+      <rect x="56" y="92" width="8" height="14" fill="#3a2a1a"/>
+      <rect x="68" y="92" width="8" height="14" fill="#3a2a1a"/>
+      <!-- Задняя рука (за спиной) -->
+      <rect x="84" y="74" width="12" height="40" fill="#3a5a2a"/>
+      <rect x="84" y="108" width="12" height="8" fill="#c9a07a"/>
+      <!-- Передняя рука - вытянута вперёд с пистолетом -->
+      <rect x="18" y="76" width="24" height="12" fill="#4a6a3a"/>
+      <rect x="10" y="78" width="12" height="10" fill="#c9a07a"/>
+      <!-- Плечо -->
+      <rect x="38" y="72" width="14" height="16" fill="#3a5a2a"/>
+      <!-- Пистолет -->
+      <rect x="0" y="78" width="16" height="6" fill="#2a2a2a"/>
+      <rect x="0" y="76" width="16" height="2" fill="#4a4a4a"/>
+      <rect x="6" y="84" width="8" height="10" fill="#1a1a1a"/>
+      <rect x="4" y="94" width="12" height="4" fill="#1a1a1a"/>
+      <rect x="1" y="79" width="3" height="4" fill="#555"/>
+      <!-- Голова -->
+      <rect x="42" y="34" width="30" height="34" fill="#c9a07a"/>
+      <!-- Тени на лице -->
+      <rect x="42" y="34" width="4" height="34" fill="#a88060"/>
+      <rect x="68" y="34" width="4" height="34" fill="#b89070"/>
+      <!-- Глаз -->
+      <rect x="50" y="46" width="4" height="4" fill="#1a1a1a"/>
+      <rect x="50" y="47" width="1" height="2" fill="#fff"/>
+      <!-- Нос -->
+      <rect x="48" y="52" width="6" height="4" fill="#b89070"/>
+      <!-- Рот -->
+      <rect x="48" y="60" width="10" height="3" fill="#8a4030"/>
+      <!-- Каска - верх -->
+      <rect x="36" y="24" width="42" height="10" fill="#3a5a2a"/>
+      <rect x="40" y="20" width="34" height="6" fill="#4a6a3a"/>
+      <rect x="46" y="16" width="22" height="6" fill="#4a6a3a"/>
+      <!-- Поля каски -->
+      <rect x="32" y="32" width="50" height="6" fill="#2d4a24"/>
+      <rect x="32" y="32" width="50" height="2" fill="#5f7f4a"/>
+      <!-- Ремешок каски -->
+      <rect x="40" y="66" width="4" height="4" fill="#1a1a1a"/>
+      <!-- Листья/маскировка на каске -->
+      <rect x="42" y="22" width="6" height="4" fill="#2d4a24"/>
+      <rect x="58" y="24" width="8" height="4" fill="#2d4a24"/>
+      <rect x="52" y="18" width="6" height="4" fill="#2d4a24"/>
     </svg>
   </div>
   <button id="menuPlay">ИГРАТЬ</button>
@@ -137,7 +166,6 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
     <div class="hud-item hud-am"><span class="label">AMMO</span><span class="val" id="am">7 / ∞</span></div>
     <div class="hud-item hud-sc"><span class="label">KILLS</span><span class="val" id="sc">0</span></div>
   </div>
-  <div id="menuBtn">☰</div>
   <div id="weaponBtn"></div>
   <div id="cross"></div>
   <div id="flash"></div>
@@ -145,7 +173,7 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fire">FIRE</div>
-  <div id="version">beta 1.0.0</div>
+  <div id="version">beta 1.0.2</div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -163,14 +191,6 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
     <div class="btnRow">
       <button class="btn ghost" id="winMenu">МЕНЮ</button>
       <button class="btn primary" id="winNext">СЛЕДУЮЩИЙ УРОВЕНЬ</button>
-    </div>
-  </div>
-
-  <div id="pause">
-    <h1>ПАУЗА</h1>
-    <div class="btnRow">
-      <button class="btn primary" id="pauseResume">ПРОДОЛЖИТЬ</button>
-      <button class="btn ghost" id="pauseMenu">В МЕНЮ</button>
     </div>
   </div>
 </div>
@@ -203,7 +223,6 @@ var SPAWN = {
   5:{n:0,f:5,s:5}, 6:{n:5,f:3,s:3}, 7:{n:5,f:4,s:3}, 8:{n:5,f:4,s:4}, 9:{n:5,f:5,s:5}
 };
 
-// ===== AUDIO =====
 var AC = null;
 function initAudio(){ if (AC) return; try{ AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); }catch(e){ AC = null; } }
 function tone(f,t,d,v,fe){
@@ -243,7 +262,6 @@ function sndReloadEnd(){ tone(700,'square',0.08,0.12); tone(900,'square',0.08,0.
 function sndHeadshot(){ tone(900,'square',0.1,0.2,600); tone(1200,'square',0.15,0.15,800); }
 function sndKnife(){ tone(400,'triangle',0.06,0.1,200); noise(0.05,0.08,3000); }
 
-// ===== MAP =====
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function generateMap(level){
   if (level === 10) return generateBossArena();
@@ -294,7 +312,6 @@ function generateBossArena(){
   return {grid:grid, W:W, H:H};
 }
 
-// ===== CANVAS =====
 var cv = document.getElementById('cv');
 var ctx = cv.getContext('2d', {alpha:false});
 var W = 0, H = 0;
@@ -311,13 +328,12 @@ function resize(){
 window.addEventListener('resize', resize);
 window.addEventListener('orientationchange', function(){ setTimeout(resize, 250); });
 
-// ===== STATE =====
 var state = {
   px:2.5, py:2.5, dir:0,
-  pitch: 0,  // вертикальный обзор (в пикселях)
+  pitch: 0,
   fov: Math.PI / 2.6,
   hp:100, maxHp:100, score:0,
-  dead:false, won:false, running:false, paused:false,
+  dead:false, won:false, running:false,
   bob:0, hurtFlash:0, pistolKick:0, muzzleFlash:0,
   currentWeapon:'pistol',
   level:1, timeStart:0,
@@ -333,8 +349,6 @@ function isWall(x, y){
   return state.map[my][mx] === 1;
 }
 
-// ===== ZOMBIE TYPES =====
-// dark = тёмно-зелёный, green = КРАСНЫЙ, light = ЖЁЛТЫЙ
 var ZDEF = {
   normal: {
     dark:  {hp:200, speed:1.8, dmg:8,  skin:'#1a5522', dark:'#0d2a10'},
@@ -375,7 +389,6 @@ function makeBoss(x, y){
     attackPhase:0, attackTimer:0, attackCooldown:0, stonesThrown:0
   };
 }
-
 function findFreeCellFar(minDist){
   minDist = minDist || 5;
   for (var t = 0; t < 500; t++){
@@ -392,7 +405,6 @@ function pickSkin(rng){
   if (r < 0.65) return 'green';
   return 'light';
 }
-
 function spawnLevel(level){
   state.enemies = [];
   if (level === 10){ var bp = findFreeCellFar(6); state.enemies.push(makeBoss(bp.x, bp.y)); return; }
@@ -417,7 +429,7 @@ function startLevel(level){
   state.map = m.grid; state.MAP_W = m.W; state.MAP_H = m.H;
   state.px = 2.5; state.py = 2.5; state.dir = 0; state.pitch = 0;
   state.hp = 100; state.maxHp = 100;
-  state.score = 0; state.dead = false; state.won = false; state.paused = false;
+  state.score = 0; state.dead = false; state.won = false;
   state.blood = []; state.particles = []; state.enemyBullets = [];
   state.hurtFlash = 0; state.pistolKick = 0; state.muzzleFlash = 0;
   state.currentWeapon = 'pistol';
@@ -430,7 +442,6 @@ function startLevel(level){
   document.getElementById('sc').textContent = '0';
   document.getElementById('dead').style.display = 'none';
   document.getElementById('win').style.display = 'none';
-  document.getElementById('pause').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
   updateWeaponBtn();
   document.getElementById('menuScreen').style.display = 'none';
@@ -444,7 +455,6 @@ function updateAmmoHUD(){
   document.getElementById('am').textContent = txt;
 }
 
-// ===== INPUT =====
 var keys = {w:0,a:0,s:0,d:0};
 var joy = {
   active:false, id:null, cx:0, cy:0, dx:0, dy:0,
@@ -454,23 +464,17 @@ var joy = {
 function updateJoyBase(){ var r = joy.baseEl.getBoundingClientRect(); joy.cx = r.left+r.width/2; joy.cy = r.top+r.height/2; }
 function setStick(x, y){ joy.stickEl.style.left = (50+x*50)+'%'; joy.stickEl.style.top = (50+y*50)+'%'; }
 
-// Свайп поворота — и горизонталь, и вертикаль
-var look = {active:false, id:null, lastX:0, lastY:0, startX:0, startY:0, startTime:0};
+var look = {active:false, id:null, lastX:0, lastY:0};
 
 cv.addEventListener('touchstart', function(e){
-  if (state.dead || !state.running || state.paused) return;
+  if (state.dead || !state.running) return;
   updateJoyBase();
   for (var i = 0; i < e.changedTouches.length; i++){
     var t = e.changedTouches[i];
     if (!joy.active && t.clientX < window.innerWidth*0.5 && t.clientY > window.innerHeight*0.5){
       joy.active = true; joy.id = t.identifier; joy.dx = 0; joy.dy = 0; setStick(0,0); continue;
     }
-    if (!look.active){
-      look.active = true; look.id = t.identifier;
-      look.lastX = t.clientX; look.lastY = t.clientY;
-      look.startX = t.clientX; look.startY = t.clientY;
-      look.startTime = performance.now();
-    }
+    if (!look.active){ look.active = true; look.id = t.identifier; look.lastX = t.clientX; look.lastY = t.clientY; }
   }
   e.preventDefault();
 }, {passive:false});
@@ -486,11 +490,9 @@ cv.addEventListener('touchmove', function(e){
       joy.dx = nx; joy.dy = ny; setStick(nx, ny);
     }
     if (look.active && t.identifier === look.id){
-      var lx = t.clientX - look.lastX;
-      var ly = t.clientY - look.lastY;
+      var lx = t.clientX - look.lastX, ly = t.clientY - look.lastY;
       look.lastX = t.clientX; look.lastY = t.clientY;
       state.dir += lx * 0.007;
-      // Вертикальный обзор — ограничим разумными пределами
       state.pitch -= ly * 2.5;
       var maxPitch = H * 0.35;
       if (state.pitch > maxPitch) state.pitch = maxPitch;
@@ -517,38 +519,35 @@ window.addEventListener('keydown', function(e){
   if (k === ' ') fire();
   if (k === 'q' || k === 'tab') switchWeapon();
   if (k === 'r') startReload();
-  if (k === 'arrowup') { state.pitch -= 15; if (state.pitch < -H*0.35) state.pitch = -H*0.35; }
-  if (k === 'arrowdown') { state.pitch += 15; if (state.pitch > H*0.35) state.pitch = H*0.35; }
+  if (k === 'arrowup'){ state.pitch -= 15; if (state.pitch < -H*0.35) state.pitch = -H*0.35; }
+  if (k === 'arrowdown'){ state.pitch += 15; if (state.pitch > H*0.35) state.pitch = H*0.35; }
 });
 window.addEventListener('keyup', function(e){ var k = e.key.toLowerCase(); if (k in keys) keys[k] = 0; });
 
 document.getElementById('fire').addEventListener('touchstart', function(e){ fire(); e.preventDefault(); }, {passive:false});
 document.getElementById('fire').addEventListener('mousedown', function(e){ fire(); });
 
-// ===== WEAPON =====
 function updateWeaponBtn(){
   var next = state.currentWeapon === 'pistol' ? 'knife' : 'pistol';
   document.getElementById('weaponBtn').innerHTML = weaponSVG(next);
 }
 function switchWeapon(){
-  if (state.reloading || state.paused) return;
+  if (state.reloading) return;
   state.currentWeapon = state.currentWeapon === 'pistol' ? 'knife' : 'pistol';
   updateWeaponBtn(); updateAmmoHUD();
   tone(600,'square',0.06,0.1);
 }
-document.getElementById('weaponBtn').addEventListener('touchstart', function(e){ if (!state.running || state.dead || state.paused) return; switchWeapon(); e.preventDefault(); }, {passive:false});
-document.getElementById('weaponBtn').addEventListener('click', function(){ if (!state.running || state.dead || state.paused) return; switchWeapon(); });
+document.getElementById('weaponBtn').addEventListener('touchstart', function(e){ if (!state.running || state.dead) return; switchWeapon(); e.preventDefault(); }, {passive:false});
+document.getElementById('weaponBtn').addEventListener('click', function(){ if (!state.running || state.dead) return; switchWeapon(); });
 
-// ===== MENUS =====
 function showMenu(){
   document.getElementById('menuScreen').style.display = 'flex';
   document.getElementById('levelsScreen').style.display = 'none';
   document.getElementById('gameScreen').classList.remove('active');
   document.getElementById('dead').style.display = 'none';
   document.getElementById('win').style.display = 'none';
-  document.getElementById('pause').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
-  state.running = false; state.paused = false;
+  state.running = false;
 }
 function showLevels(){
   document.getElementById('menuScreen').style.display = 'none';
@@ -581,25 +580,6 @@ document.getElementById('deadRetry').addEventListener('click', function(){ start
 document.getElementById('winMenu').addEventListener('click', function(){ showMenu(); });
 document.getElementById('winNext').addEventListener('click', function(){ var n = state.level + 1; if (n > MAX_LEVEL){ showMenu(); return; } startLevel(n); requestAnimationFrame(mainLoop); });
 
-// Пауза
-document.getElementById('menuBtn').addEventListener('touchstart', function(e){
-  if (!state.running || state.dead || state.won) return;
-  state.paused = true;
-  document.getElementById('pause').style.display = 'flex';
-  e.preventDefault();
-}, {passive:false});
-document.getElementById('menuBtn').addEventListener('click', function(){
-  if (!state.running || state.dead || state.won) return;
-  state.paused = true;
-  document.getElementById('pause').style.display = 'flex';
-});
-document.getElementById('pauseResume').addEventListener('click', function(){
-  state.paused = false;
-  document.getElementById('pause').style.display = 'none';
-});
-document.getElementById('pauseMenu').addEventListener('click', function(){ showMenu(); });
-
-// ===== SHOOTING =====
 function startReload(){
   if (state.reloading || state.currentWeapon !== 'pistol') return;
   if (state.magAmmo >= WEAPONS.pistol.magSize) return;
@@ -610,12 +590,10 @@ function startReload(){
 }
 
 function fire(){
-  if (!state.running || state.dead || state.won || state.paused) return;
+  if (!state.running || state.dead || state.won) return;
   if (state.currentWeapon === 'knife'){
-    // Анимация взмаха ножом
     state.pistolKick = 0.8;
     sndKnife();
-    // Проверим попадание в зомби вплотную (на 1.2 метра)
     var kdx = Math.cos(state.dir), kdy = Math.sin(state.dir);
     for (var i = 0; i < state.enemies.length; i++){
       var en = state.enemies[i];
@@ -624,9 +602,7 @@ function fire(){
       var proj = ex*kdx + ey*kdy;
       if (proj > 0 && proj < 1.2){
         var perp = Math.abs(ex*kdy - ey*kdx);
-        if (perp < 0.5 && !wallBetween(state.px, state.py, en.x, en.y)){
-          spawnBlood(en.x, en.y, 4);
-        }
+        if (perp < 0.5 && !wallBetween(state.px, state.py, en.x, en.y)) spawnBlood(en.x, en.y, 4);
       }
     }
     return;
@@ -657,20 +633,17 @@ function fire(){
     var perp = Math.abs(ex*dy - ey*dx);
     var hitR = en.isBoss ? 1.4 : 0.4;
     if (perp < hitR && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)){
-      // Проверим вертикальное попадание: центр экрана (H/2) должен быть на спрайте
       var corrected = proj;
       var scale = en.scale || 1;
       var sizeH = Math.min(H*2, H/corrected) * scale;
       var yBot = horizon + (H/corrected)/2;
       var yTop = yBot - sizeH;
-      // Где по вертикали попадает центр экрана
-      var pct = (H/2 - yTop) / sizeH; // 0 = верх спрайта, 1 = низ
-      if (pct < 0 || pct > 1) continue; // промах по вертикали
+      var pct = (H/2 - yTop) / sizeH;
+      if (pct < 0 || pct > 1) continue;
       hit = en; hitDist = proj; hitVerticalPct = pct;
     }
   }
   if (hit){
-    // Хедшот: если попадание в верхние 30% спрайта
     var headshot = hitVerticalPct < 0.30;
     var dmg = headshot ? 75 : 25;
     hit.hp -= dmg;
@@ -708,7 +681,6 @@ function wallBetween(x1, y1, x2, y2){
   }
   return false;
 }
-
 function spawnBlood(x, y, n){
   for (var i = 0; i < n; i++){
     var ang = Math.random()*Math.PI*2, spd = 0.5 + Math.random()*1.5;
@@ -723,7 +695,6 @@ function spawnBlood(x, y, n){
   if (state.blood.length > 40) state.blood.shift();
   state.blood.push({x:x, y:y, r:0.25+Math.random()*0.2, alpha:0.65});
 }
-
 function playerHurt(dmg){
   state.hp -= dmg;
   state.hurtFlash = 1;
@@ -736,18 +707,15 @@ function playerHurt(dmg){
   }
 }
 
-// ===== UPDATE =====
 function update(dt){
   if (!state.running) return;
-  if (state.dead || state.won || state.paused) return;
+  if (state.dead || state.won) return;
 
   state.pistolKick *= Math.max(0, 1 - dt*8);
   state.muzzleFlash *= Math.max(0, 1 - dt*12);
   state.hurtFlash *= Math.max(0, 1 - dt*2);
   state.headshotFlash *= Math.max(0, 1 - dt*2);
   document.getElementById('hurt').style.opacity = (state.hurtFlash*0.85).toFixed(3);
-
-  // Плавный возврат питча к центру
   state.pitch *= Math.max(0, 1 - dt * 0.6);
 
   if (state.reloading){
@@ -772,10 +740,8 @@ function update(dt){
   if (keys.s) my += 1;
   if (keys.a) mx -= 1;
   if (keys.d) mx += 1;
-
   var len = Math.hypot(mx, my);
   if (len > 1){ mx /= len; my /= len; }
-
   if (len > 0.05){
     var cos = Math.cos(state.dir), sin = Math.sin(state.dir);
     var fx = -my*cos + mx*-sin;
@@ -807,14 +773,16 @@ function update(dt){
     var detect = en.hasGun ? 12 : 9;
     var canSee = dist < detect && !wallBetween(en.x, en.y, state.px, state.py);
     if (canSee){
-      var moveDist = (en.hasGun && dist < 4) ? 0 : en.def.speed;
-      if (moveDist > 0){
+      // Минимальная дистанция: обычные не подходят ближе 1.0, стрелки 4.0
+      var minDist = en.hasGun ? 4.0 : 1.0;
+      if (dist > minDist){
+        var moveDist = en.def.speed;
         var nx2 = en.x + (dx/dist)*moveDist*dt;
         var ny2 = en.y + (dy/dist)*moveDist*dt;
         if (!isWall(nx2, en.y)) en.x = nx2;
         if (!isWall(en.x, ny2)) en.y = ny2;
       }
-      if (!en.hasGun && dist < 0.85){
+      if (!en.hasGun && dist < 1.15){
         en.lastAttack += dt;
         if (en.lastAttack > 1.0){ en.lastAttack = 0; playerHurt(en.def.dmg); }
       } else en.lastAttack = 0;
@@ -888,13 +856,11 @@ function updateBoss(en, dist, dx, dy, dt){
     }
   }
 }
-
 function fireEnemyBullet(en, dx, dy, dmg, spd, color){
   sndEnemyShot();
   state.enemyBullets.push({ x:en.x, y:en.y, vx:dx*spd, vy:dy*spd, dmg:dmg, life:5, color:color||'#ffcc00' });
 }
 
-// ===== RENDER =====
 var zbufArr = null, zbufLen = 0;
 function wallTex(u, v, side, level){
   if (level === 10){
@@ -1092,7 +1058,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
     var sx = c*colW, sw = colW+1;
     var uMid = ((sx+sw/2)-x0)/sizeW;
     if (uMid < 0 || uMid > 1) continue;
-
     if (uMid > 0.25 && uMid < 0.75){ ctx.fillStyle = darkStyle; ctx.fillRect(sx, yTop+bob, sw, sizeH*0.06); }
     if (uMid > 0.22 && uMid < 0.78){ ctx.fillStyle = skinStyle; ctx.fillRect(sx, yTop+sizeH*0.06+bob, sw, sizeH*0.18); }
     if (sizeH > 22){
@@ -1131,7 +1096,8 @@ function drawGun(){
   var kick = state.pistolKick * 12;
   var bobX = Math.sin(state.bob)*4;
   var gx = W/2 - gunW/2 + bobX;
-  var gy = H - gunH*0.12 + kick + Math.sin(state.bob)*3 + reloadOffset;
+  // Пистолет выше — на 35% от низа экрана
+  var gy = H - gunH*0.4 + kick + Math.sin(state.bob)*3 + reloadOffset;
   ctx.fillStyle = '#0a0a10'; ctx.fillRect(gx+gunW*0.34, gy+4, gunW*0.32, gunH);
   ctx.fillStyle = '#25252f'; ctx.fillRect(gx+gunW*0.36, gy-gunH*0.25, gunW*0.28, gunH*0.7);
   ctx.fillStyle = '#35353f'; ctx.fillRect(gx+gunW*0.44, gy-gunH*0.4, gunW*0.12, gunH*0.35);
@@ -1151,36 +1117,20 @@ function drawGun(){
   ctx.fillRect(gx+gunW*0.37, gy-gunH*0.22, gunW*0.02, gunH*0.5);
 }
 
-// КРУТОЙ НОЖ — изогнутый клинок с бликом
+// Нож без рук — только клинок и рукоять
 function drawKnife(){
   var kW = Math.min(W*0.20, 180);
   var bobX = Math.sin(state.bob)*6;
   var swing = state.pistolKick;
-  // Замах — нож поворачивается при ударе
-  var rot = swing * 0.6 - 0.15;
-  var kx = W/2 + bobX + 20;
-  var ky = H - kW*0.7 + Math.sin(state.bob)*4 + swing*30;
+  var rot = swing * 0.6 - 0.25;
+  var kx = W/2 + bobX + 40;
+  var ky = H - kW*0.85 + Math.sin(state.bob)*4 + swing*30;
 
   ctx.save();
   ctx.translate(kx, ky);
   ctx.rotate(rot);
 
-  // Рука
-  ctx.fillStyle = '#c9a07a';
-  ctx.fillRect(-kW*0.10, kW*0.35, kW*0.20, kW*0.55);
-  // Рукав камуфляж
-  ctx.fillStyle = '#4a6a3a';
-  ctx.fillRect(-kW*0.13, kW*0.60, kW*0.26, kW*0.35);
-  ctx.fillStyle = '#3a5528';
-  ctx.fillRect(-kW*0.13, kW*0.65, kW*0.26, kW*0.06);
-  ctx.fillRect(-kW*0.13, kW*0.78, kW*0.26, kW*0.06);
-  // Кулак
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(0, kW*0.35, kW*0.12, kW*0.10, 0, 0, Math.PI*2);
-  ctx.fill();
-
-  // Рукоятка — обмотка
+  // Рукоятка (без руки которая её держит)
   ctx.fillStyle = '#3a2a1a';
   ctx.fillRect(-kW*0.045, kW*0.05, kW*0.09, kW*0.30);
   ctx.fillStyle = '#2a1a0a';
@@ -1199,15 +1149,13 @@ function drawKnife(){
   ctx.fillStyle = '#2a2a2a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.01);
 
-  // КЛИНОК — изогнутый, с зазубринами
-  // Основная форма
+  // КЛИНОК — изогнутый
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
   ctx.moveTo(-kW*0.055, 0);
   ctx.lineTo(-kW*0.075, -kW*0.10);
   ctx.lineTo(-kW*0.06, -kW*0.35);
   ctx.quadraticCurveTo(-kW*0.02, -kW*0.65, kW*0.05, -kW*0.85);
-  // Кончик
   ctx.lineTo(kW*0.075, -kW*0.88);
   ctx.quadraticCurveTo(kW*0.09, -kW*0.65, kW*0.075, -kW*0.35);
   ctx.lineTo(kW*0.055, -kW*0.08);
@@ -1215,7 +1163,7 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Тёмная сторона клинка (тень)
+  // Тень на клинке
   ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -1227,7 +1175,7 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Блик по центру клинка
+  // Блик
   ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
   ctx.moveTo(-kW*0.01, -kW*0.10);
@@ -1237,7 +1185,7 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Зазубрины — зубчики на одной стороне
+  // Зазубрины
   ctx.fillStyle = '#a8b4c0';
   for (var z = 0; z < 5; z++){
     var zy = -kW*0.20 - z*kW*0.13;
@@ -1249,7 +1197,7 @@ function drawKnife(){
     ctx.fill();
   }
 
-  // Точка на конце (кровосток)
+  // Кровосток
   ctx.fillStyle = '#6a7684';
   ctx.beginPath();
   ctx.ellipse(-kW*0.02, -kW*0.55, kW*0.008, kW*0.04, 0, 0, Math.PI*2);
@@ -1258,7 +1206,6 @@ function drawKnife(){
   ctx.restore();
 }
 
-// ===== MAIN LOOP =====
 var lastTime = 0;
 function mainLoop(t){
   var dt = Math.min(0.05, (t - lastTime)/1000 || 0.016);
@@ -1272,6 +1219,7 @@ function mainLoop(t){
 
 resize();
 renderLevelGrid();
+showMenu(); // Явно показываем меню при загрузке
 })();
 </script>
 </body>
