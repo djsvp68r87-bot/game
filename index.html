@@ -14,20 +14,22 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff;position:fixed;top:0;left:0}
 .screen{position:fixed;inset:0;z-index:50;display:none}
-#menuScreen{background:linear-gradient(180deg,#3a3a3a 0%,#5a5a5a 50%,#2a2a2a 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
-#menuTitle{position:absolute;top:calc(20px + env(safe-area-inset-top));right:24px;font-size:40px;letter-spacing:10px;font-weight:900;color:#e8e8e8;text-shadow:3px 3px 0 #1a1a1a,0 0 20px rgba(0,0,0,0.6)}
-#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:70vh}
-#menuSoldier svg{max-height:100%;height:auto;width:auto;image-rendering:pixelated;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.6))}
-#menuPlay{padding:16px 60px;font-size:22px;font-weight:900;letter-spacing:6px;background:#1a1a1a;color:#ffcc00;border:3px solid #ffcc00;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 20px rgba(255,200,0,0.4),inset 0 0 10px rgba(255,200,0,0.15)}
-#menuPlay:active{background:#ffcc00;color:#1a1a1a}
-#levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
-#levelsTitle{font-size:28px;letter-spacing:8px;color:#ffcc00;margin-bottom:28px;font-weight:900;text-shadow:0 0 16px rgba(255,200,0,0.5)}
-#levelsGrid{display:grid;grid-template-columns:repeat(3,90px);gap:14px;margin-bottom:30px;justify-content:center}
-.lvlBtn{width:90px;height:90px;border:3px solid #444;background:#222;color:#aaa;font-family:"Courier New",monospace;font-size:26px;font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+#menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
+#menuScreen::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.5) 100%);pointer-events:none}
+#menuTitle{position:absolute;top:calc(20px + env(safe-area-inset-top));right:24px;font-size:44px;letter-spacing:10px;font-weight:900;color:#fff;text-shadow:3px 3px 0 #000,0 0 30px rgba(0,0,0,0.9);z-index:2}
+#menuSubtitle{position:absolute;top:calc(76px + env(safe-area-inset-top));right:24px;font-size:12px;letter-spacing:4px;color:rgba(255,255,255,0.85);text-shadow:2px 2px 0 #000;z-index:2}
+#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:70vh;position:relative;z-index:2}
+#menuSoldier svg{max-height:100%;height:auto;width:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.85))}
+#menuPlay{padding:18px 70px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.7),inset 0 0 15px rgba(255,215,0,0.2);z-index:2;position:relative}
+#menuPlay:active{background:#ffd700;color:#1a1a1a}
+#levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#levelsTitle{font-size:28px;letter-spacing:8px;color:#ffcc00;margin-bottom:20px;font-weight:900;text-shadow:0 0 16px rgba(255,200,0,0.5)}
+#levelsGrid{display:grid;grid-template-columns:repeat(4,70px);gap:12px;margin-bottom:24px;justify-content:center}
+.lvlBtn{width:70px;height:70px;border:3px solid #444;background:#222;color:#aaa;font-family:"Courier New",monospace;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
 .lvlBtn.unlocked{border-color:#ffcc00;background:#1a1a10;color:#ffcc00}
 .lvlBtn.unlocked:active{background:#ffcc00;color:#1a1a10}
-.lvlBtn.boss{grid-column:span 3;width:auto;height:60px;border-color:#ff3344;color:#ff3344;font-size:20px;background:#1a0a10}
-.lvlBtn.boss.unlocked{box-shadow:0 0 20px rgba(255,50,80,0.4)}
+.lvlBtn.boss{grid-column:span 4;width:auto;height:56px;border-color:#ff3344;color:#ff3344;font-size:20px;background:#1a0a10}
+.lvlBtn.boss.unlocked{box-shadow:0 0 24px rgba(255,50,80,0.6)}
 .lvlBtn.boss.unlocked:active{background:#ff3344;color:#1a0a10}
 .lvlBtn.locked{opacity:0.5}
 #levelsBack{padding:12px 40px;background:#1a1a1a;color:#aaa;border:2px solid #444;font-family:"Courier New",monospace;font-size:16px;font-weight:900;letter-spacing:4px;cursor:pointer}
@@ -49,8 +51,8 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #weaponBtn:active{transform:scale(0.95);background:rgba(60,50,0,0.9)}
 #weaponBtn svg{width:100%;height:100%}
 #fireHint{position:fixed;right:calc(20px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));font-family:"Courier New",monospace;font-weight:900;font-size:13px;letter-spacing:2px;color:rgba(255,80,80,0.45);border:2px dashed rgba(255,80,80,0.4);padding:8px 14px;z-index:4;pointer-events:none;border-radius:4px}
-#joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(5px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.22);z-index:10;pointer-events:none}
-#joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.7);border:2px solid rgba(255,255,255,0.5);box-shadow:0 0 16px rgba(255,200,60,0.6)}
+#joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(5px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.25);z-index:10;pointer-events:none}
+#joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.75);border:2px solid rgba(255,255,255,0.55);box-shadow:0 0 16px rgba(255,200,60,0.7)}
 #cross{position:fixed;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;z-index:5;pointer-events:none}
 #cross::before,#cross::after{content:'';position:absolute;background:#ffcc00;box-shadow:0 0 6px #000,0 0 4px #ff8800}
 #cross::before{left:50%;top:0;width:2px;height:100%;margin-left:-1px}
@@ -60,7 +62,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #reloadBar{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);width:180px;height:14px;border:2px solid #ffcc00;background:rgba(0,0,0,0.7);z-index:12;display:none}
 #reloadBar .fill{height:100%;background:#ffcc00;width:0%}
 #reloadBar .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;letter-spacing:2px;color:#fff;text-shadow:1px 1px 0 #000}
-#version{position:fixed;right:calc(12px + env(safe-area-inset-right));bottom:calc(6px + env(safe-area-inset-bottom));font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:1px;font-family:"Courier New",monospace;z-index:8;pointer-events:none}
+#version{position:fixed;right:calc(12px + env(safe-area-inset-right));bottom:calc(6px + env(safe-area-inset-bottom));font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:1px;font-family:"Courier New",monospace;z-index:8;pointer-events:none}
 #dead{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(40,0,0,0.92);z-index:20;text-align:center;font-family:"Courier New",monospace;padding:20px}
 #dead h1{font-size:44px;color:#ff3344;margin-bottom:18px;letter-spacing:8px;font-weight:900;text-shadow:0 0 30px #f00,0 0 8px #f00}
 #dead .stat{font-size:22px;color:#ffcc00;letter-spacing:4px;margin:6px 0}
@@ -77,63 +79,69 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #rotate{position:fixed;inset:0;background:#05050a;color:#ffcc00;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:100;font-family:"Courier New",monospace;font-size:20px;font-weight:900;letter-spacing:3px;text-align:center;padding:20px}
 #rotate .box{width:70px;height:120px;border:3px solid #ffcc00;margin-bottom:24px;animation:rot 2s ease-in-out infinite;box-shadow:0 0 20px #ff8800}
 @keyframes rot{0%,100%{transform:rotate(0)}50%{transform:rotate(90deg)}}
+#vhsLine{position:fixed;left:0;right:0;height:3px;background:rgba(255,255,255,0.07);pointer-events:none;z-index:15;display:none}
 </style>
 </head>
 <body>
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
+  <div id="menuSubtitle">BETA 2.0.0</div>
   <div id="menuSoldier">
-    <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-      <ellipse cx="60" cy="196" rx="40" ry="4" fill="rgba(0,0,0,0.5)"/>
-      <rect x="68" y="130" width="14" height="50" fill="#2d4a24"/>
-      <rect x="68" y="175" width="20" height="18" fill="#1a1a12"/>
-      <rect x="42" y="130" width="16" height="54" fill="#3a5a2a"/>
-      <rect x="38" y="180" width="24" height="16" fill="#222215"/>
-      <rect x="38" y="70" width="46" height="64" fill="#4a6a3a"/>
-      <rect x="42" y="74" width="8" height="8" fill="#3a5528"/>
-      <rect x="56" y="82" width="10" height="8" fill="#3a5528"/>
-      <rect x="68" y="76" width="8" height="10" fill="#3a5528"/>
-      <rect x="46" y="94" width="10" height="8" fill="#3a5528"/>
-      <rect x="62" y="100" width="10" height="8" fill="#3a5528"/>
-      <rect x="40" y="90" width="42" height="6" fill="#2a2018"/>
-      <rect x="40" y="108" width="42" height="6" fill="#2a2018"/>
-      <rect x="44" y="92" width="8" height="14" fill="#3a2a1a"/>
-      <rect x="56" y="92" width="8" height="14" fill="#3a2a1a"/>
-      <rect x="68" y="92" width="8" height="14" fill="#3a2a1a"/>
-      <rect x="84" y="74" width="12" height="40" fill="#3a5a2a"/>
-      <rect x="84" y="108" width="12" height="8" fill="#c9a07a"/>
-      <rect x="18" y="76" width="24" height="12" fill="#4a6a3a"/>
-      <rect x="10" y="78" width="12" height="10" fill="#c9a07a"/>
-      <rect x="38" y="72" width="14" height="16" fill="#3a5a2a"/>
-      <rect x="0" y="78" width="16" height="6" fill="#2a2a2a"/>
-      <rect x="0" y="76" width="16" height="2" fill="#4a4a4a"/>
-      <rect x="6" y="84" width="8" height="10" fill="#1a1a1a"/>
-      <rect x="4" y="94" width="12" height="4" fill="#1a1a1a"/>
-      <rect x="1" y="79" width="3" height="4" fill="#555"/>
-      <rect x="42" y="34" width="30" height="34" fill="#c9a07a"/>
-      <rect x="42" y="34" width="4" height="34" fill="#a88060"/>
-      <rect x="68" y="34" width="4" height="34" fill="#b89070"/>
-      <rect x="50" y="46" width="4" height="4" fill="#1a1a1a"/>
-      <rect x="50" y="47" width="1" height="2" fill="#fff"/>
-      <rect x="48" y="52" width="6" height="4" fill="#b89070"/>
-      <rect x="48" y="60" width="10" height="3" fill="#8a4030"/>
-      <rect x="36" y="24" width="42" height="10" fill="#3a5a2a"/>
-      <rect x="40" y="20" width="34" height="6" fill="#4a6a3a"/>
-      <rect x="46" y="16" width="22" height="6" fill="#4a6a3a"/>
-      <rect x="32" y="32" width="50" height="6" fill="#2d4a24"/>
-      <rect x="32" y="32" width="50" height="2" fill="#5f7f4a"/>
-      <rect x="40" y="66" width="4" height="4" fill="#1a1a1a"/>
-      <rect x="42" y="22" width="6" height="4" fill="#2d4a24"/>
-      <rect x="58" y="24" width="8" height="4" fill="#2d4a24"/>
-      <rect x="52" y="18" width="6" height="4" fill="#2d4a24"/>
+    <svg viewBox="0 0 160 260" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+      <ellipse cx="80" cy="252" rx="48" ry="6" fill="rgba(0,0,0,0.5)"/>
+      <rect x="88" y="170" width="16" height="66" fill="#2d4a24"/>
+      <rect x="88" y="228" width="26" height="22" fill="#1a1a12"/>
+      <rect x="56" y="170" width="18" height="70" fill="#3a5a2a"/>
+      <rect x="50" y="232" width="30" height="20" fill="#222215"/>
+      <rect x="48" y="88" width="64" height="88" fill="#4a6a3a"/>
+      <rect x="54" y="96" width="12" height="12" fill="#3a5528"/>
+      <rect x="74" y="108" width="14" height="10" fill="#3a5528"/>
+      <rect x="92" y="100" width="12" height="14" fill="#3a5528"/>
+      <rect x="58" y="126" width="14" height="10" fill="#3a5528"/>
+      <rect x="82" y="134" width="14" height="10" fill="#3a5528"/>
+      <rect x="54" y="150" width="10" height="10" fill="#3a5528"/>
+      <rect x="90" y="152" width="14" height="10" fill="#3a5528"/>
+      <rect x="48" y="112" width="64" height="46" fill="#2a3a1a"/>
+      <rect x="48" y="132" width="64" height="4" fill="#1a2a10"/>
+      <rect x="52" y="120" width="22" height="14" fill="#0057b7"/>
+      <rect x="52" y="127" width="22" height="7" fill="#ffd700"/>
+      <rect x="51" y="119" width="24" height="16" fill="none" stroke="#000" stroke-width="1"/>
+      <rect x="112" y="104" width="16" height="52" fill="#3a5a2a"/>
+      <rect x="112" y="148" width="16" height="12" fill="#c9a07a"/>
+      <rect x="32" y="110" width="16" height="48" fill="#4a6a3a"/>
+      <rect x="32" y="150" width="16" height="12" fill="#c9a07a"/>
+      <rect x="0" y="146" width="46" height="7" fill="#1a1a22"/>
+      <rect x="24" y="153" width="12" height="20" fill="#0a0a10"/>
+      <rect x="38" y="153" width="8" height="14" fill="#1a1a22"/>
+      <rect x="0" y="148" width="4" height="2" fill="#000"/>
+      <rect x="46" y="147" width="12" height="10" fill="#3a2a1a"/>
+      <rect x="56" y="42" width="48" height="48" fill="#c9a07a"/>
+      <rect x="56" y="42" width="6" height="48" fill="#a88060"/>
+      <rect x="98" y="42" width="6" height="48" fill="#b89070"/>
+      <rect x="64" y="62" width="8" height="6" fill="#1a1a1a"/>
+      <rect x="64" y="62" width="3" height="3" fill="#fff"/>
+      <rect x="80" y="72" width="10" height="6" fill="#b89070"/>
+      <rect x="72" y="84" width="16" height="4" fill="#8a4030"/>
+      <rect x="48" y="30" width="64" height="16" fill="#3a5a2a"/>
+      <rect x="54" y="24" width="52" height="8" fill="#4a6a3a"/>
+      <rect x="62" y="18" width="36" height="8" fill="#4a6a3a"/>
+      <rect x="40" y="42" width="80" height="8" fill="#2d4a24"/>
+      <rect x="40" y="42" width="80" height="3" fill="#5f7f4a"/>
+      <rect x="76" y="24" width="4" height="12" fill="#ffd700"/>
+      <rect x="72" y="28" width="3" height="8" fill="#ffd700"/>
+      <rect x="81" y="28" width="3" height="8" fill="#ffd700"/>
+      <rect x="72" y="34" width="12" height="3" fill="#ffd700"/>
+      <rect x="60" y="56" width="10" height="6" fill="#2d4a24"/>
+      <rect x="86" y="58" width="12" height="6" fill="#2d4a24"/>
+      <rect x="70" y="20" width="8" height="6" fill="#2d4a24"/>
     </svg>
   </div>
-  <button id="menuPlay">ИГРАТЬ</button>
+  <button id="menuPlay">ГРАТИ</button>
 </div>
 
 <div id="levelsScreen" class="screen">
-  <div id="levelsTitle">УРОВНИ</div>
+  <div id="levelsTitle">РІВНІ</div>
   <div id="levelsGrid"></div>
   <button id="levelsBack">НАЗАД</button>
 </div>
@@ -157,10 +165,11 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 1.1.0</div>
+  <div id="version">beta 2.0.0</div>
+  <div id="vhsLine"></div>
 
   <div id="dead">
-    <h1>YOU DIED</h1>
+    <h1>ТИ МЕРТВИЙ</h1>
     <div class="stat">KILLS: <span id="dsc">0 / 0</span></div>
     <div class="btnRow">
       <button class="btn ghost" id="deadMenu">МЕНЮ</button>
@@ -169,31 +178,31 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   </div>
 
   <div id="win">
-    <h1>LEVEL CLEAR</h1>
+    <h1>РІВЕНЬ ПРОЙДЕНО</h1>
     <div class="stat">KILLS: <span id="wsc">0 / 0</span></div>
     <div class="stat">TIME: <span id="wtime">0</span>s</div>
     <div class="btnRow">
       <button class="btn ghost" id="winMenu">МЕНЮ</button>
-      <button class="btn primary" id="winNext">СЛЕДУЮЩИЙ УРОВЕНЬ</button>
+      <button class="btn primary" id="winNext">ДАЛІ</button>
     </div>
   </div>
 </div>
 
-<div id="rotate"><div class="box"></div>ROTATE DEVICE<br>TO LANDSCAPE</div>
+<div id="rotate"><div class="box"></div>ПОВЕРНИ ТЕЛЕФОН<br>ГОРИЗОНТАЛЬНО</div>
 
 <script>
 (function(){
 "use strict";
 
-var MAX_LEVEL = 10;
+var MAX_LEVEL = 20;
 var progress = 1;
 try {
-  var stored = localStorage.getItem('arena_progress_v2');
+  var stored = localStorage.getItem('arena_progress_v3');
   if (stored) { var n = parseInt(stored, 10); if (!isNaN(n) && n >= 1 && n <= MAX_LEVEL) progress = n; }
 } catch(e){ progress = 1; }
 if (progress < 1) progress = 1;
 if (progress > MAX_LEVEL) progress = MAX_LEVEL;
-function saveProgress(){ try{ localStorage.setItem('arena_progress_v2', String(progress)); }catch(e){} }
+function saveProgress(){ try{ localStorage.setItem('arena_progress_v3', String(progress)); }catch(e){} }
 function unlockNext(level){ if (level >= progress && level < MAX_LEVEL){ progress = level + 1; saveProgress(); } }
 
 var WEAPONS = {
@@ -235,12 +244,19 @@ var PISTOL_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" p
 
 function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : PISTOL_SVG; }
 
+// УРОВНИ 1-9 — как было; 10 — босс; 11-19 — больше зомби; 20 — босс
 var SPAWN = {
   1:{n:5,f:2,s:1}, 2:{n:5,f:5,s:0}, 3:{n:5,f:0,s:5}, 4:{n:3,f:3,s:3},
-  5:{n:0,f:5,s:5}, 6:{n:5,f:3,s:3}, 7:{n:5,f:4,s:3}, 8:{n:5,f:4,s:4}, 9:{n:5,f:5,s:5}
+  5:{n:0,f:5,s:5}, 6:{n:5,f:3,s:3}, 7:{n:5,f:4,s:3}, 8:{n:5,f:4,s:4}, 9:{n:5,f:5,s:5},
+  11:{n:30,f:10,s:0}, 12:{n:40,f:0,s:0}, 13:{n:15,f:15,s:10}, 14:{n:50,f:0,s:0},
+  15:{n:0,f:30,s:0}, 16:{n:20,f:0,s:20}, 17:{n:50,f:10,s:0}, 18:{n:0,f:40,s:10},
+  19:{n:30,f:20,s:20}
 };
 
+// ===== АУДИО + МУЗЫКА =====
 var AC = null;
+var musicState = { playing:false, mode:null, timerId:null, step:0 };
+
 function initAudio(){ if (AC) return; try{ AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); }catch(e){ AC = null; } }
 function tone(f,t,d,v,fe){
   if (!AC) return;
@@ -267,6 +283,66 @@ function noise(d,v,ff){
     s.connect(fl); fl.connect(g); g.connect(AC.destination); s.start(t0);
   }catch(e){}
 }
+
+// === МУЗЫКА ===
+function stopMusic(){
+  if (musicState.timerId){ clearInterval(musicState.timerId); musicState.timerId = null; }
+  musicState.playing = false; musicState.mode = null;
+}
+function startMusic(mode){
+  if (!AC) return;
+  if (musicState.playing && musicState.mode === mode) return;
+  stopMusic();
+  musicState.playing = true;
+  musicState.mode = mode;
+  musicState.step = 0;
+
+  var bassNotes;
+  var bassSpeed;
+  var bassVol;
+  if (mode === 'menu'){
+    bassNotes = [55, 55, 62, 62, 58, 58, 55, 51];
+    bassSpeed = 700; bassVol = 0.10;
+  } else if (mode === 'game'){
+    bassNotes = [82, 82, 87, 82, 77, 77, 82, 74];
+    bassSpeed = 400; bassVol = 0.11;
+  } else if (mode === 'boss'){
+    bassNotes = [55, 55, 55, 62, 55, 55, 65, 62];
+    bassSpeed = 250; bassVol = 0.13;
+  } else {
+    bassNotes = [55]; bassSpeed = 700; bassVol = 0.10;
+  }
+
+  musicState.timerId = setInterval(function(){
+    if (!AC || !musicState.playing) return;
+    var step = musicState.step++;
+    var note = bassNotes[step % bassNotes.length];
+    // Бас-линия
+    tone(note, 'sawtooth', bassSpeed/1000 * 1.8, bassVol, note*0.98);
+    // Глубокий низкий тон (VHS бас)
+    if (step % 4 === 0){
+      tone(note/2, 'sine', 1.2, bassVol*0.6, note/2*0.98);
+    }
+    // Высокие тревожные ноты (как у Yaderi)
+    if (mode === 'game' && step % 8 === 5){
+      tone(800, 'triangle', 0.3, 0.05, 700);
+    }
+    if (mode === 'boss' && step % 4 === 2){
+      tone(1200, 'square', 0.15, 0.06, 900);
+      tone(400, 'sawtooth', 0.2, 0.05, 200);
+    }
+    // VHS шум в фоне
+    if (step % 16 === 0){
+      noise(0.5, 0.02, 400);
+    }
+    // Редкие глитчи
+    if (Math.random() < 0.03){
+      tone(200 + Math.random()*1800, 'square', 0.04, 0.06);
+    }
+  }, bassSpeed);
+}
+
+// === ЗВУКИ ===
 function sndGun(){ tone(240,'square',0.09,0.18,40); noise(0.12,0.20,1400); }
 function sndHit(){ tone(500,'square',0.06,0.14,220); noise(0.06,0.10,2000); }
 function sndDeath(){ tone(180,'sawtooth',0.5,0.22,30); noise(0.4,0.12,600); }
@@ -282,8 +358,8 @@ function sndKnife(){ tone(400,'triangle',0.06,0.1,200); noise(0.05,0.08,3000); }
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
 function generateMap(level){
-  if (level === 10) return generateBossArena();
-  var size = 20 + Math.min(level, 6) * 2;
+  if (level === 10 || level === 20) return generateBossArena();
+  var size = 20 + Math.min(level, 12) * 2;
   var W = size, H = size, grid = [];
   for (var y = 0; y < H; y++){ var r = []; for (var x = 0; x < W; x++){ if (x===0||y===0||x===W-1||y===H-1) r.push(1); else r.push(0); } grid.push(r); }
   var rng = mulberry32(level*1337+42), rooms = [];
@@ -371,23 +447,23 @@ function isWall(x, y){
 
 var ZDEF = {
   normal: {
-    dark:  {hp:200, speed:1.8, dmg:8,  skin:'#1a5522', dark:'#0d2a10'},
-    green: {hp:150, speed:1.6, dmg:6,  skin:'#c02828', dark:'#6a1010'},
-    light: {hp:75,  speed:1.5, dmg:4,  skin:'#d8c020', dark:'#806a10'}
+    dark:  {hp:200, speed:1.8, dmg:8,  skin:'#1a5522', dark:'#0d2a10', blood:'#5a0808'},
+    green: {hp:150, speed:1.6, dmg:6,  skin:'#c02828', dark:'#6a1010', blood:'#5a0808'},
+    light: {hp:75,  speed:1.5, dmg:4,  skin:'#d8c020', dark:'#806a10', blood:'#5a0808'}
   },
   fast: {
-    dark:  {hp:100, speed:2.43, dmg:10, skin:'#1a5522', dark:'#0d2a10', scale:0.75},
-    green: {hp:75,  speed:2.25, dmg:6,  skin:'#c02828', dark:'#6a1010', scale:0.75},
-    light: {hp:40,  speed:2.16, dmg:4,  skin:'#d8c020', dark:'#806a10', scale:0.75}
+    dark:  {hp:100, speed:2.43, dmg:10, skin:'#1a5522', dark:'#0d2a10', blood:'#5a0808', scale:0.78},
+    green: {hp:75,  speed:2.25, dmg:6,  skin:'#c02828', dark:'#6a1010', blood:'#5a0808', scale:0.78},
+    light: {hp:40,  speed:2.16, dmg:4,  skin:'#d8c020', dark:'#806a10', blood:'#5a0808', scale:0.78}
   },
   shooter: {
-    dark:  {hp:100, speed:1.2, dmg:15, skin:'#1a5522', dark:'#0d2a10', hasGun:true},
-    green: {hp:75,  speed:1.1, dmg:12, skin:'#c02828', dark:'#6a1010', hasGun:true},
-    light: {hp:40,  speed:1.0, dmg:10, skin:'#d8c020', dark:'#806a10', hasGun:true}
+    dark:  {hp:100, speed:1.2, dmg:15, skin:'#1a5522', dark:'#0d2a10', blood:'#5a0808', hasGun:true},
+    green: {hp:75,  speed:1.1, dmg:12, skin:'#c02828', dark:'#6a1010', blood:'#5a0808', hasGun:true},
+    light: {hp:40,  speed:1.0, dmg:10, skin:'#d8c020', dark:'#806a10', blood:'#5a0808', hasGun:true}
   }
 };
 
-var BOSS_DEF = { hp:500, speed:0.9, dmg:25, skin:'#0d3a10', dark:'#051505', scale:3.0 };
+var BOSS_DEF = { hp:500, speed:0.9, dmg:25, skin:'#0d3a10', dark:'#051505', blood:'#7a0808', scale:3.0 };
 
 function makeZombie(x, y, kind, skin){
   var d = ZDEF[kind][skin];
@@ -442,7 +518,7 @@ function pickSkin(rng){
 }
 function spawnLevel(level){
   state.enemies = [];
-  if (level === 10){
+  if (level === 10 || level === 20){
     var bp = findFreeCellFar(6);
     state.enemies.push(makeBoss(bp.x, bp.y));
     state.totalEnemies = 1;
@@ -458,7 +534,7 @@ function spawnLevel(level){
     var t = kinds[k]; kinds[k] = kinds[j]; kinds[j] = t;
   }
   for (var ki = 0; ki < kinds.length; ki++){
-    var p = findFreeCellFar(5);
+    var p = findFreeCellFar(4);
     state.enemies.push(makeZombie(p.x, p.y, kinds[ki], pickSkin(rng)));
   }
   state.totalEnemies = state.enemies.length;
@@ -486,12 +562,16 @@ function startLevel(level){
   document.getElementById('dead').style.display = 'none';
   document.getElementById('win').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
+  document.getElementById('vhsLine').style.display = 'block';
   updateWeaponBtn();
   document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('levelsScreen').style.display = 'none';
   document.getElementById('gameScreen').classList.add('active');
   resize();
   state.running = true;
+  // Музыка
+  if (level === 10 || level === 20) startMusic('boss');
+  else startMusic('game');
 }
 
 function updateAmmoHUD(){
@@ -611,14 +691,18 @@ function showMenu(){
   document.getElementById('dead').style.display = 'none';
   document.getElementById('win').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
+  document.getElementById('vhsLine').style.display = 'none';
   state.running = false;
+  startMusic('menu');
 }
 function showLevels(){
   document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('levelsScreen').style.display = 'flex';
   document.getElementById('gameScreen').classList.remove('active');
+  document.getElementById('vhsLine').style.display = 'none';
   renderLevelGrid();
   state.running = false;
+  startMusic('menu');
 }
 function renderLevelGrid(){
   var grid = document.getElementById('levelsGrid');
@@ -627,16 +711,16 @@ function renderLevelGrid(){
   for (var i = 1; i <= MAX_LEVEL; i++){
     var btn = document.createElement('button');
     btn.className = 'lvlBtn';
-    var isBoss = (i === 10), unlocked = i <= progress;
+    var isBoss = (i === 10 || i === 20), unlocked = i <= progress;
     if (isBoss) btn.className += ' boss';
     if (unlocked) btn.className += ' unlocked'; else btn.className += ' locked';
-    btn.textContent = isBoss ? 'BOSS' : String(i);
+    btn.textContent = isBoss ? 'БОС' : String(i);
     if (unlocked){ (function(lvl){ btn.addEventListener('click', function(){ initAudio(); startLevel(lvl); requestAnimationFrame(mainLoop); }); })(i); }
     grid.appendChild(btn);
   }
 }
 
-document.getElementById('menuPlay').addEventListener('click', function(){ initAudio(); showLevels(); });
+document.getElementById('menuPlay').addEventListener('click', function(){ initAudio(); startMusic('menu'); showLevels(); });
 document.getElementById('levelsBack').addEventListener('click', function(){ showMenu(); });
 document.getElementById('deadMenu').addEventListener('click', function(){ showMenu(); });
 document.getElementById('deadRetry').addEventListener('click', function(){ startLevel(state.level); requestAnimationFrame(mainLoop); });
@@ -753,6 +837,7 @@ function playerHurt(dmg){
     state.hp = 0; state.dead = true; state.running = false;
     document.getElementById('dsc').textContent = state.score + ' / ' + state.totalEnemies;
     document.getElementById('dead').style.display = 'flex';
+    document.getElementById('vhsLine').style.display = 'none';
   }
 }
 
@@ -767,9 +852,24 @@ function unstickPlayer(){
   }
 }
 
+// VHS line animation
+var vhsEl = document.getElementById('vhsLine');
+var vhsY = 0;
+function updateVHS(dt){
+  if (!vhsEl || vhsEl.style.display === 'none') return;
+  vhsY += dt * (200 + Math.random() * 400);
+  if (vhsY > window.innerHeight){
+    vhsY = -10;
+    vhsEl.style.opacity = 0.02 + Math.random() * 0.08;
+  }
+  vhsEl.style.top = vhsY + 'px';
+}
+
 function update(dt){
   if (!state.running) return;
   if (state.dead || state.won) return;
+
+  updateVHS(dt);
 
   state.pistolKick *= Math.max(0, 1 - dt*8);
   state.muzzleFlash *= Math.max(0, 1 - dt*12);
@@ -911,6 +1011,7 @@ function update(dt){
     document.getElementById('wtime').textContent = elapsed;
     document.getElementById('win').style.display = 'flex';
     document.getElementById('winNext').style.display = state.level < MAX_LEVEL ? 'block' : 'none';
+    document.getElementById('vhsLine').style.display = 'none';
     unlockNext(state.level);
   }
 }
@@ -954,14 +1055,16 @@ function fireEnemyBullet(en, dx, dy, dmg, spd, color){
 }
 
 var zbufArr = null, zbufLen = 0;
+
+// СВЕТЛЫЕ ТЕКСТУРЫ — без затемнения
 function wallTex(u, v, side, level){
-  if (level === 10){
+  if (level === 10 || level === 20){
     var lineH = (v < 0.08 || v > 0.92);
     var lineV = (u < 0.06 || u > 0.94);
-    if (lineH || lineV) return side === 0 ? [130,130,140] : [110,110,120];
+    if (lineH || lineV) return side === 0 ? [170,170,180] : [150,150,160];
     var lv = ((u*8) - Math.floor(u*8)) < 0.15;
-    if (lv) return side === 0 ? [180,180,190] : [155,155,165];
-    return side === 0 ? [220,220,230] : [195,195,205];
+    if (lv) return side === 0 ? [220,220,230] : [200,200,210];
+    return side === 0 ? [250,250,255] : [230,230,240];
   }
   var brickH = 0.25, brickW = 0.5;
   var row = Math.floor(v/brickH);
@@ -969,10 +1072,14 @@ function wallTex(u, v, side, level){
   var bx = ((u+offset)%1+1)%1;
   var mortarH = (v/brickH - Math.floor(v/brickH)) < 0.06;
   var mortarV = ((bx/brickW) - Math.floor(bx/brickW)) < 0.05;
-  if (mortarH || mortarV) return [55,45,40];
+  if (mortarH || mortarV) return [90,80,70];
   var seed = (row*7 + Math.floor(bx/brickW)*13) % 5;
-  var shade = 0.85 + seed*0.05;
-  return [Math.floor((side===0?155:130)*shade), Math.floor((side===0?85:72)*shade), Math.floor((side===0?55:48)*shade)];
+  var shade = 0.9 + seed*0.05;
+  return [
+    Math.min(255, Math.floor((side===0?200:180)*shade)),
+    Math.min(255, Math.floor((side===0?130:115)*shade)),
+    Math.min(255, Math.floor((side===0?90:80)*shade))
+  ];
 }
 
 function render(){
@@ -983,15 +1090,16 @@ function render(){
   var bobY = Math.sin(state.bob) * 3;
   var horizon = H/2 + bobY + state.pitch;
 
-  var isBoss = state.level === 10;
+  var isBoss = (state.level === 10 || state.level === 20);
+  // Светлый потолок и пол — без затемнения
   var ceilGrad = ctx.createLinearGradient(0, 0, 0, Math.max(1,horizon));
-  ceilGrad.addColorStop(0, isBoss ? '#3a3a48' : '#08080f');
-  ceilGrad.addColorStop(1, isBoss ? '#5a5a68' : '#1a1a28');
+  ceilGrad.addColorStop(0, isBoss ? '#5a5a68' : '#3a3a4a');
+  ceilGrad.addColorStop(1, isBoss ? '#7a7a88' : '#5a5a6a');
   ctx.fillStyle = ceilGrad; ctx.fillRect(0, 0, W, Math.max(0, horizon));
 
   var floorGrad = ctx.createLinearGradient(0, horizon, 0, H);
-  floorGrad.addColorStop(0, isBoss ? '#4a4a52' : '#12121a');
-  floorGrad.addColorStop(1, isBoss ? '#6a6a72' : '#28283a');
+  floorGrad.addColorStop(0, isBoss ? '#6a6a72' : '#4a4a52');
+  floorGrad.addColorStop(1, isBoss ? '#8a8a92' : '#6a6a72');
   ctx.fillStyle = floorGrad; ctx.fillRect(0, Math.max(0, horizon), W, H - Math.max(0, horizon));
 
   if (!zbufArr || zbufLen !== rayCount){ zbufArr = new Float32Array(rayCount); zbufLen = rayCount; }
@@ -1020,14 +1128,15 @@ function render(){
     var wallX = side === 0 ? state.py + d*rayDy : state.px + d*rayDx;
     wallX -= Math.floor(wallX);
     var base = wallTex(wallX, 0.5, side, state.level);
-    var fog = Math.min(1, corrected/(isBoss?20:14)), fogMul = 1 - fog*0.88;
+    // БЕЗ затемнения — fogMul = 1
+    var fogMul = 1;
     var px = i*colW, pw = colW+1;
     var topH = (y1-y0)*0.12, midH = (y1-y0)*0.72;
-    ctx.fillStyle = 'rgb(' + Math.min(255,Math.floor(base[0]*1.15*fogMul)) + ',' + Math.min(255,Math.floor(base[1]*1.15*fogMul)) + ',' + Math.min(255,Math.floor(base[2]*1.15*fogMul)) + ')';
+    ctx.fillStyle = 'rgb(' + Math.min(255,Math.floor(base[0]*1.10*fogMul)) + ',' + Math.min(255,Math.floor(base[1]*1.10*fogMul)) + ',' + Math.min(255,Math.floor(base[2]*1.10*fogMul)) + ')';
     ctx.fillRect(px, y0, pw, topH);
     ctx.fillStyle = 'rgb(' + Math.floor(base[0]*fogMul) + ',' + Math.floor(base[1]*fogMul) + ',' + Math.floor(base[2]*fogMul) + ')';
     ctx.fillRect(px, y0+topH, pw, midH);
-    ctx.fillStyle = 'rgb(' + Math.floor(base[0]*0.55*fogMul) + ',' + Math.floor(base[1]*0.55*fogMul) + ',' + Math.floor(base[2]*0.55*fogMul) + ')';
+    ctx.fillStyle = 'rgb(' + Math.floor(base[0]*0.65*fogMul) + ',' + Math.floor(base[1]*0.65*fogMul) + ',' + Math.floor(base[2]*0.65*fogMul) + ')';
     ctx.fillRect(px, y0+topH+midH, pw, (y1-y0)-topH-midH);
   }
 
@@ -1045,9 +1154,9 @@ function render(){
     var fY = horizon + (H/bCorr)/2;
     var sz = sizeH * bl.r;
     ctx.globalAlpha = bl.alpha;
-    ctx.fillStyle = '#3a0000';
+    ctx.fillStyle = '#5a0000';
     ctx.beginPath(); ctx.ellipse(sX, fY, sz*0.5, sz*0.18, 0, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#6a0000';
+    ctx.fillStyle = '#8a0000';
     ctx.beginPath(); ctx.ellipse(sX, fY, sz*0.3, sz*0.11, 0, 0, Math.PI*2); ctx.fill();
     ctx.globalAlpha = 1;
   }
@@ -1131,7 +1240,7 @@ function drawMinimap(){
   for (var y = 0; y < state.MAP_H; y++){
     for (var x = 0; x < state.MAP_W; x++){
       if (state.map[y][x] === 1){
-        miniCtx.fillStyle = '#555';
+        miniCtx.fillStyle = '#666';
         miniCtx.fillRect(offX + x*cell, offY + y*cell, cell+0.5, cell+0.5);
       }
     }
@@ -1154,6 +1263,7 @@ function drawMinimap(){
 
 function hexToRgb(hex){ return [parseInt(hex.substr(1,2),16), parseInt(hex.substr(3,2),16), parseInt(hex.substr(5,2),16)]; }
 
+// УЛУЧШЕННЫЙ СПРАЙТ ЗОМБИ — руки вперёд, глаза, зубы, кровь
 function drawSprite(sp, horizon, colW, rayCount, zbuf){
   var dx = sp.x-state.px, dy = sp.y-state.py;
   var angle = Math.atan2(dy, dx) - state.dir;
@@ -1165,55 +1275,153 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   var e = sp.enemy;
   var scale = e.scale || 1;
   var sizeH = Math.min(H*2, H/corrected) * scale;
-  var sizeW = sizeH * 0.7;
+  var sizeW = sizeH * 0.72;
   var sX = W/2 + Math.tan(angle)*(W/2)/Math.tan(state.fov/2);
   var x0 = Math.floor(sX - sizeW/2), x1 = Math.floor(sX + sizeW/2);
   var yBot = Math.floor(horizon + (H/corrected)/2);
   var yTop = Math.floor(yBot - sizeH);
-  var fog = Math.min(1, corrected/14), tint = 1 - fog*0.85;
+  // Без тумана
+  var tint = 1;
   var bob = Math.sin(e.wobble)*sizeH*0.02;
-  var walkOff = e.frame === 0 ? 0 : sizeH*0.02;
+  var walkOff = e.frame === 0 ? 0 : sizeH*0.025;
   var startCol = Math.max(0, Math.floor(x0/colW));
   var endCol = Math.min(rayCount-1, Math.ceil(x1/colW));
   var skinRGB = hexToRgb(e.def.skin);
   var darkRGB = hexToRgb(e.def.dark);
+  var bloodRGB = hexToRgb(e.def.blood || '#5a0808');
   var skinStyle = 'rgb(' + Math.round(skinRGB[0]*tint) + ',' + Math.round(skinRGB[1]*tint) + ',' + Math.round(skinRGB[2]*tint) + ')';
   var darkStyle = 'rgb(' + Math.round(darkRGB[0]*tint) + ',' + Math.round(darkRGB[1]*tint) + ',' + Math.round(darkRGB[2]*tint) + ')';
-  var eyeStyle = 'rgb(' + Math.round(220*tint) + ',' + Math.round(30*tint) + ',' + Math.round(30*tint) + ')';
-  var whiteStyle = 'rgb(' + Math.round(230*tint) + ',' + Math.round(230*tint) + ',' + Math.round(230*tint) + ')';
-  var gunStyle = 'rgb(' + Math.round(40*tint) + ',' + Math.round(40*tint) + ',' + Math.round(40*tint) + ')';
+  var bloodStyle = 'rgb(' + Math.round(bloodRGB[0]*tint) + ',' + Math.round(bloodRGB[1]*tint) + ',' + Math.round(bloodRGB[2]*tint) + ')';
+  var eyeStyle = 'rgb(220,20,20)';
+  var eyeGlint = '#ffaaaa';
+  var whiteStyle = 'rgb(230,230,230)';
+  var gunStyle = 'rgb(40,40,40)';
 
   for (var c = startCol; c <= endCol; c++){
     if (zbuf[c] < corrected) continue;
     var sx = c*colW, sw = colW+1;
     var uMid = ((sx+sw/2)-x0)/sizeW;
     if (uMid < 0 || uMid > 1) continue;
-    if (uMid > 0.25 && uMid < 0.75){ ctx.fillStyle = darkStyle; ctx.fillRect(sx, yTop+bob, sw, sizeH*0.06); }
-    if (uMid > 0.22 && uMid < 0.78){ ctx.fillStyle = skinStyle; ctx.fillRect(sx, yTop+sizeH*0.06+bob, sw, sizeH*0.18); }
+
+    // РУКИ ВПЕРЁД (по бокам от тела, вытянуты в стороны)
+    // Левая рука-предплечье
+    if (uMid > 0.02 && uMid < 0.20 && sizeH > 20){
+      ctx.fillStyle = skinStyle;
+      ctx.fillRect(sx, yTop + sizeH*0.32 + bob, sw, sizeH*0.10);
+    }
+    // Правая рука
+    if (uMid > 0.80 && uMid < 0.98 && sizeH > 20){
+      ctx.fillStyle = skinStyle;
+      ctx.fillRect(sx, yTop + sizeH*0.32 + bob, sw, sizeH*0.10);
+    }
+    // Кулаки-кисти
+    if (uMid < 0.06 && sizeH > 25){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.14);
+    }
+    if (uMid > 0.94 && sizeH > 25){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.14);
+    }
+
+    // ВОЛОСЫ (тёмные сверху головы)
+    if (uMid > 0.28 && uMid < 0.72){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yTop + bob, sw, sizeH*0.05);
+    }
+    // ГОЛОВА
+    if (uMid > 0.22 && uMid < 0.78){
+      ctx.fillStyle = skinStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.05+bob, sw, sizeH*0.18);
+    }
+    // Тени на щеках
+    if (uMid > 0.22 && uMid < 0.28){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
+    }
+    if (uMid > 0.72 && uMid < 0.78){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
+    }
+    // ГЛАЗА — ярко-красные с блеском
     if (sizeH > 22){
-      if ((uMid > 0.30 && uMid < 0.40) || (uMid > 0.60 && uMid < 0.70)){
-        ctx.fillStyle = eyeStyle; ctx.fillRect(sx, yTop+sizeH*0.14+bob, sw, sizeH*0.035);
+      // Левый глаз
+      if (uMid > 0.30 && uMid < 0.38){
+        ctx.fillStyle = eyeStyle;
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.035);
+      }
+      if (uMid > 0.30 && uMid < 0.34 && sizeH > 30){
+        ctx.fillStyle = eyeGlint;
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.012);
+      }
+      // Правый глаз
+      if (uMid > 0.62 && uMid < 0.70){
+        ctx.fillStyle = eyeStyle;
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.035);
+      }
+      if (uMid > 0.66 && uMid < 0.70 && sizeH > 30){
+        ctx.fillStyle = eyeGlint;
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.012);
       }
     }
-    if (uMid > 0.35 && uMid < 0.65 && sizeH > 30){
-      ctx.fillStyle = darkStyle; ctx.fillRect(sx, yTop+sizeH*0.21+bob, sw, sizeH*0.035);
-      if (sizeH > 45 && (c%3 === 0)){ ctx.fillStyle = whiteStyle; ctx.fillRect(sx, yTop+sizeH*0.215+bob, sw, sizeH*0.015); }
+    // РОТ С ЗУБАМИ
+    if (uMid > 0.34 && uMid < 0.66 && sizeH > 30){
+      ctx.fillStyle = '#000';
+      ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.03);
+      if (sizeH > 45 && (c%3 === 0)){
+        ctx.fillStyle = whiteStyle;
+        ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.02);
+      }
     }
-    if (uMid > 0.18 && uMid < 0.82){ ctx.fillStyle = darkStyle; ctx.fillRect(sx, yTop+sizeH*0.24+bob, sw, sizeH*0.32); }
-    if ((uMid > 0.35 && uMid < 0.45) || (uMid > 0.55 && uMid < 0.65)){ ctx.fillStyle = skinStyle; ctx.fillRect(sx, yTop+sizeH*0.32+bob, sw, sizeH*0.15); }
-    if (e.hasGun && uMid > 0.55 && uMid < 0.85 && sizeH > 15){
-      ctx.fillStyle = skinStyle; ctx.fillRect(sx, yTop+sizeH*0.28+bob, sw, sizeH*0.06);
-      if (uMid > 0.72 && uMid < 0.84){ ctx.fillStyle = gunStyle; ctx.fillRect(sx, yTop+sizeH*0.27+bob, sw, sizeH*0.08); }
-    } else {
-      if (uMid > 0.14 && uMid < 0.22){ ctx.fillStyle = skinStyle; ctx.fillRect(sx, yTop+sizeH*0.28+bob, sw, sizeH*0.22); }
-      if (uMid > 0.78 && uMid < 0.86){ ctx.fillStyle = skinStyle; ctx.fillRect(sx, yTop+sizeH*0.28+bob, sw, sizeH*0.22); }
+    // КРОВЬ НА РТУ
+    if (uMid > 0.40 && uMid < 0.50 && sizeH > 35){
+      ctx.fillStyle = bloodStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.225+bob, sw, sizeH*0.015);
     }
-    if (uMid > 0.20 && uMid < 0.44){ ctx.fillStyle = darkStyle; ctx.fillRect(sx, yBot-sizeH*0.30+walkOff, sw, sizeH*0.30); }
-    if (uMid > 0.56 && uMid < 0.80){ ctx.fillStyle = darkStyle; ctx.fillRect(sx, yBot-sizeH*0.30-walkOff, sw, sizeH*0.30); }
+
+    // ТОРС
+    if (uMid > 0.18 && uMid < 0.82){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.24+bob, sw, sizeH*0.32);
+    }
+    // Кожа на торсе
+    if ((uMid > 0.32 && uMid < 0.42) || (uMid > 0.58 && uMid < 0.68)){
+      ctx.fillStyle = skinStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.18);
+    }
+    // КРОВЬ НА ТОРСЕ
+    if (uMid > 0.45 && uMid < 0.55 && sizeH > 30){
+      ctx.fillStyle = bloodStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.36+bob, sw, sizeH*0.10);
+    }
+
+    // ПИСТОЛЕТ ДЛЯ SHOOTER
+    if (e.hasGun && uMid > 0.72 && uMid < 0.90 && sizeH > 15){
+      ctx.fillStyle = gunStyle;
+      ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.08);
+    }
+
+    // НОГИ
+    if (uMid > 0.22 && uMid < 0.44){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yBot-sizeH*0.30+walkOff, sw, sizeH*0.30);
+    }
+    if (uMid > 0.56 && uMid < 0.78){
+      ctx.fillStyle = darkStyle;
+      ctx.fillRect(sx, yBot-sizeH*0.30-walkOff, sw, sizeH*0.30);
+    }
+    // Ступни
+    if (uMid > 0.20 && uMid < 0.46){
+      ctx.fillStyle = '#1a1a10';
+      ctx.fillRect(sx, yBot-sizeH*0.04, sw, sizeH*0.04);
+    }
+    if (uMid > 0.54 && uMid < 0.80){
+      ctx.fillStyle = '#1a1a10';
+      ctx.fillRect(sx, yBot-sizeH*0.04, sw, sizeH*0.04);
+    }
   }
 }
 
-// ========== ПИСТОЛЕТ — дуло вперёд, выше и правее ==========
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
 
@@ -1228,17 +1436,13 @@ function drawGun(){
   var bobX = Math.sin(state.bob) * 10;
   var bobY = Math.sin(state.bob * 2) * 5;
 
-  // Крупнее и немного левее — на всю правую часть снизу
   var cx = W * 0.68 + bobX;
   var cy = H * 0.78 + kick + bobY + reloadOffset;
-
-  // Размер в 2.2 раза больше
   var S = Math.min(W, H) * 0.11;
 
   ctx.save();
   ctx.translate(cx, cy);
 
-  // ПРЕДПЛЕЧЬЕ
   ctx.fillStyle = '#2d4a24';
   ctx.beginPath();
   ctx.moveTo(S*1.2, S*3.2);
@@ -1256,7 +1460,6 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // ЛАДОНЬ
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.moveTo(S*1.4, S*2.2);
@@ -1266,7 +1469,6 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // ЗАДНЯЯ ЧАСТЬ ЗАТВОРА
   ctx.fillStyle = '#3a3a42';
   ctx.beginPath();
   ctx.moveTo(S*0.8, S*1.2);
@@ -1280,7 +1482,6 @@ function drawGun(){
     ctx.fillRect(S*0.9, S*1.35 + ns*S*0.28, S*1.5, S*0.10);
   }
 
-  // СТВОЛ В ГЛУБИНУ
   ctx.fillStyle = '#2a2a32';
   ctx.beginPath();
   ctx.moveTo(S*0.6, S*1.2);
@@ -1298,7 +1499,6 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // ДУЛО
   ctx.fillStyle = '#1a1a22';
   ctx.beginPath();
   ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
@@ -1313,17 +1513,14 @@ function drawGun(){
   ctx.ellipse(S*-0.55, S*-0.35, S*0.20, S*0.10, -0.7, 0, Math.PI*2);
   ctx.fill();
 
-  // МУШКА
   ctx.fillStyle = '#ddd';
   ctx.beginPath();
   ctx.ellipse(S*-0.50, S*-0.50, S*0.10, S*0.06, 0, 0, Math.PI*2);
   ctx.fill();
 
-  // ЗАДНИЙ ПРИЦЕЛ
   ctx.fillStyle = '#1a1a22';
   ctx.fillRect(S*1.15, S*0.85, S*0.5, S*0.2);
 
-  // РУКОЯТЬ
   ctx.fillStyle = '#1a1a22';
   ctx.beginPath();
   ctx.moveTo(S*1.0, S*2.6);
@@ -1337,13 +1534,11 @@ function drawGun(){
     ctx.fillRect(S*1.2, S*3.0 + mr*S*0.4, S*1.3, S*0.1);
   }
 
-  // ПАЛЕЦ
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.ellipse(S*2.2, S*2.2, S*0.55, S*0.4, -0.3, 0, Math.PI*2);
   ctx.fill();
 
-  // СПУСК
   ctx.strokeStyle = '#2a2a32';
   ctx.lineWidth = S*0.18;
   ctx.beginPath();
@@ -1351,11 +1546,9 @@ function drawGun(){
   ctx.quadraticCurveTo(S*0.5, S*3.2, S*1.0, S*3.4);
   ctx.stroke();
 
-  // БЛИК
   ctx.fillStyle = 'rgba(255,255,255,0.15)';
   ctx.fillRect(S*0.85, S*1.25, S*1.4, S*0.12);
 
-  // ВСПЫШКА
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
     var fx = S*-0.55, fy2 = S*-0.35;
@@ -1379,13 +1572,11 @@ function drawGun(){
   ctx.restore();
 }
 
-// ========== НОЖ — правее и выше ==========
 function drawKnife(){
   var kW = Math.min(W * 0.22, 200);
   var bobX = Math.sin(state.bob)*6;
   var swing = state.pistolKick;
   var rot = swing * 0.6 - 0.25;
-  // ПРАВЕЕ и ВЫШЕ
   var kx = W * 0.72 + bobX;
   var ky = H * 0.82 + Math.sin(state.bob)*4 + swing*30;
 
@@ -1393,7 +1584,6 @@ function drawKnife(){
   ctx.translate(kx, ky);
   ctx.rotate(rot);
 
-  // Рукоятка
   ctx.fillStyle = '#3a2a1a';
   ctx.fillRect(-kW*0.045, kW*0.05, kW*0.09, kW*0.30);
   ctx.fillStyle = '#2a1a0a';
@@ -1407,7 +1597,6 @@ function drawKnife(){
   ctx.fillStyle = '#2a2a2a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.01);
 
-  // Клинок
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
   ctx.moveTo(-kW*0.055, 0);
