@@ -157,7 +157,7 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 1.0.8</div>
+  <div id="version">beta 1.0.9</div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -1212,207 +1212,159 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// =============== ПИСТОЛЕТ ===============
+// ========== ПИСТОЛЕТ — вид от первого лица, дуло смотрит ВПЕРЁД (от нас) ==========
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
-
-  // Размер пистолета
-  var gw = Math.min(W * 0.42, 380);   // длина пистолета
-  var gh = gw * 0.42;                  // высота блока
 
   var reloadOffset = 0;
   if (state.reloading){
     var pct = state.reloadTimer / WEAPONS.pistol.reloadTime;
     var phase = pct < 0.5 ? pct*2 : (1-pct)*2;
-    reloadOffset = phase * gh * 0.8;
+    reloadOffset = phase * H * 0.15;
   }
 
   var kick = state.pistolKick * 14;
-  var bobX = Math.sin(state.bob) * 6;
-  var bobY = Math.sin(state.bob * 2) * 3;
+  var bobX = Math.sin(state.bob) * 8;
+  var bobY = Math.sin(state.bob * 2) * 4;
 
-  // Позиция: правый нижний угол. Пистолет выезжает из-за правого края.
-  var cx = W - gw * 0.42 + bobX;
-  var cy = H - gh * 0.55 + kick + bobY + reloadOffset;
+  // Базовая точка — внизу по центру-справа
+  var cx = W * 0.62 + bobX;
+  var cy = H * 0.95 + kick + bobY + reloadOffset;
+
+  // Масштаб
+  var S = Math.min(W, H) * 0.055;
 
   ctx.save();
   ctx.translate(cx, cy);
-  // Наклон: ствол смотрит влево-вверх, как в CS
-  ctx.rotate(-0.18);
 
-  // -------- КООРДИНАТЫ (0,0 в центре пистолета, +X вправо, +Y вниз) --------
-  // Затвор/ствол идут по горизонтали от X=-gw*0.5 (дуло) до X=+gw*0.5 (зад затвора)
-  // Рукоять уходит вниз в районе X=+gw*0.2
-
-  var ySlide = 0;                     // центр ствола
-  var slideH = gh * 0.22;              // высота затвора
-  var slideTop = ySlide - slideH/2;
-  var slideBot = ySlide + slideH/2;
-  var muzzleX = -gw * 0.50;
-  var breechX = +gw * 0.22;
-
-  // -------- ПРЕДПЛЕЧЬЕ (уходит вправо-вниз за экран) --------
+  // -------- ПРЕДПЛЕЧЬЕ (уходит вниз-вправо) --------
   ctx.fillStyle = '#2d4a24';
   ctx.beginPath();
-  ctx.moveTo(breechX + gh*0.10, slideBot + gh*0.10);
-  ctx.lineTo(gw*0.55, slideBot + gh*0.35);
-  ctx.lineTo(gw*0.55, gh*1.6);
-  ctx.lineTo(breechX + gh*0.05, gh*1.6);
+  ctx.moveTo(S*1.2, S*3.2);
+  ctx.lineTo(S*3.6, S*4.0);
+  ctx.lineTo(S*3.6, S*8.0);
+  ctx.lineTo(S*0.6, S*8.0);
   ctx.closePath();
   ctx.fill();
-  // Тёмные полосы камуфляжа
+  // Камуфляжные полосы на рукаве
   ctx.fillStyle = '#1f3518';
   ctx.beginPath();
-  ctx.moveTo(breechX + gh*0.15, slideBot + gh*0.28);
-  ctx.lineTo(gw*0.52, slideBot + gh*0.50);
-  ctx.lineTo(gw*0.52, slideBot + gh*0.65);
-  ctx.lineTo(breechX + gh*0.13, slideBot + gh*0.43);
+  ctx.moveTo(S*1.4, S*4.5);
+  ctx.lineTo(S*3.4, S*5.1);
+  ctx.lineTo(S*3.4, S*5.8);
+  ctx.lineTo(S*1.3, S*5.2);
   ctx.closePath();
   ctx.fill();
 
-  // -------- ЗАДНЯЯ ЧАСТЬ ЗАТВОРА (задняя насечка) --------
-  ctx.fillStyle = '#2a2a32';
-  ctx.fillRect(breechX, slideTop, gh*0.16, slideH);
-  ctx.fillStyle = '#15151a';
-  for (var ns = 0; ns < 6; ns++){
-    ctx.fillRect(breechX + gh*0.02, slideTop + gh*0.02 + ns*(slideH - gh*0.04)/6, gh*0.12, gh*0.02);
+  // -------- ЛАДОНЬ (держит пистолет) --------
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.moveTo(S*1.4, S*2.2);
+  ctx.lineTo(S*3.8, S*2.4);
+  ctx.lineTo(S*3.9, S*4.0);
+  ctx.lineTo(S*1.3, S*4.0);
+  ctx.closePath();
+  ctx.fill();
+
+  // -------- ПИСТОЛЕТ — вид сзади-сверху, дуло вперёд --------
+  // Задняя часть затвора (ближе к нам)
+  ctx.fillStyle = '#3a3a42';
+  ctx.beginPath();
+  ctx.moveTo(S*0.8, S*1.2);
+  ctx.lineTo(S*2.4, S*1.0);
+  ctx.lineTo(S*2.6, S*2.6);
+  ctx.lineTo(S*0.8, S*2.8);
+  ctx.closePath();
+  ctx.fill();
+  // Задняя насечка
+  ctx.fillStyle = '#1a1a22';
+  for (var ns = 0; ns < 5; ns++){
+    ctx.fillRect(S*0.9, S*1.35 + ns*S*0.28, S*1.5, S*0.10);
   }
 
-  // -------- ЗАТВОР --------
-  ctx.fillStyle = '#3a3a42';
-  ctx.fillRect(muzzleX + gh*0.08, slideTop, breechX - muzzleX - gh*0.08, slideH);
-  // Верхняя грань светлее
-  ctx.fillStyle = '#5a5a62';
-  ctx.fillRect(muzzleX + gh*0.08, slideTop, breechX - muzzleX - gh*0.08, gh*0.025);
-  // Нижняя грань темнее
-  ctx.fillStyle = '#1a1a22';
-  ctx.fillRect(muzzleX + gh*0.08, slideBot - gh*0.02, breechX - muzzleX - gh*0.08, gh*0.02);
-
-  // -------- СТВОЛ (выступающая часть) --------
+  // Ствол, уходящий вверх-влево в глубину
   ctx.fillStyle = '#2a2a32';
-  ctx.fillRect(muzzleX, slideTop + gh*0.04, gh*0.10, slideH - gh*0.08);
-  ctx.fillStyle = '#1a1a22';
-  ctx.fillRect(muzzleX, slideBot - gh*0.06, gh*0.10, gh*0.04);
-
-  // -------- ДУЛО --------
-  ctx.fillStyle = '#000';
   ctx.beginPath();
-  ctx.ellipse(muzzleX + gh*0.02, ySlide, gh*0.018, slideH*0.30, 0, 0, Math.PI*2);
-  ctx.fill();
-  ctx.strokeStyle = '#555';
-  ctx.lineWidth = Math.max(1, gh*0.008);
-  ctx.beginPath();
-  ctx.ellipse(muzzleX + gh*0.02, ySlide, gh*0.018, slideH*0.30, 0, 0, Math.PI*2);
-  ctx.stroke();
-
-  // -------- ЗАДНИЙ ПРИЦЕЛ --------
-  ctx.fillStyle = '#1a1a22';
-  ctx.fillRect(breechX - gh*0.12, slideTop - gh*0.06, gh*0.05, gh*0.06);
-  // -------- МУШКА --------
-  ctx.fillStyle = '#1a1a22';
-  ctx.fillRect(muzzleX + gh*0.16, slideTop - gh*0.05, gh*0.035, gh*0.05);
-  ctx.fillStyle = '#ddd';
-  ctx.fillRect(muzzleX + gh*0.168, slideTop - gh*0.045, gh*0.015, gh*0.02);
-
-  // -------- СПУСКОВАЯ СКОБА --------
-  ctx.strokeStyle = '#2a2a32';
-  ctx.lineWidth = gh*0.06;
-  ctx.beginPath();
-  ctx.moveTo(breechX - gh*0.20, slideBot);
-  ctx.quadraticCurveTo(breechX - gh*0.30, slideBot + gh*0.28, breechX - gh*0.55, slideBot + gh*0.20);
-  ctx.stroke();
-  // Спусковой крючок
-  ctx.strokeStyle = '#1a1a22';
-  ctx.lineWidth = gh*0.04;
-  ctx.beginPath();
-  ctx.moveTo(breechX - gh*0.28, slideBot + gh*0.02);
-  ctx.quadraticCurveTo(breechX - gh*0.32, slideBot + gh*0.16, breechX - gh*0.28, slideBot + gh*0.24);
-  ctx.stroke();
-
-  // -------- РУКОЯТЬ ПИСТОЛЕТА --------
-  // Идёт вниз-влево от района спусковой скобы
-  ctx.fillStyle = '#1a1a22';
-  ctx.beginPath();
-  ctx.moveTo(breechX - gh*0.28, slideBot);
-  ctx.lineTo(breechX - gh*0.06, slideBot);
-  ctx.lineTo(breechX - gh*0.20, slideBot + gh*0.95);
-  ctx.lineTo(breechX - gh*0.50, slideBot + gh*1.00);
+  ctx.moveTo(S*0.6, S*1.2);
+  ctx.lineTo(S*-0.6, S*0.0);
+  ctx.lineTo(S*-0.4, S*-0.6);
+  ctx.lineTo(S*0.6, S*0.6);
   ctx.closePath();
   ctx.fill();
-  // Боковая грань рукояти (светлее, чтобы было видно объём)
-  ctx.fillStyle = '#2a2a32';
+  // Верхняя светлая грань ствола
+  ctx.fillStyle = '#5a5a62';
   ctx.beginPath();
-  ctx.moveTo(breechX - gh*0.28, slideBot);
-  ctx.lineTo(breechX - gh*0.18, slideBot);
-  ctx.lineTo(breechX - gh*0.30, slideBot + gh*0.95);
-  ctx.lineTo(breechX - gh*0.40, slideBot + gh*0.98);
+  ctx.moveTo(S*0.6, S*1.2);
+  ctx.lineTo(S*-0.6, S*0.0);
+  ctx.lineTo(S*-0.45, S*-0.25);
+  ctx.lineTo(S*0.65, S*0.9);
+  ctx.closePath();
+  ctx.fill();
+
+  // Дуло (овал на конце ствола, смотрит вперёд-влево)
+  ctx.fillStyle = '#1a1a22';
+  ctx.beginPath();
+  ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#555';
+  ctx.lineWidth = Math.max(1, S*0.08);
+  ctx.beginPath();
+  ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
+  ctx.stroke();
+  // Тёмное отверстие дула
+  ctx.fillStyle = '#000';
+  ctx.beginPath();
+  ctx.ellipse(S*-0.55, S*-0.35, S*0.20, S*0.10, -0.7, 0, Math.PI*2);
+  ctx.fill();
+
+  // Мушка на конце ствола
+  ctx.fillStyle = '#ddd';
+  ctx.beginPath();
+  ctx.ellipse(S*-0.50, S*-0.50, S*0.10, S*0.06, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Задний прицел
+  ctx.fillStyle = '#1a1a22';
+  ctx.fillRect(S*1.15, S*0.85, S*0.5, S*0.2);
+
+  // Рукоять пистолета (уходит вниз к ладони)
+  ctx.fillStyle = '#1a1a22';
+  ctx.beginPath();
+  ctx.moveTo(S*1.0, S*2.6);
+  ctx.lineTo(S*2.4, S*2.6);
+  ctx.lineTo(S*3.0, S*4.2);
+  ctx.lineTo(S*1.6, S*4.4);
   ctx.closePath();
   ctx.fill();
   // Рёбра на рукояти
   ctx.fillStyle = '#0a0a10';
-  for (var mr = 0; mr < 4; mr++){
-    ctx.fillRect(breechX - gh*0.30, slideBot + gh*0.20 + mr*gh*0.18, gh*0.16, gh*0.035);
+  for (var mr = 0; mr < 3; mr++){
+    ctx.fillRect(S*1.2, S*3.0 + mr*S*0.4, S*1.3, S*0.1);
   }
 
-  // -------- ЛАДОНЬ, ОБХВАТЫВАЮЩАЯ РУКОЯТЬ --------
-  // Основание ладони
+  // Большой палец поверх рукояти
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
-  ctx.moveTo(breechX - gh*0.50, slideBot + gh*0.28);
-  ctx.lineTo(breechX - gh*0.06, slideBot + gh*0.32);
-  ctx.lineTo(breechX - gh*0.14, slideBot + gh*1.05);
-  ctx.lineTo(breechX - gh*0.58, slideBot + gh*1.05);
-  ctx.closePath();
+  ctx.ellipse(S*2.2, S*2.2, S*0.55, S*0.4, -0.3, 0, Math.PI*2);
   ctx.fill();
-  // Тень внизу ладони
-  ctx.fillStyle = '#a88060';
+
+  // Спусковая скоба
+  ctx.strokeStyle = '#2a2a32';
+  ctx.lineWidth = S*0.18;
   ctx.beginPath();
-  ctx.moveTo(breechX - gh*0.52, slideBot + gh*0.85);
-  ctx.lineTo(breechX - gh*0.16, slideBot + gh*0.85);
-  ctx.lineTo(breechX - gh*0.16, slideBot + gh*1.05);
-  ctx.lineTo(breechX - gh*0.58, slideBot + gh*1.05);
-  ctx.closePath();
-  ctx.fill();
-  // Пальцы (обхватывают переднюю часть рукояти)
-  ctx.fillStyle = '#c9a07a';
-  ctx.strokeStyle = '#8a6050';
-  ctx.lineWidth = gh*0.012;
-  for (var fg = 0; fg < 4; fg++){
-    var fy = slideBot + gh*0.35 + fg*gh*0.20;
-    ctx.beginPath();
-    ctx.moveTo(breechX - gh*0.55, fy);
-    ctx.lineTo(breechX - gh*0.20, fy + gh*0.03);
-    ctx.lineTo(breechX - gh*0.20, fy + gh*0.13);
-    ctx.lineTo(breechX - gh*0.55, fy + gh*0.16);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-  }
-  // Большой палец (сверху)
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(breechX - gh*0.13, slideBot + gh*0.20, gh*0.15, gh*0.11, -0.3, 0, Math.PI*2);
-  ctx.fill();
-  // Указательный палец на спуске
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(breechX - gh*0.30, slideBot + gh*0.18, gh*0.11, gh*0.06, 0.1, 0, Math.PI*2);
-  ctx.fill();
-  ctx.strokeStyle = '#8a6050';
-  ctx.lineWidth = gh*0.012;
-  ctx.beginPath();
-  ctx.ellipse(breechX - gh*0.30, slideBot + gh*0.18, gh*0.11, gh*0.06, 0.1, 0, Math.PI*2);
+  ctx.moveTo(S*0.9, S*2.5);
+  ctx.quadraticCurveTo(S*0.5, S*3.2, S*1.0, S*3.4);
   ctx.stroke();
 
-  // -------- БЛИК НА ЗАТВОРЕ --------
-  ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  ctx.fillRect(muzzleX + gh*0.12, slideTop + gh*0.03, (breechX - muzzleX) - gh*0.20, gh*0.02);
+  // Блик
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  ctx.fillRect(S*0.85, S*1.25, S*1.4, S*0.12);
 
-  // -------- ВСПЫШКА ВЫСТРЕЛА --------
+  // -------- ВСПЫШКА ВЫСТРЕЛА (у дула) --------
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
-    var fx = muzzleX - gh*0.02, fy2 = ySlide;
-    var R = gh * 0.75 * mf;
+    var fx = S*-0.55, fy2 = S*-0.35;
+    var R = S * 3.5 * mf;
     var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
     grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
     grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
@@ -1420,12 +1372,12 @@ function drawGun(){
     grd.addColorStop(1, 'rgba(255,80,0,0)');
     ctx.fillStyle = grd;
     ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
-    // Яркое ядро, направленное влево
+    // Яркое ядро, направленное вглубь (вверх-влево)
     ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
     ctx.beginPath();
-    ctx.moveTo(fx + R*0.2, fy2 - R*0.20);
-    ctx.lineTo(fx - R*0.9, fy2);
-    ctx.lineTo(fx + R*0.2, fy2 + R*0.20);
+    ctx.moveTo(fx + R*0.1, fy2 + R*0.25);
+    ctx.lineTo(fx - R*0.9, fy2 - R*0.5);
+    ctx.lineTo(fx + R*0.4, fy2 - R*0.35);
     ctx.closePath();
     ctx.fill();
   }
@@ -1433,154 +1385,86 @@ function drawGun(){
   ctx.restore();
 }
 
-// =============== НОЖ ===============
+// ========== НОЖ — как было ранее (вернул) ==========
 function drawKnife(){
-  var kw = Math.min(W * 0.42, 380);
-  var kh = kw * 0.42;
-
-  var kick = state.pistolKick;
-  var bobX = Math.sin(state.bob) * 6;
-  var bobY = Math.sin(state.bob * 2) * 3;
-
-  // Правый нижний угол
-  var cx = W - kw * 0.42 + bobX + kick * 25;
-  var cy = H - kh * 0.55 + bobY + kick * 12;
+  var kW = Math.min(W * 0.22, 200);
+  var bobX = Math.sin(state.bob)*6;
+  var swing = state.pistolKick;
+  var rot = swing * 0.6 - 0.25;
+  var kx = W/2 + bobX + 80;
+  var ky = H - kW*0.15 + Math.sin(state.bob)*4 + swing*30;
 
   ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(-0.18 + kick * 0.35);
+  ctx.translate(kx, ky);
+  ctx.rotate(rot);
 
-  var yBlade = 0;
-  var bladeH = kh * 0.22;
-  var bladeTop = yBlade - bladeH/2;
-  var bladeBot = yBlade + bladeH/2;
-  var tipX = -kw * 0.52;
-  var handleX = -kw * 0.05;
-
-  // -------- ПРЕДПЛЕЧЬЕ --------
-  ctx.fillStyle = '#2d4a24';
-  ctx.beginPath();
-  ctx.moveTo(handleX + kh*0.10, bladeBot + kh*0.10);
-  ctx.lineTo(kw*0.55, bladeBot + kh*0.35);
-  ctx.lineTo(kw*0.55, kh*1.6);
-  ctx.lineTo(handleX + kh*0.05, kh*1.6);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = '#1f3518';
-  ctx.beginPath();
-  ctx.moveTo(handleX + kh*0.15, bladeBot + kh*0.28);
-  ctx.lineTo(kw*0.52, bladeBot + kh*0.50);
-  ctx.lineTo(kw*0.52, bladeBot + kh*0.65);
-  ctx.lineTo(handleX + kh*0.13, bladeBot + kh*0.43);
-  ctx.closePath();
-  ctx.fill();
-
-  // -------- РУКОЯТЬ НОЖА --------
+  // Рукоятка
   ctx.fillStyle = '#3a2a1a';
-  ctx.beginPath();
-  ctx.moveTo(handleX, bladeTop + kh*0.08);
-  ctx.lineTo(handleX + kh*0.20, bladeTop + kh*0.05);
-  ctx.lineTo(handleX + kh*0.22, bladeBot + kh*0.10);
-  ctx.lineTo(handleX - kh*0.02, bladeBot + kh*0.15);
-  ctx.closePath();
-  ctx.fill();
-  // Боковая грань рукояти
+  ctx.fillRect(-kW*0.045, kW*0.05, kW*0.09, kW*0.30);
   ctx.fillStyle = '#2a1a0a';
-  ctx.beginPath();
-  ctx.moveTo(handleX + kh*0.10, bladeTop + kh*0.06);
-  ctx.lineTo(handleX + kh*0.20, bladeTop + kh*0.05);
-  ctx.lineTo(handleX + kh*0.22, bladeBot + kh*0.10);
-  ctx.lineTo(handleX + kh*0.12, bladeBot + kh*0.12);
-  ctx.closePath();
-  ctx.fill();
-  // Обмотка на рукояти
-  ctx.fillStyle = '#1a0e05';
-  for (var hw = 0; hw < 4; hw++){
-    ctx.fillRect(handleX + kh*0.01, bladeTop + kh*0.10 + hw*kh*0.14, kh*0.19, kh*0.025);
-  }
-
-  // -------- ГАРДА --------
+  for (var h = 0; h < 4; h++) ctx.fillRect(-kW*0.05, kW*0.08 + h*kW*0.07, kW*0.10, kW*0.02);
+  ctx.fillStyle = '#8a7a3a';
+  ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.035, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#5a4a1a';
+  ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.018, 0, Math.PI*2); ctx.fill();
+  // Гарда
   ctx.fillStyle = '#4a4a4a';
-  ctx.fillRect(handleX - kh*0.05, bladeTop - kh*0.02, kh*0.05, bladeH + kh*0.06);
+  ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.035);
   ctx.fillStyle = '#2a2a2a';
-  ctx.fillRect(handleX - kh*0.04, bladeTop - kh*0.01, kh*0.03, bladeH + kh*0.04);
+  ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.01);
 
-  // -------- КЛИНОК (вперёд-влево) --------
-  // Форма клинка: сужается к концу
+  // Клинок
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
-  ctx.moveTo(handleX - kh*0.06, bladeTop + kh*0.03);
-  ctx.lineTo(tipX + kh*0.15, bladeTop - kh*0.01);
-  // Остриё
-  ctx.lineTo(tipX, yBlade);
-  ctx.lineTo(tipX + kh*0.15, bladeBot + kh*0.01);
-  ctx.lineTo(handleX - kh*0.06, bladeBot - kh*0.03);
-  ctx.closePath();
-  ctx.fill();
-  // Светлый блик по верхней половине
-  ctx.fillStyle = 'rgba(255,255,255,0.7)';
-  ctx.beginPath();
-  ctx.moveTo(handleX - kh*0.06, bladeTop + kh*0.05);
-  ctx.lineTo(tipX + kh*0.15, bladeTop + kh*0.01);
-  ctx.lineTo(tipX + kh*0.15, yBlade + kh*0.005);
-  ctx.lineTo(handleX - kh*0.06, yBlade + kh*0.01);
-  ctx.closePath();
-  ctx.fill();
-  // Тень по нижней половине
-  ctx.fillStyle = '#8a96a4';
-  ctx.beginPath();
-  ctx.moveTo(handleX - kh*0.06, yBlade + kh*0.01);
-  ctx.lineTo(tipX + kh*0.15, yBlade + kh*0.01);
-  ctx.lineTo(tipX + kh*0.15, bladeBot);
-  ctx.lineTo(handleX - kh*0.06, bladeBot - kh*0.03);
-  ctx.closePath();
-  ctx.fill();
-  // Кончик клинка — заострение и блик
-  ctx.fillStyle = '#f0f6fc';
-  ctx.beginPath();
-  ctx.moveTo(tipX + kh*0.15, bladeTop);
-  ctx.lineTo(tipX, yBlade);
-  ctx.lineTo(tipX + kh*0.15, bladeBot + kh*0.01);
+  ctx.moveTo(-kW*0.055, 0);
+  ctx.lineTo(-kW*0.075, -kW*0.10);
+  ctx.lineTo(-kW*0.06, -kW*0.35);
+  ctx.quadraticCurveTo(-kW*0.02, -kW*0.65, kW*0.05, -kW*0.85);
+  ctx.lineTo(kW*0.075, -kW*0.88);
+  ctx.quadraticCurveTo(kW*0.09, -kW*0.65, kW*0.075, -kW*0.35);
+  ctx.lineTo(kW*0.055, -kW*0.08);
+  ctx.lineTo(kW*0.055, 0);
   ctx.closePath();
   ctx.fill();
 
-  // -------- ЛАДОНЬ, ОБХВАТЫВАЮЩАЯ РУКОЯТЬ --------
-  ctx.fillStyle = '#c9a07a';
+  // Тень
+  ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
-  ctx.moveTo(handleX - kh*0.06, bladeBot + kh*0.10);
-  ctx.lineTo(handleX + kh*0.24, bladeBot + kh*0.10);
-  ctx.lineTo(handleX + kh*0.20, bladeBot + kh*0.95);
-  ctx.lineTo(handleX - kh*0.10, bladeBot + kh*0.95);
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, -kW*0.85);
+  ctx.lineTo(kW*0.075, -kW*0.88);
+  ctx.quadraticCurveTo(kW*0.09, -kW*0.65, kW*0.075, -kW*0.35);
+  ctx.lineTo(kW*0.055, -kW*0.08);
+  ctx.lineTo(kW*0.055, 0);
   ctx.closePath();
   ctx.fill();
-  // Тень внизу
-  ctx.fillStyle = '#a88060';
+
+  // Блик
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
-  ctx.moveTo(handleX - kh*0.08, bladeBot + kh*0.75);
-  ctx.lineTo(handleX + kh*0.22, bladeBot + kh*0.75);
-  ctx.lineTo(handleX + kh*0.20, bladeBot + kh*0.95);
-  ctx.lineTo(handleX - kh*0.10, bladeBot + kh*0.95);
+  ctx.moveTo(-kW*0.01, -kW*0.10);
+  ctx.lineTo(-kW*0.005, -kW*0.78);
+  ctx.lineTo(kW*0.015, -kW*0.78);
+  ctx.lineTo(kW*0.010, -kW*0.10);
   ctx.closePath();
   ctx.fill();
-  // Пальцы
-  ctx.fillStyle = '#c9a07a';
-  ctx.strokeStyle = '#8a6050';
-  ctx.lineWidth = kh*0.012;
-  for (var kf = 0; kf < 4; kf++){
-    var fy = bladeBot + kh*0.18 + kf*kh*0.18;
+
+  // Зазубрины
+  ctx.fillStyle = '#a8b4c0';
+  for (var z = 0; z < 5; z++){
+    var zy = -kW*0.20 - z*kW*0.13;
     ctx.beginPath();
-    ctx.moveTo(handleX - kh*0.04, fy);
-    ctx.lineTo(handleX + kh*0.22, fy + kh*0.02);
-    ctx.lineTo(handleX + kh*0.22, fy + kh*0.12);
-    ctx.lineTo(handleX - kh*0.04, fy + kh*0.14);
+    ctx.moveTo(-kW*0.065 + z*0.002*kW, zy);
+    ctx.lineTo(-kW*0.085, zy - kW*0.02);
+    ctx.lineTo(-kW*0.065, zy + kW*0.02);
     ctx.closePath();
     ctx.fill();
-    ctx.stroke();
   }
-  // Большой палец сверху
-  ctx.fillStyle = '#c9a07a';
+
+  // Кровосток
+  ctx.fillStyle = '#6a7684';
   ctx.beginPath();
-  ctx.ellipse(handleX + kh*0.20, bladeBot + kh*0.08, kh*0.13, kh*0.10, -0.3, 0, Math.PI*2);
+  ctx.ellipse(-kW*0.02, -kW*0.55, kW*0.008, kW*0.04, 0, 0, Math.PI*2);
   ctx.fill();
 
   ctx.restore();
