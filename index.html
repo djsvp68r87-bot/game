@@ -82,19 +82,13 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
   <div id="menuSoldier">
-    <!-- 2D пиксельный солдат -->
     <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-      <!-- Тень -->
       <ellipse cx="60" cy="196" rx="40" ry="4" fill="rgba(0,0,0,0.5)"/>
-      <!-- Задняя нога -->
       <rect x="68" y="130" width="14" height="50" fill="#2d4a24"/>
       <rect x="68" y="175" width="20" height="18" fill="#1a1a12"/>
-      <!-- Передняя нога -->
       <rect x="42" y="130" width="16" height="54" fill="#3a5a2a"/>
       <rect x="38" y="180" width="24" height="16" fill="#222215"/>
-      <!-- Торс -->
       <rect x="38" y="70" width="46" height="64" fill="#4a6a3a"/>
-      <!-- Камуфляж на торсе - пятна -->
       <rect x="42" y="74" width="8" height="8" fill="#3a5528"/>
       <rect x="56" y="82" width="10" height="8" fill="#3a5528"/>
       <rect x="68" y="76" width="8" height="10" fill="#3a5528"/>
@@ -102,49 +96,34 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
       <rect x="62" y="100" width="10" height="8" fill="#3a5528"/>
       <rect x="44" y="114" width="8" height="8" fill="#3a5528"/>
       <rect x="66" y="116" width="10" height="8" fill="#3a5528"/>
-      <!-- Разгрузка -->
       <rect x="40" y="90" width="42" height="6" fill="#2a2018"/>
       <rect x="40" y="108" width="42" height="6" fill="#2a2018"/>
-      <!-- Магазины/подсумки -->
       <rect x="44" y="92" width="8" height="14" fill="#3a2a1a"/>
       <rect x="56" y="92" width="8" height="14" fill="#3a2a1a"/>
       <rect x="68" y="92" width="8" height="14" fill="#3a2a1a"/>
-      <!-- Задняя рука (за спиной) -->
       <rect x="84" y="74" width="12" height="40" fill="#3a5a2a"/>
       <rect x="84" y="108" width="12" height="8" fill="#c9a07a"/>
-      <!-- Передняя рука - вытянута вперёд с пистолетом -->
       <rect x="18" y="76" width="24" height="12" fill="#4a6a3a"/>
       <rect x="10" y="78" width="12" height="10" fill="#c9a07a"/>
-      <!-- Плечо -->
       <rect x="38" y="72" width="14" height="16" fill="#3a5a2a"/>
-      <!-- Пистолет -->
       <rect x="0" y="78" width="16" height="6" fill="#2a2a2a"/>
       <rect x="0" y="76" width="16" height="2" fill="#4a4a4a"/>
       <rect x="6" y="84" width="8" height="10" fill="#1a1a1a"/>
       <rect x="4" y="94" width="12" height="4" fill="#1a1a1a"/>
       <rect x="1" y="79" width="3" height="4" fill="#555"/>
-      <!-- Голова -->
       <rect x="42" y="34" width="30" height="34" fill="#c9a07a"/>
-      <!-- Тени на лице -->
       <rect x="42" y="34" width="4" height="34" fill="#a88060"/>
       <rect x="68" y="34" width="4" height="34" fill="#b89070"/>
-      <!-- Глаз -->
       <rect x="50" y="46" width="4" height="4" fill="#1a1a1a"/>
       <rect x="50" y="47" width="1" height="2" fill="#fff"/>
-      <!-- Нос -->
       <rect x="48" y="52" width="6" height="4" fill="#b89070"/>
-      <!-- Рот -->
       <rect x="48" y="60" width="10" height="3" fill="#8a4030"/>
-      <!-- Каска - верх -->
       <rect x="36" y="24" width="42" height="10" fill="#3a5a2a"/>
       <rect x="40" y="20" width="34" height="6" fill="#4a6a3a"/>
       <rect x="46" y="16" width="22" height="6" fill="#4a6a3a"/>
-      <!-- Поля каски -->
       <rect x="32" y="32" width="50" height="6" fill="#2d4a24"/>
       <rect x="32" y="32" width="50" height="2" fill="#5f7f4a"/>
-      <!-- Ремешок каски -->
       <rect x="40" y="66" width="4" height="4" fill="#1a1a1a"/>
-      <!-- Листья/маскировка на каске -->
       <rect x="42" y="22" width="6" height="4" fill="#2d4a24"/>
       <rect x="58" y="24" width="8" height="4" fill="#2d4a24"/>
       <rect x="52" y="18" width="6" height="4" fill="#2d4a24"/>
@@ -218,9 +197,17 @@ var KNIFE_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><
 var PISTOL_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="40" width="60" height="14" fill="#2a2a2a" rx="2"/><rect x="15" y="42" width="60" height="4" fill="#4a4a4a"/><rect x="40" y="52" width="14" height="26" fill="#1a1a1a" rx="2"/><rect x="30" y="76" width="34" height="6" fill="#1a1a1a" rx="2"/><circle cx="22" cy="47" r="3" fill="#000"/><rect x="10" y="42" width="6" height="8" fill="#555"/></svg>';
 function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : PISTOL_SVG; }
 
+// ТОЧНЫЙ СПАВН ПО УРОВНЯМ — как ты указал
 var SPAWN = {
-  1:{n:5,f:2,s:1}, 2:{n:5,f:5,s:0}, 3:{n:5,f:0,s:5}, 4:{n:3,f:3,s:3},
-  5:{n:0,f:5,s:5}, 6:{n:5,f:3,s:3}, 7:{n:5,f:4,s:3}, 8:{n:5,f:4,s:4}, 9:{n:5,f:5,s:5}
+  1:{n:5,f:2,s:1},   // 5 обычных, 2 шустрых, 1 стрелок
+  2:{n:5,f:5,s:0},   // 5 обычных, 5 шустрых
+  3:{n:5,f:0,s:5},   // 5 обычных, 5 стрелков
+  4:{n:3,f:3,s:3},   // 3 обычных, 3 шустрых, 3 стрелка
+  5:{n:0,f:5,s:5},   // 5 шустрых, 5 стрелков
+  6:{n:5,f:3,s:3},   // 5 обычных, 3 шустрых, 3 стрелка
+  7:{n:5,f:4,s:3},   // 5 обычных, 4 шустрых, 3 стрелка
+  8:{n:5,f:4,s:4},   // 5 обычных, 4 шустрых, 4 стрелка
+  9:{n:5,f:5,s:5}    // 5 обычных, 5 шустрых, 5 стрелков
 };
 
 var AC = null;
@@ -405,14 +392,17 @@ function pickSkin(rng){
   if (r < 0.65) return 'green';
   return 'light';
 }
+
 function spawnLevel(level){
   state.enemies = [];
   if (level === 10){ var bp = findFreeCellFar(6); state.enemies.push(makeBoss(bp.x, bp.y)); return; }
+  // Точный спавн по таблице — БЕЗ рандома в количестве
   var tbl = SPAWN[level] || {n:5,f:5,s:5};
   var rng = mulberry32(level*999+1), kinds = [];
   for (var i = 0; i < tbl.n; i++) kinds.push('normal');
   for (var i2 = 0; i2 < tbl.f; i2++) kinds.push('fast');
   for (var i3 = 0; i3 < tbl.s; i3++) kinds.push('shooter');
+  // Только перемешиваем порядок спавна, но количество точно по таблице
   for (var k = kinds.length-1; k > 0; k--){
     var j = Math.floor(rng()*(k+1));
     var t = kinds[k]; kinds[k] = kinds[j]; kinds[j] = t;
@@ -655,19 +645,7 @@ function fire(){
       document.getElementById('sc').textContent = state.score;
       sndDeath();
       spawnBlood(hit.x, hit.y, 16);
-      if (!hit.isBoss){
-        setTimeout(function(){
-          if (!state.dead && !state.won && state.running){
-            var p = findFreeCellFar(5);
-            var r = Math.random(), kind = 'normal';
-            var tbl = SPAWN[state.level];
-            if (tbl && tbl.s > 0 && tbl.f > 0){ if (r < 0.5) kind='normal'; else if (r < 0.8) kind='fast'; else kind='shooter'; }
-            else if (tbl && tbl.f > 0) kind = 'fast';
-            else if (tbl && tbl.s > 0) kind = 'shooter';
-            state.enemies.push(makeZombie(p.x, p.y, kind, pickSkin(Math.random)));
-          }
-        }, 2600);
-      }
+      // НЕТ РЕСПАВНА — сколько спавнилось, столько и есть
     }
     if (state.magAmmo <= 0 && !state.reloading) startReload();
   }
@@ -773,7 +751,6 @@ function update(dt){
     var detect = en.hasGun ? 12 : 9;
     var canSee = dist < detect && !wallBetween(en.x, en.y, state.px, state.py);
     if (canSee){
-      // Минимальная дистанция: обычные не подходят ближе 1.0, стрелки 4.0
       var minDist = en.hasGun ? 4.0 : 1.0;
       if (dist > minDist){
         var moveDist = en.def.speed;
@@ -1096,7 +1073,6 @@ function drawGun(){
   var kick = state.pistolKick * 12;
   var bobX = Math.sin(state.bob)*4;
   var gx = W/2 - gunW/2 + bobX;
-  // Пистолет выше — на 35% от низа экрана
   var gy = H - gunH*0.4 + kick + Math.sin(state.bob)*3 + reloadOffset;
   ctx.fillStyle = '#0a0a10'; ctx.fillRect(gx+gunW*0.34, gy+4, gunW*0.32, gunH);
   ctx.fillStyle = '#25252f'; ctx.fillRect(gx+gunW*0.36, gy-gunH*0.25, gunW*0.28, gunH*0.7);
@@ -1117,39 +1093,39 @@ function drawGun(){
   ctx.fillRect(gx+gunW*0.37, gy-gunH*0.22, gunW*0.02, gunH*0.5);
 }
 
-// Нож без рук — только клинок и рукоять
+// Нож — теперь НИЖЕ и без руки
 function drawKnife(){
-  var kW = Math.min(W*0.20, 180);
+  var kW = Math.min(W*0.22, 200);
   var bobX = Math.sin(state.bob)*6;
   var swing = state.pistolKick;
   var rot = swing * 0.6 - 0.25;
-  var kx = W/2 + bobX + 40;
-  var ky = H - kW*0.85 + Math.sin(state.bob)*4 + swing*30;
+  // Нож опущен ниже — был H - kW*0.85, стал H - kW*0.45
+  var kx = W/2 + bobX + 60;
+  var ky = H - kW*0.45 + Math.sin(state.bob)*4 + swing*30;
 
   ctx.save();
   ctx.translate(kx, ky);
   ctx.rotate(rot);
 
-  // Рукоятка (без руки которая её держит)
+  // Рукоятка
   ctx.fillStyle = '#3a2a1a';
   ctx.fillRect(-kW*0.045, kW*0.05, kW*0.09, kW*0.30);
   ctx.fillStyle = '#2a1a0a';
   for (var h = 0; h < 4; h++){
     ctx.fillRect(-kW*0.05, kW*0.08 + h*kW*0.07, kW*0.10, kW*0.02);
   }
-  // Гайка на рукояти
   ctx.fillStyle = '#8a7a3a';
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.035, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#5a4a1a';
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.018, 0, Math.PI*2); ctx.fill();
 
-  // Гарда (защита)
+  // Гарда
   ctx.fillStyle = '#4a4a4a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.035);
   ctx.fillStyle = '#2a2a2a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.01);
 
-  // КЛИНОК — изогнутый
+  // Клинок
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
   ctx.moveTo(-kW*0.055, 0);
@@ -1163,7 +1139,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Тень на клинке
   ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -1175,7 +1150,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Блик
   ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
   ctx.moveTo(-kW*0.01, -kW*0.10);
@@ -1185,7 +1159,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Зазубрины
   ctx.fillStyle = '#a8b4c0';
   for (var z = 0; z < 5; z++){
     var zy = -kW*0.20 - z*kW*0.13;
@@ -1197,7 +1170,6 @@ function drawKnife(){
     ctx.fill();
   }
 
-  // Кровосток
   ctx.fillStyle = '#6a7684';
   ctx.beginPath();
   ctx.ellipse(-kW*0.02, -kW*0.55, kW*0.008, kW*0.04, 0, 0, Math.PI*2);
@@ -1219,7 +1191,7 @@ function mainLoop(t){
 
 resize();
 renderLevelGrid();
-showMenu(); // Явно показываем меню при загрузке
+showMenu();
 })();
 </script>
 </body>
