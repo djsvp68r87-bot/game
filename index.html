@@ -15,9 +15,9 @@
 html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff;position:fixed;top:0;left:0}
 .screen{position:fixed;inset:0;z-index:50;display:none}
 #menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
-#menuTitle{position:absolute;top:calc(16px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:44px;letter-spacing:12px;font-weight:900;color:#fff;text-shadow:3px 3px 0 #000,0 0 30px rgba(0,0,0,0.95);z-index:2}
-#menuSubtitle{position:absolute;top:calc(72px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:6px;color:#fff;text-shadow:2px 2px 0 #000;z-index:2}
-#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:44vh;position:relative;z-index:2;margin-top:100px;margin-bottom:10px}
+#menuTitle{position:absolute;top:calc(18px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:56px;letter-spacing:14px;font-weight:900;color:#fff;text-shadow:4px 4px 0 #000,0 0 40px #000,0 0 15px #000;z-index:10}
+#menuSubtitle{position:absolute;top:calc(84px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:6px;color:#fff;text-shadow:2px 2px 0 #000;z-index:10}
+#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:38vh;position:relative;z-index:2;margin-top:140px;margin-bottom:10px}
 #menuSoldier svg{max-height:100%;height:auto;width:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.85))}
 #menuPlay{padding:18px 70px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.7),inset 0 0 15px rgba(255,215,0,0.2);z-index:2;position:relative;margin-bottom:20px}
 #menuPlay:active{background:#ffd700;color:#1a1a1a}
@@ -79,13 +79,14 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #rotate .box{width:70px;height:120px;border:3px solid #ffcc00;margin-bottom:24px;animation:rot 2s ease-in-out infinite;box-shadow:0 0 20px #ff8800}
 @keyframes rot{0%,100%{transform:rotate(0)}50%{transform:rotate(90deg)}}
 #vhsLine{position:fixed;left:0;right:0;height:3px;background:rgba(255,255,255,0.07);pointer-events:none;z-index:15;display:none}
+#killstreak{position:fixed;left:50%;top:22%;transform:translateX(-50%);font-family:"Courier New",monospace;font-weight:900;font-size:36px;letter-spacing:6px;color:#ff2222;text-shadow:0 0 20px #ff0000,0 0 8px #000,4px 4px 0 #000;z-index:18;pointer-events:none;opacity:0;transition:opacity 0.3s ease-out;text-align:center;white-space:nowrap}
 </style>
 </head>
 <body>
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
-  <div id="menuSubtitle">BETA 2.1.0</div>
+  <div id="menuSubtitle">BETA 2.2.0</div>
   <div id="menuSoldier">
     <svg viewBox="0 0 160 260" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
       <ellipse cx="80" cy="252" rx="48" ry="6" fill="rgba(0,0,0,0.5)"/>
@@ -164,8 +165,9 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 2.1.0</div>
+  <div id="version">beta 2.2.0</div>
   <div id="vhsLine"></div>
+  <div id="killstreak"></div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -193,14 +195,14 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 (function(){
 "use strict";
 
-// ===== BACKGROUND MUSIC =====
+// ===== MUSIC =====
 var BG_MUSIC = null;
 function initBgMusic(){
   if (BG_MUSIC) return;
   try {
     BG_MUSIC = new Audio('Rory_in_early_20s_-_yaderi_80164590.mp3');
     BG_MUSIC.loop = true;
-    BG_MUSIC.volume = 0.35;
+    BG_MUSIC.volume = 0.18;
     BG_MUSIC.preload = 'auto';
   } catch(e) { BG_MUSIC = null; }
 }
@@ -214,6 +216,12 @@ function pauseBgMusic(){
   if (!BG_MUSIC) return;
   try { BG_MUSIC.pause(); } catch(e){}
 }
+
+// ===== PISTOL IMAGE =====
+var pistolImg = new Image();
+var pistolImgLoaded = false;
+pistolImg.onload = function(){ pistolImgLoaded = true; };
+pistolImg.src = 'pistol.png.jpg';
 
 var MAX_LEVEL = 20;
 var progress = 1;
@@ -290,17 +298,209 @@ function noise(d,v,ff){
     s.connect(fl); fl.connect(g); g.connect(AC.destination); s.start(t0);
   }catch(e){}
 }
-function sndGun(){ tone(240,'square',0.09,0.18,40); noise(0.12,0.20,1400); }
-function sndHit(){ tone(500,'square',0.06,0.14,220); noise(0.06,0.10,2000); }
-function sndDeath(){ tone(180,'sawtooth',0.5,0.22,30); noise(0.4,0.12,600); }
+
+// ===== MASSIVE PISTOL SHOT =====
+function sndGun(){
+  if (!AC) return;
+  try {
+    var t0 = AC.currentTime;
+    // Deep bass thump
+    var o1 = AC.createOscillator(); o1.type = 'sine';
+    o1.frequency.setValueAtTime(140, t0);
+    o1.frequency.exponentialRampToValueAtTime(30, t0 + 0.25);
+    var g1 = AC.createGain();
+    g1.gain.setValueAtTime(0.0001, t0);
+    g1.gain.exponentialRampToValueAtTime(0.5, t0 + 0.01);
+    g1.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.35);
+    o1.connect(g1); g1.connect(AC.destination);
+    o1.start(t0); o1.stop(t0 + 0.4);
+    // Mid punch
+    var o2 = AC.createOscillator(); o2.type = 'square';
+    o2.frequency.setValueAtTime(220, t0);
+    o2.frequency.exponentialRampToValueAtTime(60, t0 + 0.15);
+    var g2 = AC.createGain();
+    g2.gain.setValueAtTime(0.0001, t0);
+    g2.gain.exponentialRampToValueAtTime(0.22, t0 + 0.005);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.18);
+    o2.connect(g2); g2.connect(AC.destination);
+    o2.start(t0); o2.stop(t0 + 0.2);
+    // Sharp crack
+    var l = Math.floor(AC.sampleRate * 0.15);
+    var b = AC.createBuffer(1, l, AC.sampleRate);
+    var data = b.getChannelData(0);
+    for (var i = 0; i < l; i++) data[i] = (Math.random()*2-1) * Math.pow(1 - i/l, 2);
+    var s = AC.createBufferSource(); s.buffer = b;
+    var fl = AC.createBiquadFilter(); fl.type = 'highpass'; fl.frequency.value = 800;
+    var g3 = AC.createGain();
+    g3.gain.setValueAtTime(0.35, t0);
+    g3.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.15);
+    s.connect(fl); fl.connect(g3); g3.connect(AC.destination);
+    s.start(t0);
+    // Metallic slide clack
+    setTimeout(function(){
+      if (!AC) return;
+      var t1 = AC.currentTime;
+      var o3 = AC.createOscillator(); o3.type = 'triangle';
+      o3.frequency.setValueAtTime(900, t1);
+      o3.frequency.exponentialRampToValueAtTime(400, t1 + 0.06);
+      var g4 = AC.createGain();
+      g4.gain.setValueAtTime(0.0001, t1);
+      g4.gain.exponentialRampToValueAtTime(0.12, t1 + 0.005);
+      g4.gain.exponentialRampToValueAtTime(0.0001, t1 + 0.08);
+      o3.connect(g4); g4.connect(AC.destination);
+      o3.start(t1); o3.stop(t1 + 0.1);
+    }, 60);
+  } catch(e){}
+}
+
+// ===== MEATY HIT =====
+function sndHit(){
+  if (!AC) return;
+  try {
+    var t0 = AC.currentTime;
+    var o = AC.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(180, t0);
+    o.frequency.exponentialRampToValueAtTime(80, t0 + 0.08);
+    var g = AC.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.28, t0 + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.1);
+    o.connect(g); g.connect(AC.destination);
+    o.start(t0); o.stop(t0 + 0.12);
+    noise(0.06, 0.15, 1000);
+  } catch(e){}
+}
+
+// ===== DEATH - ZOMBIE GRUNT + SQUISH =====
+function sndDeath(){
+  if (!AC) return;
+  try {
+    var t0 = AC.currentTime;
+    // Deep dying groan
+    var o = AC.createOscillator(); o.type = 'sawtooth';
+    o.frequency.setValueAtTime(90, t0);
+    o.frequency.exponentialRampToValueAtTime(35, t0 + 0.5);
+    var g = AC.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.25, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.55);
+    o.connect(g); g.connect(AC.destination);
+    o.start(t0); o.stop(t0 + 0.6);
+    // Wet squish
+    noise(0.2, 0.2, 500);
+    setTimeout(function(){
+      if (!AC) return;
+      noise(0.3, 0.15, 300);
+    }, 100);
+  } catch(e){}
+}
+
 function sndHurt(){ tone(90,'square',0.35,0.22,40); noise(0.2,0.15,500); }
 function sndGrowl(){ tone(50+Math.random()*30,'sawtooth',0.7,0.06,25); }
 function sndEnemyShot(){ tone(400,'square',0.08,0.12,180); }
 function sndWin(){ tone(520,'square',0.15,0.2); setTimeout(function(){tone(660,'square',0.15,0.2);},150); setTimeout(function(){tone(880,'square',0.3,0.25);},300); }
 function sndReloadStart(){ tone(300,'square',0.08,0.12); }
 function sndReloadEnd(){ tone(700,'square',0.08,0.12); tone(900,'square',0.08,0.10); }
-function sndHeadshot(){ tone(900,'square',0.1,0.2,600); tone(1200,'square',0.15,0.15,800); }
+function sndHeadshotHit(){ tone(900,'square',0.1,0.2,600); tone(1200,'square',0.15,0.15,800); }
 function sndKnife(){ tone(400,'triangle',0.06,0.1,200); noise(0.05,0.08,3000); }
+
+// ===== DEMONIC KILLSTREAK VOICE =====
+function demonVoice(text){
+  if (!AC) return;
+  try {
+    var t0 = AC.currentTime;
+    // Deep growl layer
+    var o1 = AC.createOscillator(); o1.type = 'sawtooth';
+    o1.frequency.setValueAtTime(70, t0);
+    o1.frequency.linearRampToValueAtTime(60, t0 + 0.4);
+    var g1 = AC.createGain();
+    g1.gain.setValueAtTime(0.0001, t0);
+    g1.gain.exponentialRampToValueAtTime(0.28, t0 + 0.03);
+    g1.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.5);
+    var d1 = AC.createDelay(); d1.delayTime.value = 0.04;
+    o1.connect(g1); g1.connect(d1); d1.connect(AC.destination);
+    o1.start(t0); o1.stop(t0 + 0.55);
+
+    // Higher mechanical overtone
+    var o2 = AC.createOscillator(); o2.type = 'square';
+    o2.frequency.setValueAtTime(140, t0);
+    o2.frequency.linearRampToValueAtTime(120, t0 + 0.4);
+    var g2 = AC.createGain();
+    g2.gain.setValueAtTime(0.0001, t0);
+    g2.gain.exponentialRampToValueAtTime(0.12, t0 + 0.03);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.5);
+    o2.connect(g2); g2.connect(AC.destination);
+    o2.start(t0); o2.stop(t0 + 0.55);
+
+    // Syllable pulses matching the text
+    var syllables = Math.max(2, Math.min(4, text.length / 3 | 0));
+    for (var i = 0; i < syllables; i++){
+      (function(idx){
+        setTimeout(function(){
+          if (!AC) return;
+          var tt = AC.currentTime;
+          var o = AC.createOscillator(); o.type = 'sawtooth';
+          var base = 55 + idx * 8;
+          o.frequency.setValueAtTime(base, tt);
+          o.frequency.exponentialRampToValueAtTime(base * 0.7, tt + 0.15);
+          var g = AC.createGain();
+          g.gain.setValueAtTime(0.0001, tt);
+          g.gain.exponentialRampToValueAtTime(0.22, tt + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, tt + 0.2);
+          o.connect(g); g.connect(AC.destination);
+          o.start(tt); o.stop(tt + 0.22);
+        }, idx * 160);
+      })(i);
+    }
+
+    // Distortion/noise layer
+    noise(0.4, 0.1, 800);
+  } catch(e){}
+}
+
+// ===== KILLSTREAK SYSTEM =====
+var killstreak = {
+  count: 0,
+  lastKillTime: 0,
+  window: 3000,   // 3 seconds
+  killTimes: [],
+  comboTimer: null
+};
+function registerKill(){
+  var now = performance.now();
+  killstreak.killTimes.push(now);
+  // Keep only last 3 seconds
+  while (killstreak.killTimes.length > 0 && now - killstreak.killTimes[0] > killstreak.window){
+    killstreak.killTimes.shift();
+  }
+  var n = killstreak.killTimes.length;
+  var phrase = '';
+  if (n === 2) phrase = 'DOUBLE KILL';
+  else if (n === 3) phrase = 'TRIPLE KILL';
+  else if (n === 4) phrase = 'MULTI KILL';
+  else if (n === 5) phrase = 'KILLING SPREE';
+  else if (n >= 6 && n < 10) phrase = 'RAMPAGE';
+  else if (n >= 10) phrase = 'GODLIKE';
+  if (phrase) showKillstreak(phrase);
+}
+function showKillstreak(text){
+  var el = document.getElementById('killstreak');
+  if (!el) return;
+  el.textContent = text;
+  el.style.opacity = '1';
+  el.style.transform = 'translateX(-50%) scale(1.15)';
+  demonVoice(text);
+  clearTimeout(el._hideTimer);
+  el._hideTimer = setTimeout(function(){
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(-50%) scale(1)';
+  }, 1200);
+}
+function resetKillstreak(){
+  killstreak.killTimes = [];
+  var el = document.getElementById('killstreak');
+  if (el){ el.style.opacity = '0'; el.textContent = ''; }
+}
 
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
@@ -383,7 +583,12 @@ var state = {
   map:null, MAP_W:0, MAP_H:0,
   enemies:[], blood:[], particles:[], enemyBullets:[],
   magAmmo:7, reloading:false, reloadTimer:0,
-  headshotFlash:0
+  headshotFlash:0,
+  // Recoil / screen shake
+  recoilPitch: 0,
+  recoilKick: 0,
+  screenShake: 0,
+  shakeX: 0, shakeY: 0
 };
 
 function isWall(x, y){
@@ -502,7 +707,13 @@ function startLevel(level){
   state.magAmmo = 7; state.reloading = false; state.reloadTimer = 0;
   state.headshotFlash = 0;
   state.bob = 0;
+  state.recoilPitch = 0;
+  state.recoilKick = 0;
+  state.screenShake = 0;
+  state.shakeX = 0;
+  state.shakeY = 0;
   state.timeStart = performance.now();
+  resetKillstreak();
   spawnLevel(level);
   updateAmmoHUD();
   document.getElementById('hp').textContent = '100';
@@ -639,6 +850,7 @@ function showMenu(){
   document.getElementById('win').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
   document.getElementById('vhsLine').style.display = 'none';
+  document.getElementById('killstreak').style.opacity = '0';
   state.running = false;
   playBgMusic();
 }
@@ -647,6 +859,7 @@ function showLevels(){
   document.getElementById('levelsScreen').style.display = 'flex';
   document.getElementById('gameScreen').classList.remove('active');
   document.getElementById('vhsLine').style.display = 'none';
+  document.getElementById('killstreak').style.opacity = '0';
   renderLevelGrid();
   state.running = false;
   playBgMusic();
@@ -709,14 +922,19 @@ function fire(){
   sndGun();
   state.pistolKick = 1;
   state.muzzleFlash = 1;
+
+  // === RECOIL + SCREEN SHAKE ===
+  state.recoilPitch -= 22;        // barrel kicks up
+  state.screenShake = 12;          // screen shake
+
   var flash = document.getElementById('flash');
   flash.style.transition = 'none';
-  flash.style.opacity = '0.22';
+  flash.style.opacity = '0.28';
   requestAnimationFrame(function(){ flash.style.transition = 'opacity 0.12s'; flash.style.opacity = '0'; });
 
   var dx = Math.cos(state.dir), dy = Math.sin(state.dir);
   var hit = null, hitDist = Infinity, hitVerticalPct = 0;
-  var horizon = H/2 + state.pitch;
+  var horizon = H/2 + state.pitch + state.recoilPitch;
 
   for (var i = 0; i < state.enemies.length; i++){
     var en = state.enemies[i];
@@ -740,7 +958,7 @@ function fire(){
     var headshot = hitVerticalPct < 0.30;
     var dmg = headshot ? 75 : 25;
     hit.hp -= dmg;
-    if (headshot){ sndHeadshot(); state.headshotFlash = 0.5; } else { sndHit(); }
+    if (headshot){ sndHeadshotHit(); state.headshotFlash = 0.5; } else { sndHit(); }
     spawnBlood(hit.x, hit.y, headshot ? 14 : 7);
     if (hit.hp <= 0){
       hit.alive = false;
@@ -748,6 +966,8 @@ function fire(){
       updateKillsHUD();
       sndDeath();
       spawnBlood(hit.x, hit.y, 16);
+      // Register for killstreak
+      registerKill();
     }
     if (state.magAmmo <= 0 && !state.reloading) startReload();
   }
@@ -786,6 +1006,7 @@ function playerHurt(dmg){
     document.getElementById('dsc').textContent = state.score + ' / ' + state.totalEnemies;
     document.getElementById('dead').style.display = 'flex';
     document.getElementById('vhsLine').style.display = 'none';
+    document.getElementById('killstreak').style.opacity = '0';
   }
 }
 
@@ -817,6 +1038,18 @@ function update(dt){
   if (state.dead || state.won) return;
 
   updateVHS(dt);
+
+  // Recoil recovery
+  state.recoilPitch *= Math.max(0, 1 - dt*10);
+  state.recoilKick *= Math.max(0, 1 - dt*10);
+  // Screen shake
+  if (state.screenShake > 0.2){
+    state.shakeX = (Math.random() - 0.5) * state.screenShake;
+    state.shakeY = (Math.random() - 0.5) * state.screenShake;
+    state.screenShake *= Math.max(0, 1 - dt*8);
+  } else {
+    state.shakeX = 0; state.shakeY = 0; state.screenShake = 0;
+  }
 
   state.pistolKick *= Math.max(0, 1 - dt*8);
   state.muzzleFlash *= Math.max(0, 1 - dt*12);
@@ -959,6 +1192,7 @@ function update(dt){
     document.getElementById('win').style.display = 'flex';
     document.getElementById('winNext').style.display = state.level < MAX_LEVEL ? 'block' : 'none';
     document.getElementById('vhsLine').style.display = 'none';
+    document.getElementById('killstreak').style.opacity = '0';
     unlockNext(state.level);
   }
 }
@@ -1034,18 +1268,22 @@ function render(){
   var rayCount = Math.min(W, 420);
   var colW = W/rayCount;
   var bobY = Math.sin(state.bob) * 3;
-  var horizon = H/2 + bobY + state.pitch;
+  var horizon = H/2 + bobY + state.pitch + state.recoilPitch;
+
+  // Screen shake offset
+  ctx.save();
+  ctx.translate(state.shakeX, state.shakeY);
 
   var isBoss = (state.level === 10 || state.level === 20);
   var ceilGrad = ctx.createLinearGradient(0, 0, 0, Math.max(1,horizon));
   ceilGrad.addColorStop(0, isBoss ? '#5a5a68' : '#3a3a4a');
   ceilGrad.addColorStop(1, isBoss ? '#7a7a88' : '#5a5a6a');
-  ctx.fillStyle = ceilGrad; ctx.fillRect(0, 0, W, Math.max(0, horizon));
+  ctx.fillStyle = ceilGrad; ctx.fillRect(-20, -20, W + 40, Math.max(0, horizon) + 20);
 
   var floorGrad = ctx.createLinearGradient(0, horizon, 0, H);
   floorGrad.addColorStop(0, isBoss ? '#6a6a72' : '#4a4a52');
   floorGrad.addColorStop(1, isBoss ? '#8a8a92' : '#6a6a72');
-  ctx.fillStyle = floorGrad; ctx.fillRect(0, Math.max(0, horizon), W, H - Math.max(0, horizon));
+  ctx.fillStyle = floorGrad; ctx.fillRect(-20, Math.max(0, horizon), W + 40, H - Math.max(0, horizon) + 40);
 
   if (!zbufArr || zbufLen !== rayCount){ zbufArr = new Float32Array(rayCount); zbufLen = rayCount; }
   var zbuf = zbufArr;
@@ -1073,14 +1311,13 @@ function render(){
     var wallX = side === 0 ? state.py + d*rayDy : state.px + d*rayDx;
     wallX -= Math.floor(wallX);
     var base = wallTex(wallX, 0.5, side, state.level);
-    var fogMul = 1;
     var px = i*colW, pw = colW+1;
     var topH = (y1-y0)*0.12, midH = (y1-y0)*0.72;
-    ctx.fillStyle = 'rgb(' + Math.min(255,Math.floor(base[0]*1.10*fogMul)) + ',' + Math.min(255,Math.floor(base[1]*1.10*fogMul)) + ',' + Math.min(255,Math.floor(base[2]*1.10*fogMul)) + ')';
+    ctx.fillStyle = 'rgb(' + Math.min(255,Math.floor(base[0]*1.10)) + ',' + Math.min(255,Math.floor(base[1]*1.10)) + ',' + Math.min(255,Math.floor(base[2]*1.10)) + ')';
     ctx.fillRect(px, y0, pw, topH);
-    ctx.fillStyle = 'rgb(' + Math.floor(base[0]*fogMul) + ',' + Math.floor(base[1]*fogMul) + ',' + Math.floor(base[2]*fogMul) + ')';
+    ctx.fillStyle = 'rgb(' + base[0] + ',' + base[1] + ',' + base[2] + ')';
     ctx.fillRect(px, y0+topH, pw, midH);
-    ctx.fillStyle = 'rgb(' + Math.floor(base[0]*0.65*fogMul) + ',' + Math.floor(base[1]*0.65*fogMul) + ',' + Math.floor(base[2]*0.65*fogMul) + ')';
+    ctx.fillStyle = 'rgb(' + Math.floor(base[0]*0.65) + ',' + Math.floor(base[1]*0.65) + ',' + Math.floor(base[2]*0.65) + ')';
     ctx.fillRect(px, y0+topH+midH, pw, (y1-y0)-topH-midH);
   }
 
@@ -1157,6 +1394,8 @@ function render(){
 
   drawGun();
   drawMinimap();
+
+  ctx.restore();
 
   if (state.headshotFlash > 0.05){
     ctx.fillStyle = 'rgba(255,220,80,' + (state.headshotFlash*0.15) + ')';
@@ -1244,7 +1483,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
     var uMid = ((sx+sw/2)-x0)/sizeW;
     if (uMid < 0 || uMid > 1) continue;
 
-    // Arms reaching forward
     if (uMid > 0.02 && uMid < 0.22 && sizeH > 20){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.09);
@@ -1253,7 +1491,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.09);
     }
-    // Claws / hands
     if (uMid < 0.07 && sizeH > 25){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop + sizeH*0.28 + bob, sw, sizeH*0.16);
@@ -1263,7 +1500,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillRect(sx, yTop + sizeH*0.28 + bob, sw, sizeH*0.16);
     }
 
-    // Head
     if (uMid > 0.28 && uMid < 0.72){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop + bob, sw, sizeH*0.05);
@@ -1272,7 +1508,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop+sizeH*0.05+bob, sw, sizeH*0.19);
     }
-    // Head shading
     if (uMid > 0.22 && uMid < 0.28){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
@@ -1281,7 +1516,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
     }
-    // Sunken eyes with glow
     if (sizeH > 22){
       if (uMid > 0.30 && uMid < 0.40){
         ctx.fillStyle = eyeStyle;
@@ -1300,7 +1534,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
         ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.014);
       }
     }
-    // Open mouth with teeth
     if (uMid > 0.34 && uMid < 0.66 && sizeH > 30){
       ctx.fillStyle = '#000';
       ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.035);
@@ -1309,46 +1542,35 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
         ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.022);
       }
     }
-    // Blood on mouth
     if (uMid > 0.42 && uMid < 0.50 && sizeH > 35){
       ctx.fillStyle = bloodStyle;
       ctx.fillRect(sx, yTop+sizeH*0.225+bob, sw, sizeH*0.016);
     }
-
-    // Torso - torn clothing
     if (uMid > 0.18 && uMid < 0.82){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.24+bob, sw, sizeH*0.33);
     }
-    // Torn skin patches showing flesh
     if ((uMid > 0.30 && uMid < 0.44) || (uMid > 0.56 && uMid < 0.70)){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.16);
     }
-    // Blood stain on chest
     if (uMid > 0.44 && uMid < 0.56 && sizeH > 30){
       ctx.fillStyle = bloodStyle;
       ctx.fillRect(sx, yTop+sizeH*0.36+bob, sw, sizeH*0.11);
     }
-    // Ribs showing
     if (uMid > 0.32 && uMid < 0.42 && sizeH > 55){
       ctx.fillStyle = '#ddd';
       ctx.fillRect(sx, yTop+sizeH*0.32+bob, sw, sizeH*0.008);
       ctx.fillRect(sx, yTop+sizeH*0.37+bob, sw, sizeH*0.008);
     }
-
-    // Gun for shooter
     if (e.hasGun && uMid > 0.72 && uMid < 0.92 && sizeH > 15){
       ctx.fillStyle = gunStyle;
       ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.09);
-      // Muzzle
       if (uMid > 0.88 && uMid < 0.92){
         ctx.fillStyle = '#555';
         ctx.fillRect(sx, yTop+sizeH*0.31+bob, sw, sizeH*0.03);
       }
     }
-
-    // Legs (animated walking)
     if (uMid > 0.22 && uMid < 0.44){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yBot-sizeH*0.31+walkOff, sw, sizeH*0.31);
@@ -1357,7 +1579,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yBot-sizeH*0.31-walkOff, sw, sizeH*0.31);
     }
-    // Feet
     if (uMid > 0.20 && uMid < 0.46){
       ctx.fillStyle = '#1a1a10';
       ctx.fillRect(sx, yBot-sizeH*0.05, sw, sizeH*0.05);
@@ -1369,7 +1590,7 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// BETTER PISTOL - First person view with hand
+// ===== PISTOL - IMAGE OR FALLBACK =====
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
 
@@ -1380,203 +1601,91 @@ function drawGun(){
     reloadOffset = phase * H * 0.22;
   }
 
-  var kick = state.pistolKick * 22;
+  var kick = state.pistolKick * 26;   // stronger visual kick
   var bobX = Math.sin(state.bob) * 8;
   var bobY = Math.sin(state.bob * 2) * 4;
+  // Recoil makes gun go up + rotate slightly
+  var recoilRot = -state.pistolKick * 0.12;
 
   var cx = W * 0.68 + bobX;
-  var cy = H * 0.80 + kick + bobY + reloadOffset;
-  var S = Math.min(W, H) * 0.10;
+  var cy = H * 0.80 + bobY + reloadOffset - kick * 0.7; // gun rises with kick
 
   ctx.save();
   ctx.translate(cx, cy);
+  ctx.rotate(recoilRot);
 
-  // ===== FOREARM (camouflage sleeve) =====
-  ctx.fillStyle = '#2d4a24';
-  ctx.beginPath();
-  ctx.moveTo(S*1.4, S*3.0);
-  ctx.lineTo(S*3.8, S*3.6);
-  ctx.lineTo(S*3.8, S*7.5);
-  ctx.lineTo(S*0.8, S*7.5);
-  ctx.closePath();
-  ctx.fill();
-  // Camo pattern
-  ctx.fillStyle = '#1f3518';
-  ctx.fillRect(S*1.6, S*4.2, S*0.8, S*0.6);
-  ctx.fillRect(S*2.8, S*4.8, S*0.7, S*0.5);
-  ctx.fillRect(S*2.0, S*5.6, S*1.2, S*0.5);
-  ctx.fillRect(S*3.2, S*6.0, S*0.5, S*0.6);
+  if (pistolImgLoaded){
+    // Use PNG image
+    var imgW = Math.min(W * 0.55, 480);
+    var imgH = imgW * (pistolImg.height / pistolImg.width);
+    // Draw centered on cx,cy with anchor at bottom-right area
+    ctx.drawImage(pistolImg, -imgW * 0.5, -imgH + 40, imgW, imgH);
 
-  // ===== HAND (gripping the pistol) =====
-  // Palm/base
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.moveTo(S*1.6, S*2.0);
-  ctx.lineTo(S*3.6, S*2.2);
-  ctx.lineTo(S*3.8, S*3.8);
-  ctx.lineTo(S*1.4, S*3.8);
-  ctx.closePath();
-  ctx.fill();
-  // Fingers wrapping around grip
-  ctx.fillStyle = '#c9a07a';
-  for (var fg = 0; fg < 4; fg++){
-    var fy = S*2.2 + fg*S*0.42;
+    // Muzzle flash on image
+    if (state.muzzleFlash > 0.05){
+      var mf = state.muzzleFlash;
+      var fx = -imgW * 0.28, fy2 = -imgH * 0.75;
+      var R = Math.min(W,H) * 0.28 * mf;
+      var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
+      grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
+      grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
+      grd.addColorStop(0.7, 'rgba(255,120,20,' + (mf*0.5) + ')');
+      grd.addColorStop(1, 'rgba(255,80,0,0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
+      ctx.beginPath();
+      ctx.moveTo(fx + R*0.15, fy2 + R*0.30);
+      ctx.lineTo(fx - R*0.9, fy2 - R*0.6);
+      ctx.lineTo(fx + R*0.35, fy2 - R*0.45);
+      ctx.closePath();
+      ctx.fill();
+    }
+  } else {
+    // Fallback: draw pistol procedurally
+    var S = Math.min(W, H) * 0.10;
+    ctx.fillStyle = '#2d4a24';
     ctx.beginPath();
-    ctx.moveTo(S*1.5, fy);
-    ctx.lineTo(S*3.5, fy + S*0.06);
-    ctx.lineTo(S*3.5, fy + S*0.32);
-    ctx.lineTo(S*1.5, fy + S*0.36);
+    ctx.moveTo(S*1.4, S*3.0);
+    ctx.lineTo(S*3.8, S*3.6);
+    ctx.lineTo(S*3.8, S*7.5);
+    ctx.lineTo(S*0.8, S*7.5);
     ctx.closePath();
     ctx.fill();
-    // Finger shadow/detail
-    ctx.fillStyle = '#a88060';
-    ctx.fillRect(S*1.5, fy + S*0.30, S*2.0, S*0.06);
     ctx.fillStyle = '#c9a07a';
-  }
-  // Thumb
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(S*3.4, S*2.0, S*0.35, S*0.28, -0.4, 0, Math.PI*2);
-  ctx.fill();
-  // Thumb shadow
-  ctx.fillStyle = '#a88060';
-  ctx.beginPath();
-  ctx.ellipse(S*3.5, S*2.15, S*0.20, S*0.14, -0.4, 0, Math.PI*2);
-  ctx.fill();
-
-  // ===== PISTOL - seen from first person, barrel forward-left =====
-  // Rear of slide (closest to us)
-  ctx.fillStyle = '#1a1a20';
-  ctx.beginPath();
-  ctx.moveTo(S*1.2, S*0.6);
-  ctx.lineTo(S*3.0, S*0.4);
-  ctx.lineTo(S*3.1, S*1.6);
-  ctx.lineTo(S*1.2, S*1.8);
-  ctx.closePath();
-  ctx.fill();
-  // Serrations on rear slide
-  ctx.fillStyle = '#0a0a10';
-  for (var ns = 0; ns < 6; ns++){
-    ctx.fillRect(S*1.25, S*0.72 + ns*S*0.18, S*1.75, S*0.08);
-  }
-  // Slide top edge (lighter)
-  ctx.fillStyle = '#3a3a42';
-  ctx.beginPath();
-  ctx.moveTo(S*1.2, S*0.6);
-  ctx.lineTo(S*3.0, S*0.4);
-  ctx.lineTo(S*3.05, S*0.6);
-  ctx.lineTo(S*1.2, S*0.8);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== BARREL going into the distance (up-left) =====
-  ctx.fillStyle = '#2a2a32';
-  ctx.beginPath();
-  ctx.moveTo(S*1.0, S*0.6);
-  ctx.lineTo(S*-0.8, S*-0.5);
-  ctx.lineTo(S*-0.6, S*-1.0);
-  ctx.lineTo(S*0.9, S*0.1);
-  ctx.closePath();
-  ctx.fill();
-  // Top light edge of barrel
-  ctx.fillStyle = '#5a5a62';
-  ctx.beginPath();
-  ctx.moveTo(S*1.0, S*0.6);
-  ctx.lineTo(S*-0.8, S*-0.5);
-  ctx.lineTo(S*-0.75, S*-0.72);
-  ctx.lineTo(S*1.05, S*0.35);
-  ctx.closePath();
-  ctx.fill();
-  // Bottom dark edge
-  ctx.fillStyle = '#0a0a10';
-  ctx.beginPath();
-  ctx.moveTo(S*0.9, S*0.1);
-  ctx.lineTo(S*-0.6, S*-1.0);
-  ctx.lineTo(S*-0.55, S*-1.15);
-  ctx.lineTo(S*1.0, S*-0.05);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== MUZZLE (dark hole at the end of barrel) =====
-  ctx.fillStyle = '#000';
-  ctx.beginPath();
-  ctx.ellipse(S*-0.75, S*-0.75, S*0.28, S*0.15, -0.62, 0, Math.PI*2);
-  ctx.fill();
-  ctx.strokeStyle = '#555';
-  ctx.lineWidth = Math.max(1, S*0.06);
-  ctx.beginPath();
-  ctx.ellipse(S*-0.75, S*-0.75, S*0.28, S*0.15, -0.62, 0, Math.PI*2);
-  ctx.stroke();
-
-  // ===== FRONT SIGHT =====
-  ctx.fillStyle = '#ddd';
-  ctx.beginPath();
-  ctx.ellipse(S*-0.60, S*-1.05, S*0.10, S*0.05, 0, 0, Math.PI*2);
-  ctx.fill();
-
-  // ===== REAR SIGHT =====
-  ctx.fillStyle = '#1a1a20';
-  ctx.fillRect(S*1.4, S*0.4, S*0.45, S*0.18);
-  ctx.fillRect(S*2.1, S*0.4, S*0.45, S*0.18);
-
-  // ===== TRIGGER GUARD (visible from below) =====
-  ctx.strokeStyle = '#1a1a20';
-  ctx.lineWidth = S*0.16;
-  ctx.beginPath();
-  ctx.moveTo(S*1.2, S*1.7);
-  ctx.quadraticCurveTo(S*0.9, S*2.4, S*1.4, S*2.6);
-  ctx.stroke();
-  // Trigger
-  ctx.strokeStyle = '#0a0a10';
-  ctx.lineWidth = S*0.08;
-  ctx.beginPath();
-  ctx.moveTo(S*1.2, S*1.8);
-  ctx.quadraticCurveTo(S*1.0, S*2.2, S*1.2, S*2.4);
-  ctx.stroke();
-
-  // ===== GRIP (angled down) =====
-  ctx.fillStyle = '#1a1a20';
-  ctx.beginPath();
-  ctx.moveTo(S*1.4, S*1.7);
-  ctx.lineTo(S*3.1, S*1.5);
-  ctx.lineTo(S*3.9, S*3.6);
-  ctx.lineTo(S*2.1, S*3.8);
-  ctx.closePath();
-  ctx.fill();
-  // Grip texture (cross-hatch)
-  ctx.fillStyle = '#0a0a10';
-  for (var gh = 0; gh < 4; gh++){
-    ctx.fillRect(S*2.0, S*2.0 + gh*S*0.35, S*1.6, S*0.08);
-  }
-
-  // ===== SLIDE DETAIL - ejection port =====
-  ctx.fillStyle = '#0a0a10';
-  ctx.fillRect(S*0.8, S*0.55, S*0.5, S*0.4);
-
-  // ===== HIGHLIGHT along slide =====
-  ctx.fillStyle = 'rgba(255,255,255,0.18)';
-  ctx.fillRect(S*1.15, S*0.68, S*1.8, S*0.06);
-
-  // ===== MUZZLE FLASH =====
-  if (state.muzzleFlash > 0.05){
-    var mf = state.muzzleFlash;
-    var fx = S*-0.8, fy2 = S*-0.8;
-    var R = S * 3.2 * mf;
-    var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
-    grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
-    grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
-    grd.addColorStop(0.7, 'rgba(255,120,20,' + (mf*0.5) + ')');
-    grd.addColorStop(1, 'rgba(255,80,0,0)');
-    ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
-    // Core
-    ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
     ctx.beginPath();
-    ctx.moveTo(fx + R*0.15, fy2 + R*0.30);
-    ctx.lineTo(fx - R*0.9, fy2 - R*0.6);
-    ctx.lineTo(fx + R*0.35, fy2 - R*0.45);
+    ctx.moveTo(S*1.6, S*2.0);
+    ctx.lineTo(S*3.6, S*2.2);
+    ctx.lineTo(S*3.8, S*3.8);
+    ctx.lineTo(S*1.4, S*3.8);
     ctx.closePath();
     ctx.fill();
+    ctx.fillStyle = '#1a1a20';
+    ctx.beginPath();
+    ctx.moveTo(S*1.2, S*0.6);
+    ctx.lineTo(S*3.0, S*0.4);
+    ctx.lineTo(S*3.1, S*1.6);
+    ctx.lineTo(S*1.2, S*1.8);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#2a2a32';
+    ctx.beginPath();
+    ctx.moveTo(S*1.0, S*0.6);
+    ctx.lineTo(S*-0.8, S*-0.5);
+    ctx.lineTo(S*-0.6, S*-1.0);
+    ctx.lineTo(S*0.9, S*0.1);
+    ctx.closePath();
+    ctx.fill();
+    if (state.muzzleFlash > 0.05){
+      var mf2 = state.muzzleFlash;
+      var fx2 = S*-0.8, fy3 = S*-0.8;
+      var R2 = S * 3.2 * mf2;
+      var grd2 = ctx.createRadialGradient(fx2, fy3, 0, fx2, fy3, R2);
+      grd2.addColorStop(0, 'rgba(255,250,210,' + (mf2*0.98) + ')');
+      grd2.addColorStop(1, 'rgba(255,80,0,0)');
+      ctx.fillStyle = grd2;
+      ctx.beginPath(); ctx.arc(fx2, fy3, R2, 0, Math.PI*2); ctx.fill();
+    }
   }
 
   ctx.restore();
@@ -1641,7 +1750,7 @@ function drawKnife(){
   ctx.restore();
 }
 
-// ===== RAF LOOP WITH GUARD (fixes speed bug) =====
+// ===== RAF LOOP =====
 var lastTime = 0;
 var loopRunning = false;
 function mainLoop(t){
