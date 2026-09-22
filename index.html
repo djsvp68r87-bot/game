@@ -35,21 +35,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Co
 #gameScreen{display:none;z-index:10}
 #gameScreen.active{display:block}
 canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
-#hud{position:fixed;left:0;right:0;top:0;padding:calc(6px + env(safe-area-inset-top)) 12px 6px;display:flex;justify-content:space-between;gap:8px;pointer-events:none;z-index:5;font-family:"Courier New",monospace;font-weight:900}
-#hudLeft{display:flex;gap:8px}
+
+/* HUD */
+#hud{position:fixed;inset:0;pointer-events:none;z-index:5;font-family:"Courier New",monospace;font-weight:900}
+#hudLeft{position:absolute;top:calc(6px + env(safe-area-inset-top));left:calc(12px + env(safe-area-inset-left));display:flex;gap:8px}
+#hudCenter{position:absolute;top:calc(6px + env(safe-area-inset-top));left:50%;transform:translateX(-50%)}
 .hud-item{display:flex;align-items:center;gap:8px;padding:6px 12px;background:rgba(0,0,0,0.65);border:2px solid currentColor;font-size:14px;letter-spacing:2px;box-shadow:0 0 12px currentColor}
 .hud-item .label{font-size:11px;opacity:0.65;letter-spacing:1px}
 .hud-item .val{font-size:16px}
 .hud-hp{color:#ff4444}
 .hud-am{color:#66ddff}
 .hud-sc{color:#88ff88}
-#minimap{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(58px + env(safe-area-inset-top));background:rgba(0,0,0,0.75);border:2px solid #888;z-index:11;image-rendering:pixelated}
-#weaponBtn{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(58px + env(safe-area-inset-top));width:70px;height:70px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.85);border:3px solid #ffcc00;box-shadow:0 0 16px rgba(255,200,0,0.5);display:none}
-#weaponBtn.active{display:block}
-#weaponBtn:active{transform:scale(0.93)}
+
+#minimap{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(58px + env(safe-area-inset-top));background:rgba(0,0,0,0.78);border:2px solid #888;z-index:11;image-rendering:pixelated;display:block}
+
+#weaponBtn{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(152px + env(safe-area-inset-top));width:140px;height:52px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.82);border:2px solid #ffcc00;box-shadow:0 0 12px rgba(255,200,0,0.45);display:flex;align-items:center;justify-content:center;padding:4px}
+#weaponBtn:active{transform:scale(0.95);background:rgba(60,50,0,0.9)}
 #weaponBtn svg{width:100%;height:100%}
-#fire{position:fixed;right:calc(20px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));width:96px;height:96px;background:rgba(180,20,20,0.85);border:3px solid #ff5555;color:#fff;font-family:"Courier New",monospace;font-size:14px;font-weight:900;letter-spacing:2px;display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 0 24px rgba(255,50,50,0.7)}
-#fire:active{background:rgba(255,40,40,1);transform:scale(0.94)}
+
+#fireZone{position:fixed;right:0;top:0;bottom:0;width:30%;z-index:4;pointer-events:none}
+#fireHint{position:fixed;right:calc(20px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));font-family:"Courier New",monospace;font-weight:900;font-size:13px;letter-spacing:2px;color:rgba(255,80,80,0.45);border:2px dashed rgba(255,80,80,0.4);padding:8px 14px;z-index:4;pointer-events:none;border-radius:4px}
+
 #joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(20px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.22);z-index:10;pointer-events:none}
 #joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.7);border:2px solid rgba(255,255,255,0.5);box-shadow:0 0 16px rgba(255,200,60,0.6)}
 #cross{position:fixed;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;z-index:5;pointer-events:none}
@@ -148,7 +154,9 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
       <div class="hud-item hud-hp"><span class="label">HP</span><span class="val" id="hp">100</span></div>
       <div class="hud-item hud-sc"><span class="label">KILLS</span><span class="val" id="sc">0 / 0</span></div>
     </div>
-    <div class="hud-item hud-am"><span class="label">AMMO</span><span class="val" id="am">7 / ∞</span></div>
+    <div id="hudCenter">
+      <div class="hud-item hud-am"><span class="label">AMMO</span><span class="val" id="am">7 / ∞</span></div>
+    </div>
   </div>
   <canvas id="minimap"></canvas>
   <div id="weaponBtn"></div>
@@ -157,8 +165,9 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
   <div id="hurt"></div>
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
-  <div id="fire">FIRE</div>
-  <div id="version">beta 1.0.3</div>
+  <div id="fireZone"></div>
+  <div id="fireHint">FIRE →</div>
+  <div id="version">beta 1.0.4</div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -187,34 +196,54 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 "use strict";
 
 var MAX_LEVEL = 10;
-// Надёжное сохранение прогресса
 var progress = 1;
 try {
   var stored = localStorage.getItem('arena_progress_v2');
-  if (stored) {
-    var n = parseInt(stored, 10);
-    if (!isNaN(n) && n >= 1 && n <= MAX_LEVEL) progress = n;
-  }
+  if (stored) { var n = parseInt(stored, 10); if (!isNaN(n) && n >= 1 && n <= MAX_LEVEL) progress = n; }
 } catch(e){ progress = 1; }
 if (progress < 1) progress = 1;
 if (progress > MAX_LEVEL) progress = MAX_LEVEL;
-function saveProgress(){
-  try{ localStorage.setItem('arena_progress_v2', String(progress)); }catch(e){}
-}
-function unlockNext(level){
-  if (level >= progress && level < MAX_LEVEL){
-    progress = level + 1;
-    saveProgress();
-  }
-}
+function saveProgress(){ try{ localStorage.setItem('arena_progress_v2', String(progress)); }catch(e){} }
+function unlockNext(level){ if (level >= progress && level < MAX_LEVEL){ progress = level + 1; saveProgress(); } }
 
 var WEAPONS = {
   pistol: { name:'PISTOL', speed:1.7, damage:25, magSize:7, reloadTime:3.0 },
   knife:  { name:'KNIFE',  speed:2.5, damage:0 }
 };
 
-var KNIFE_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 52 6 Q 62 22 60 45 L 58 60 L 42 60 L 40 45 Q 38 22 48 6 Z" fill="#e0e8f0"/><path d="M 52 6 Q 58 22 56 45 L 54 60 L 50 60 L 50 45 Q 50 22 52 6 Z" fill="#a8b4c0"/><path d="M 60 30 L 62 32 L 62 35 L 60 36 Z" fill="#fff"/><path d="M 60 42 L 62 44 L 62 47 L 60 48 Z" fill="#fff"/><rect x="38" y="58" width="24" height="6" fill="#7a5a2a"/><rect x="42" y="64" width="16" height="28" fill="#3a2a1a" rx="4"/><line x1="42" y1="70" x2="58" y2="70" stroke="#5a4a2a" stroke-width="2"/><line x1="42" y1="76" x2="58" y2="76" stroke="#5a4a2a" stroke-width="2"/><line x1="42" y1="82" x2="58" y2="82" stroke="#5a4a2a" stroke-width="2"/><circle cx="50" cy="66" r="2" fill="#ffcc00"/></svg>';
-var PISTOL_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="40" width="60" height="14" fill="#2a2a2a" rx="2"/><rect x="15" y="42" width="60" height="4" fill="#4a4a4a"/><rect x="40" y="52" width="14" height="26" fill="#1a1a1a" rx="2"/><rect x="30" y="76" width="34" height="6" fill="#1a1a1a" rx="2"/><circle cx="22" cy="47" r="3" fill="#000"/><rect x="10" y="42" width="6" height="8" fill="#555"/></svg>';
+// Горизонтальные иконки оружия
+var KNIFE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
+  '<path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/>' +
+  '<path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/>' +
+  '<path d="M 48 22 L 100 23 L 108 25 L 100 25 L 48 24 Z" fill="rgba(255,255,255,0.65)"/>' +
+  '<rect x="38" y="18" width="8" height="14" fill="#4a4a4a" rx="1"/>' +
+  '<rect x="38" y="18" width="8" height="2" fill="#5a5a5a"/>' +
+  '<rect x="8" y="19" width="32" height="12" fill="#3a2a1a" rx="2"/>' +
+  '<rect x="12" y="20" width="2" height="10" fill="#2a1a0a"/>' +
+  '<rect x="18" y="20" width="2" height="10" fill="#2a1a0a"/>' +
+  '<rect x="24" y="20" width="2" height="10" fill="#2a1a0a"/>' +
+  '<rect x="30" y="20" width="2" height="10" fill="#2a1a0a"/>' +
+  '<circle cx="36" cy="25" r="3" fill="#8a7a3a"/>' +
+  '<circle cx="36" cy="25" r="1.5" fill="#5a4a1a"/>' +
+  '</svg>';
+
+var PISTOL_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
+  '<rect x="18" y="14" width="82" height="14" fill="#3a3a42" rx="2"/>' +
+  '<rect x="18" y="16" width="82" height="3" fill="#5a5a62"/>' +
+  '<circle cx="97" cy="21" r="5" fill="#000"/>' +
+  '<circle cx="97" cy="21" r="2.5" fill="#1a1a20"/>' +
+  '<rect x="12" y="17" width="28" height="16" fill="#2a2a32" rx="2"/>' +
+  '<path d="M 18 30 L 36 30 L 40 48 L 18 48 Z" fill="#1a1a20"/>' +
+  '<rect x="21" y="33" width="14" height="12" fill="#0a0a10"/>' +
+  '<rect x="21" y="33" width="14" height="1.5" fill="#222"/>' +
+  '<rect x="21" y="37" width="14" height="1.5" fill="#222"/>' +
+  '<rect x="21" y="41" width="14" height="1.5" fill="#222"/>' +
+  '<circle cx="38" cy="32" r="3" fill="none" stroke="#444" stroke-width="1.2"/>' +
+  '<rect x="55" y="10" width="3" height="5" fill="#555"/>' +
+  '<rect x="88" y="10" width="3" height="5" fill="#555"/>' +
+  '<rect x="16" y="28" width="30" height="2" fill="#0a0a10"/>' +
+  '</svg>';
+
 function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : PISTOL_SVG; }
 
 var SPAWN = {
@@ -476,14 +505,31 @@ function setStick(x, y){ joy.stickEl.style.left = (50+x*50)+'%'; joy.stickEl.sty
 
 var look = {active:false, id:null, lastX:0, lastY:0};
 
+// Тап по правой 30% → выстрел (если не свайп)
+var fireTap = {active:false, id:null, startX:0, startY:0, startTime:0, moved:false, isRight:false};
+
 cv.addEventListener('touchstart', function(e){
   if (state.dead || !state.running) return;
   updateJoyBase();
+  var vw = window.innerWidth, vh = window.innerHeight;
   for (var i = 0; i < e.changedTouches.length; i++){
     var t = e.changedTouches[i];
-    if (!joy.active && t.clientX < window.innerWidth*0.5 && t.clientY > window.innerHeight*0.5){
+    var isRightZone = t.clientX > vw * 0.70;
+    // Джойстик — левая нижняя зона
+    if (!joy.active && t.clientX < vw * 0.5 && t.clientY > vh * 0.5){
       joy.active = true; joy.id = t.identifier; joy.dx = 0; joy.dy = 0; setStick(0,0); continue;
     }
+    // Правый тап — кандидат на выстрел (и/или поворот)
+    if (isRightZone && !fireTap.active && !look.active){
+      fireTap.active = true; fireTap.id = t.identifier;
+      fireTap.startX = t.clientX; fireTap.startY = t.clientY;
+      fireTap.startTime = performance.now();
+      fireTap.moved = false; fireTap.isRight = true;
+      // Начинаем отслеживать как потенциальный поворот тоже
+      look.active = true; look.id = t.identifier; look.lastX = t.clientX; look.lastY = t.clientY;
+      continue;
+    }
+    // Иначе — поворот
     if (!look.active){ look.active = true; look.id = t.identifier; look.lastX = t.clientX; look.lastY = t.clientY; }
   }
   e.preventDefault();
@@ -502,6 +548,12 @@ cv.addEventListener('touchmove', function(e){
     if (look.active && t.identifier === look.id){
       var lx = t.clientX - look.lastX, ly = t.clientY - look.lastY;
       look.lastX = t.clientX; look.lastY = t.clientY;
+      // Проверяем сдвиг для fireTap
+      if (fireTap.active && t.identifier === fireTap.id){
+        var totalDx = t.clientX - fireTap.startX;
+        var totalDy = t.clientY - fireTap.startY;
+        if (Math.hypot(totalDx, totalDy) > 15) fireTap.moved = true;
+      }
       state.dir += lx * 0.007;
       state.pitch -= ly * 2.5;
       var maxPitch = H * 0.35;
@@ -517,6 +569,12 @@ function endTouch(e){
     var t = e.changedTouches[i];
     if (joy.active && t.identifier === joy.id){ joy.active = false; joy.id = null; joy.dx = 0; joy.dy = 0; setStick(0,0); }
     if (look.active && t.identifier === look.id){ look.active = false; look.id = null; }
+    // Тап в правой зоне = выстрел (если не сдвинулся)
+    if (fireTap.active && t.identifier === fireTap.id){
+      var dt = performance.now() - fireTap.startTime;
+      if (!fireTap.moved && dt < 350 && fireTap.isRight) fire();
+      fireTap.active = false; fireTap.id = null;
+    }
   }
   e.preventDefault();
 }
@@ -534,9 +592,6 @@ window.addEventListener('keydown', function(e){
 });
 window.addEventListener('keyup', function(e){ var k = e.key.toLowerCase(); if (k in keys) keys[k] = 0; });
 
-document.getElementById('fire').addEventListener('touchstart', function(e){ fire(); e.preventDefault(); }, {passive:false});
-document.getElementById('fire').addEventListener('mousedown', function(e){ fire(); });
-
 function updateWeaponBtn(){
   var next = state.currentWeapon === 'pistol' ? 'knife' : 'pistol';
   document.getElementById('weaponBtn').innerHTML = weaponSVG(next);
@@ -547,8 +602,8 @@ function switchWeapon(){
   updateWeaponBtn(); updateAmmoHUD();
   tone(600,'square',0.06,0.1);
 }
-document.getElementById('weaponBtn').addEventListener('touchstart', function(e){ if (!state.running || state.dead) return; switchWeapon(); e.preventDefault(); }, {passive:false});
-document.getElementById('weaponBtn').addEventListener('click', function(){ if (!state.running || state.dead) return; switchWeapon(); });
+document.getElementById('weaponBtn').addEventListener('touchstart', function(e){ if (!state.running || state.dead) return; switchWeapon(); e.preventDefault(); e.stopPropagation(); }, {passive:false});
+document.getElementById('weaponBtn').addEventListener('click', function(e){ if (!state.running || state.dead) return; switchWeapon(); });
 
 function showMenu(){
   document.getElementById('menuScreen').style.display = 'flex';
@@ -749,7 +804,6 @@ function update(dt){
     if (!isWall(state.px, ny)) state.py = ny;
     state.bob += dt * 7;
 
-    // Проталкивание от зомби — если игрок почти наткнулся на живого зомби, сдвигаем зомби в сторону
     for (var pi = 0; pi < state.enemies.length; pi++){
       var pz = state.enemies[pi];
       if (!pz.alive) continue;
@@ -803,7 +857,6 @@ function update(dt){
       }
     }
 
-    // Отталкивание зомби друг от друга, чтобы не слипались в кучу
     for (var oi = i+1; oi < state.enemies.length; oi++){
       var other = state.enemies[oi];
       if (!other.alive) continue;
@@ -1052,40 +1105,41 @@ function render(){
   }
 }
 
-// МИНИ-КАРТА
+// Прямоугольная мини-карта 140x90
 function drawMinimap(){
   if (!state.map) return;
-  var mmSize = Math.min(120, Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.28));
-  if (miniCv.width !== mmSize){ miniCv.width = mmSize; miniCv.height = mmSize; miniCv.style.width = mmSize + 'px'; miniCv.style.height = mmSize + 'px'; }
-  var cell = mmSize / Math.max(state.MAP_W, state.MAP_H);
-  miniCtx.clearRect(0, 0, mmSize, mmSize);
+  var mmW = 140, mmH = 90;
+  if (miniCv.width !== mmW || miniCv.height !== mmH){
+    miniCv.width = mmW; miniCv.height = mmH;
+    miniCv.style.width = mmW + 'px'; miniCv.style.height = mmH + 'px';
+  }
+  miniCtx.clearRect(0, 0, mmW, mmH);
   miniCtx.fillStyle = 'rgba(0,0,0,0.85)';
-  miniCtx.fillRect(0, 0, mmSize, mmSize);
-  // Стены
+  miniCtx.fillRect(0, 0, mmW, mmH);
+  var cell = Math.min((mmW - 8) / state.MAP_W, (mmH - 8) / state.MAP_H);
+  var offX = (mmW - state.MAP_W * cell) / 2;
+  var offY = (mmH - state.MAP_H * cell) / 2;
   for (var y = 0; y < state.MAP_H; y++){
     for (var x = 0; x < state.MAP_W; x++){
       if (state.map[y][x] === 1){
         miniCtx.fillStyle = '#555';
-        miniCtx.fillRect(x*cell, y*cell, cell+0.5, cell+0.5);
+        miniCtx.fillRect(offX + x*cell, offY + y*cell, cell+0.5, cell+0.5);
       }
     }
   }
-  // Враги
   for (var i = 0; i < state.enemies.length; i++){
     var en = state.enemies[i];
     if (!en.alive) continue;
     miniCtx.fillStyle = en.isBoss ? '#ff3344' : '#ff6666';
-    miniCtx.fillRect(en.x*cell - 1, en.y*cell - 1, 3, 3);
+    miniCtx.fillRect(offX + en.x*cell - 1, offY + en.y*cell - 1, 3, 3);
   }
-  // Игрок
   miniCtx.fillStyle = '#ffcc00';
-  miniCtx.fillRect(state.px*cell - 2, state.py*cell - 2, 4, 4);
-  // Направление
+  miniCtx.fillRect(offX + state.px*cell - 2, offY + state.py*cell - 2, 4, 4);
   miniCtx.strokeStyle = '#ffcc00';
   miniCtx.lineWidth = 1;
   miniCtx.beginPath();
-  miniCtx.moveTo(state.px*cell, state.py*cell);
-  miniCtx.lineTo(state.px*cell + Math.cos(state.dir)*cell*3, state.py*cell + Math.sin(state.dir)*cell*3);
+  miniCtx.moveTo(offX + state.px*cell, offY + state.py*cell);
+  miniCtx.lineTo(offX + state.px*cell + Math.cos(state.dir)*cell*4, offY + state.py*cell + Math.sin(state.dir)*cell*4);
   miniCtx.stroke();
 }
 
@@ -1183,14 +1237,12 @@ function drawGun(){
   ctx.fillRect(gx+gunW*0.37, gy-gunH*0.22, gunW*0.02, gunH*0.5);
 }
 
-// Нож ещё ниже
 function drawKnife(){
   var kW = Math.min(W*0.22, 200);
   var bobX = Math.sin(state.bob)*6;
   var swing = state.pistolKick;
   var rot = swing * 0.6 - 0.25;
   var kx = W/2 + bobX + 80;
-  // Ещё ниже — был H - kW*0.45, стал H - kW*0.15
   var ky = H - kW*0.15 + Math.sin(state.bob)*4 + swing*30;
 
   ctx.save();
