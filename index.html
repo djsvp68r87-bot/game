@@ -1221,18 +1221,19 @@ function drawGun(){
   if (state.reloading){
     var pct = state.reloadTimer / WEAPONS.pistol.reloadTime;
     var phase = pct < 0.5 ? pct*2 : (1-pct)*2;
-    reloadOffset = phase * H * 0.15;
+    reloadOffset = phase * H * 0.25;
   }
 
-  var kick = state.pistolKick * 14;
-  var bobX = Math.sin(state.bob) * 8;
-  var bobY = Math.sin(state.bob * 2) * 4;
+  var kick = state.pistolKick * 20;
+  var bobX = Math.sin(state.bob) * 10;
+  var bobY = Math.sin(state.bob * 2) * 5;
 
-  // ВЫШЕ и ПРАВЕЕ
-  var cx = W * 0.72 + bobX;
-  var cy = H * 0.82 + kick + bobY + reloadOffset;
+  // Крупнее и немного левее — на всю правую часть снизу
+  var cx = W * 0.68 + bobX;
+  var cy = H * 0.78 + kick + bobY + reloadOffset;
 
-  var S = Math.min(W, H) * 0.055;
+  // Размер в 2.2 раза больше
+  var S = Math.min(W, H) * 0.11;
 
   ctx.save();
   ctx.translate(cx, cy);
