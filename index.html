@@ -12,7 +12,7 @@
 <title>Arena</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
-html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff}
+html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff;position:fixed;top:0;left:0}
 .screen{position:fixed;inset:0;z-index:50;display:none}
 #menuScreen{background:linear-gradient(180deg,#3a3a3a 0%,#5a5a5a 50%,#2a2a2a 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
 #menuTitle{position:absolute;top:calc(20px + env(safe-area-inset-top));right:24px;font-size:40px;letter-spacing:10px;font-weight:900;color:#e8e8e8;text-shadow:3px 3px 0 #1a1a1a,0 0 20px rgba(0,0,0,0.6)}
@@ -32,9 +32,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Co
 .lvlBtn.locked{opacity:0.5}
 #levelsBack{padding:12px 40px;background:#1a1a1a;color:#aaa;border:2px solid #444;font-family:"Courier New",monospace;font-size:16px;font-weight:900;letter-spacing:4px;cursor:pointer}
 #levelsBack:active{background:#333}
-#gameScreen{display:none;z-index:10}
+#gameScreen{display:none;z-index:10;position:fixed;inset:0}
 #gameScreen.active{display:block}
-canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+#cv{display:block;width:100vw;height:100vh;position:fixed;top:0;left:0;image-rendering:pixelated}
 #hud{position:fixed;inset:0;pointer-events:none;z-index:5;font-family:"Courier New",monospace;font-weight:900}
 #hudLeft{position:absolute;top:calc(6px + env(safe-area-inset-top));left:calc(12px + env(safe-area-inset-left));display:flex;gap:8px}
 #hudCenter{position:absolute;top:calc(6px + env(safe-area-inset-top));left:50%;transform:translateX(-50%)}
@@ -49,7 +49,7 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 #weaponBtn:active{transform:scale(0.95);background:rgba(60,50,0,0.9)}
 #weaponBtn svg{width:100%;height:100%}
 #fireHint{position:fixed;right:calc(20px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));font-family:"Courier New",monospace;font-weight:900;font-size:13px;letter-spacing:2px;color:rgba(255,80,80,0.45);border:2px dashed rgba(255,80,80,0.4);padding:8px 14px;z-index:4;pointer-events:none;border-radius:4px}
-#joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(20px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.22);z-index:10;pointer-events:none}
+#joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(5px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.22);z-index:10;pointer-events:none}
 #joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.7);border:2px solid rgba(255,255,255,0.5);box-shadow:0 0 16px rgba(255,200,60,0.6)}
 #cross{position:fixed;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;z-index:5;pointer-events:none}
 #cross::before,#cross::after{content:'';position:absolute;background:#ffcc00;box-shadow:0 0 6px #000,0 0 4px #ff8800}
@@ -157,7 +157,7 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 1.0.9</div>
+  <div id="version">beta 1.1.0</div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -490,6 +490,7 @@ function startLevel(level){
   document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('levelsScreen').style.display = 'none';
   document.getElementById('gameScreen').classList.add('active');
+  resize();
   state.running = true;
 }
 
@@ -1212,7 +1213,7 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// ========== ПИСТОЛЕТ — вид от первого лица, дуло смотрит ВПЕРЁД (от нас) ==========
+// ========== ПИСТОЛЕТ — дуло вперёд, выше и правее ==========
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
 
@@ -1227,17 +1228,16 @@ function drawGun(){
   var bobX = Math.sin(state.bob) * 8;
   var bobY = Math.sin(state.bob * 2) * 4;
 
-  // Базовая точка — внизу по центру-справа
-  var cx = W * 0.62 + bobX;
-  var cy = H * 0.95 + kick + bobY + reloadOffset;
+  // ВЫШЕ и ПРАВЕЕ
+  var cx = W * 0.72 + bobX;
+  var cy = H * 0.82 + kick + bobY + reloadOffset;
 
-  // Масштаб
   var S = Math.min(W, H) * 0.055;
 
   ctx.save();
   ctx.translate(cx, cy);
 
-  // -------- ПРЕДПЛЕЧЬЕ (уходит вниз-вправо) --------
+  // ПРЕДПЛЕЧЬЕ
   ctx.fillStyle = '#2d4a24';
   ctx.beginPath();
   ctx.moveTo(S*1.2, S*3.2);
@@ -1246,7 +1246,6 @@ function drawGun(){
   ctx.lineTo(S*0.6, S*8.0);
   ctx.closePath();
   ctx.fill();
-  // Камуфляжные полосы на рукаве
   ctx.fillStyle = '#1f3518';
   ctx.beginPath();
   ctx.moveTo(S*1.4, S*4.5);
@@ -1256,7 +1255,7 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // -------- ЛАДОНЬ (держит пистолет) --------
+  // ЛАДОНЬ
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.moveTo(S*1.4, S*2.2);
@@ -1266,8 +1265,7 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // -------- ПИСТОЛЕТ — вид сзади-сверху, дуло вперёд --------
-  // Задняя часть затвора (ближе к нам)
+  // ЗАДНЯЯ ЧАСТЬ ЗАТВОРА
   ctx.fillStyle = '#3a3a42';
   ctx.beginPath();
   ctx.moveTo(S*0.8, S*1.2);
@@ -1276,13 +1274,12 @@ function drawGun(){
   ctx.lineTo(S*0.8, S*2.8);
   ctx.closePath();
   ctx.fill();
-  // Задняя насечка
   ctx.fillStyle = '#1a1a22';
   for (var ns = 0; ns < 5; ns++){
     ctx.fillRect(S*0.9, S*1.35 + ns*S*0.28, S*1.5, S*0.10);
   }
 
-  // Ствол, уходящий вверх-влево в глубину
+  // СТВОЛ В ГЛУБИНУ
   ctx.fillStyle = '#2a2a32';
   ctx.beginPath();
   ctx.moveTo(S*0.6, S*1.2);
@@ -1291,7 +1288,6 @@ function drawGun(){
   ctx.lineTo(S*0.6, S*0.6);
   ctx.closePath();
   ctx.fill();
-  // Верхняя светлая грань ствола
   ctx.fillStyle = '#5a5a62';
   ctx.beginPath();
   ctx.moveTo(S*0.6, S*1.2);
@@ -1301,7 +1297,7 @@ function drawGun(){
   ctx.closePath();
   ctx.fill();
 
-  // Дуло (овал на конце ствола, смотрит вперёд-влево)
+  // ДУЛО
   ctx.fillStyle = '#1a1a22';
   ctx.beginPath();
   ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
@@ -1311,23 +1307,22 @@ function drawGun(){
   ctx.beginPath();
   ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
   ctx.stroke();
-  // Тёмное отверстие дула
   ctx.fillStyle = '#000';
   ctx.beginPath();
   ctx.ellipse(S*-0.55, S*-0.35, S*0.20, S*0.10, -0.7, 0, Math.PI*2);
   ctx.fill();
 
-  // Мушка на конце ствола
+  // МУШКА
   ctx.fillStyle = '#ddd';
   ctx.beginPath();
   ctx.ellipse(S*-0.50, S*-0.50, S*0.10, S*0.06, 0, 0, Math.PI*2);
   ctx.fill();
 
-  // Задний прицел
+  // ЗАДНИЙ ПРИЦЕЛ
   ctx.fillStyle = '#1a1a22';
   ctx.fillRect(S*1.15, S*0.85, S*0.5, S*0.2);
 
-  // Рукоять пистолета (уходит вниз к ладони)
+  // РУКОЯТЬ
   ctx.fillStyle = '#1a1a22';
   ctx.beginPath();
   ctx.moveTo(S*1.0, S*2.6);
@@ -1336,19 +1331,18 @@ function drawGun(){
   ctx.lineTo(S*1.6, S*4.4);
   ctx.closePath();
   ctx.fill();
-  // Рёбра на рукояти
   ctx.fillStyle = '#0a0a10';
   for (var mr = 0; mr < 3; mr++){
     ctx.fillRect(S*1.2, S*3.0 + mr*S*0.4, S*1.3, S*0.1);
   }
 
-  // Большой палец поверх рукояти
+  // ПАЛЕЦ
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
   ctx.ellipse(S*2.2, S*2.2, S*0.55, S*0.4, -0.3, 0, Math.PI*2);
   ctx.fill();
 
-  // Спусковая скоба
+  // СПУСК
   ctx.strokeStyle = '#2a2a32';
   ctx.lineWidth = S*0.18;
   ctx.beginPath();
@@ -1356,11 +1350,11 @@ function drawGun(){
   ctx.quadraticCurveTo(S*0.5, S*3.2, S*1.0, S*3.4);
   ctx.stroke();
 
-  // Блик
+  // БЛИК
   ctx.fillStyle = 'rgba(255,255,255,0.15)';
   ctx.fillRect(S*0.85, S*1.25, S*1.4, S*0.12);
 
-  // -------- ВСПЫШКА ВЫСТРЕЛА (у дула) --------
+  // ВСПЫШКА
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
     var fx = S*-0.55, fy2 = S*-0.35;
@@ -1372,7 +1366,6 @@ function drawGun(){
     grd.addColorStop(1, 'rgba(255,80,0,0)');
     ctx.fillStyle = grd;
     ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
-    // Яркое ядро, направленное вглубь (вверх-влево)
     ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
     ctx.beginPath();
     ctx.moveTo(fx + R*0.1, fy2 + R*0.25);
@@ -1385,14 +1378,15 @@ function drawGun(){
   ctx.restore();
 }
 
-// ========== НОЖ — как было ранее (вернул) ==========
+// ========== НОЖ — правее и выше ==========
 function drawKnife(){
   var kW = Math.min(W * 0.22, 200);
   var bobX = Math.sin(state.bob)*6;
   var swing = state.pistolKick;
   var rot = swing * 0.6 - 0.25;
-  var kx = W/2 + bobX + 80;
-  var ky = H - kW*0.15 + Math.sin(state.bob)*4 + swing*30;
+  // ПРАВЕЕ и ВЫШЕ
+  var kx = W * 0.72 + bobX;
+  var ky = H * 0.82 + Math.sin(state.bob)*4 + swing*30;
 
   ctx.save();
   ctx.translate(kx, ky);
@@ -1407,7 +1401,6 @@ function drawKnife(){
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.035, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#5a4a1a';
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.018, 0, Math.PI*2); ctx.fill();
-  // Гарда
   ctx.fillStyle = '#4a4a4a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.035);
   ctx.fillStyle = '#2a2a2a';
@@ -1427,7 +1420,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Тень
   ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -1439,7 +1431,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Блик
   ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
   ctx.moveTo(-kW*0.01, -kW*0.10);
@@ -1449,7 +1440,6 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  // Зазубрины
   ctx.fillStyle = '#a8b4c0';
   for (var z = 0; z < 5; z++){
     var zy = -kW*0.20 - z*kW*0.13;
@@ -1461,7 +1451,6 @@ function drawKnife(){
     ctx.fill();
   }
 
-  // Кровосток
   ctx.fillStyle = '#6a7684';
   ctx.beginPath();
   ctx.ellipse(-kW*0.02, -kW*0.55, kW*0.008, kW*0.04, 0, 0, Math.PI*2);
