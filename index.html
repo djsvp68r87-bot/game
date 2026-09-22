@@ -18,16 +18,17 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #menuSoldier svg{height:100%;max-height:52vh;width:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.85))}
 #menuPlay{padding:16px 62px;font-size:22px;font-weight:900;letter-spacing:7px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 28px rgba(255,215,0,0.7),inset 0 0 15px rgba(255,215,0,0.2);z-index:2;position:relative;margin-bottom:40px}
 #menuPlay:active{background:#ffd700;color:#1a1a1a}
-#levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
-#levelsTitle{font-size:28px;letter-spacing:8px;color:#ffcc00;margin-bottom:20px;font-weight:900}
-#levelsGrid{display:grid;grid-template-columns:repeat(4,70px);gap:12px;margin-bottom:24px;justify-content:center}
-.lvlBtn{width:70px;height:70px;border:3px solid #444;background:#222;color:#aaa;font-family:"Courier New",monospace;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+#levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto}
+#levelsTitle{font-size:26px;letter-spacing:8px;color:#ffcc00;margin-bottom:16px;font-weight:900;flex-shrink:0}
+#levelsGrid{display:grid;grid-template-columns:repeat(4,68px);gap:10px;margin-bottom:20px;justify-content:center;flex-shrink:0}
+.lvlBtn{width:68px;height:68px;border:3px solid #444;background:#222;color:#666;font-family:"Courier New",monospace;font-size:22px;font-weight:900;cursor:pointer;padding:0;display:block;-webkit-appearance:none;appearance:none}
 .lvlBtn.unlocked{border-color:#ffcc00;background:#1a1a10;color:#ffcc00}
 .lvlBtn.unlocked:active{background:#ffcc00;color:#1a1a10}
-.lvlBtn.boss{grid-column:span 4;width:auto;height:56px;border-color:#ff3344;color:#ff3344;font-size:20px;background:#1a0a10}
+.lvlBtn.boss{grid-column:span 4;width:auto;height:52px;border-color:#ff3344;color:#ff3344;font-size:18px;background:#1a0a10}
+.lvlBtn.boss.unlocked{border-color:#ff3344;color:#ff3344}
 .lvlBtn.boss.unlocked:active{background:#ff3344;color:#1a0a10}
-.lvlBtn.locked{opacity:0.5}
-#levelsBack{padding:12px 40px;background:#1a1a1a;color:#aaa;border:2px solid #444;font-family:"Courier New",monospace;font-size:16px;font-weight:900;letter-spacing:4px;cursor:pointer}
+.lvlBtn.locked{opacity:0.55}
+#levelsBack{padding:12px 40px;background:#1a1a1a;color:#aaa;border:2px solid #444;font-family:"Courier New",monospace;font-size:16px;font-weight:900;letter-spacing:4px;cursor:pointer;flex-shrink:0;margin-bottom:20px}
 #gameScreen{display:none;z-index:10;position:fixed;inset:0}
 #gameScreen.active{display:block}
 #cv{display:block;width:100vw;height:100vh;position:fixed;top:0;left:0;image-rendering:pixelated}
@@ -89,8 +90,6 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
       <rect x="92" y="100" width="12" height="14" fill="#3a5528"/>
       <rect x="58" y="126" width="14" height="10" fill="#3a5528"/>
       <rect x="82" y="134" width="14" height="10" fill="#3a5528"/>
-      <rect x="54" y="150" width="10" height="10" fill="#3a5528"/>
-      <rect x="90" y="152" width="14" height="10" fill="#3a5528"/>
       <rect x="48" y="112" width="64" height="46" fill="#2a3a1a"/>
       <rect x="48" y="132" width="64" height="4" fill="#1a2a10"/>
       <rect x="52" y="120" width="22" height="14" fill="#0057b7"/>
@@ -102,15 +101,12 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
       <rect x="32" y="150" width="16" height="12" fill="#c9a07a"/>
       <rect x="0" y="146" width="46" height="7" fill="#1a1a22"/>
       <rect x="24" y="153" width="12" height="20" fill="#0a0a10"/>
-      <rect x="38" y="153" width="8" height="14" fill="#1a1a22"/>
-      <rect x="0" y="148" width="4" height="2" fill="#000"/>
       <rect x="46" y="147" width="12" height="10" fill="#3a2a1a"/>
       <rect x="56" y="42" width="48" height="48" fill="#c9a07a"/>
       <rect x="56" y="42" width="6" height="48" fill="#a88060"/>
       <rect x="98" y="42" width="6" height="48" fill="#b89070"/>
       <rect x="64" y="62" width="8" height="6" fill="#1a1a1a"/>
       <rect x="64" y="62" width="3" height="3" fill="#fff"/>
-      <rect x="80" y="72" width="10" height="6" fill="#b89070"/>
       <rect x="72" y="84" width="16" height="4" fill="#8a4030"/>
       <rect x="48" y="30" width="64" height="16" fill="#3a5a2a"/>
       <rect x="54" y="24" width="52" height="8" fill="#4a6a3a"/>
@@ -128,7 +124,28 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 
 <div id="levelsScreen" class="screen">
   <div id="levelsTitle">LEVELS</div>
-  <div id="levelsGrid"></div>
+  <div id="levelsGrid">
+    <button class="lvlBtn unlocked" data-lvl="1">1</button>
+    <button class="lvlBtn locked" data-lvl="2">2</button>
+    <button class="lvlBtn locked" data-lvl="3">3</button>
+    <button class="lvlBtn locked" data-lvl="4">4</button>
+    <button class="lvlBtn locked" data-lvl="5">5</button>
+    <button class="lvlBtn locked" data-lvl="6">6</button>
+    <button class="lvlBtn locked" data-lvl="7">7</button>
+    <button class="lvlBtn locked" data-lvl="8">8</button>
+    <button class="lvlBtn locked" data-lvl="9">9</button>
+    <button class="lvlBtn boss locked" data-lvl="10">BOSS</button>
+    <button class="lvlBtn locked" data-lvl="11">11</button>
+    <button class="lvlBtn locked" data-lvl="12">12</button>
+    <button class="lvlBtn locked" data-lvl="13">13</button>
+    <button class="lvlBtn locked" data-lvl="14">14</button>
+    <button class="lvlBtn locked" data-lvl="15">15</button>
+    <button class="lvlBtn locked" data-lvl="16">16</button>
+    <button class="lvlBtn locked" data-lvl="17">17</button>
+    <button class="lvlBtn locked" data-lvl="18">18</button>
+    <button class="lvlBtn locked" data-lvl="19">19</button>
+    <button class="lvlBtn boss locked" data-lvl="20">BOSS</button>
+  </div>
   <button id="levelsBack">BACK</button>
 </div>
 
@@ -195,7 +212,7 @@ function pauseBgMusic(){
   try { BG_MUSIC.pause(); } catch(e){}
 }
 
-// ===== PISTOL IMAGE (checkerboard removal) =====
+// ===== PISTOL IMAGE =====
 var pistolImg = new Image();
 var pistolImgLoaded = false;
 var pistolCleanCanvas = null;
@@ -211,8 +228,7 @@ pistolImg.onload = function(){
     for (var i = 0; i < d.length; i += 4){
       var r = d[i], g = d[i+1], b = d[i+2];
       var maxv = Math.max(r,g,b), minv = Math.min(r,g,b);
-      // Remove checkerboard: near-white/grey low-saturation pixels
-      if (maxv - minv < 18 && minv > 190){
+      if (maxv - minv < 20 && minv > 185){
         d[i+3] = 0;
       }
     }
@@ -235,7 +251,18 @@ try {
 if (progress < 1) progress = 1;
 if (progress > MAX_LEVEL) progress = MAX_LEVEL;
 function saveProgress(){ try{ localStorage.setItem('arena_progress_v3', String(progress)); }catch(e){} }
-function unlockNext(level){ if (level >= progress && level < MAX_LEVEL){ progress = level + 1; saveProgress(); } }
+function unlockNext(level){ if (level >= progress && level < MAX_LEVEL){ progress = level + 1; saveProgress(); updateLevelButtons(); } }
+
+function updateLevelButtons(){
+  var btns = document.querySelectorAll('#levelsGrid .lvlBtn');
+  for (var i = 0; i < btns.length; i++){
+    var lvl = parseInt(btns[i].getAttribute('data-lvl'), 10);
+    btns[i].className = 'lvlBtn';
+    if (lvl === 10 || lvl === 20) btns[i].className += ' boss';
+    if (lvl <= progress) btns[i].className += ' unlocked';
+    else btns[i].className += ' locked';
+  }
+}
 
 var WEAPONS = {
   pistol: { name:'PISTOL', speed:1.7, damage:25, magSize:7, reloadTime:3.0 },
@@ -254,7 +281,7 @@ var SPAWN = {
   19:{n:30,f:20,s:20}
 };
 
-// ===== AUDIO (simplified, reliable) =====
+// ===== AUDIO =====
 var AC = null;
 function ensureAudio(){
   if (!AC){
@@ -306,47 +333,35 @@ function noiseBurst(dur, vol, filterFreq, type){
   } catch(e){}
 }
 
-// MASSIVE pistol shot
 function sndGun(){
-  beep(220, 0.28, 0.45, 'sine', 40);          // deep bass punch
-  beep(180, 0.12, 0.25, 'square', 60);        // mid attack
-  noiseBurst(0.15, 0.35, 2500, 'highpass');   // crack
-  setTimeout(function(){
-    beep(700, 0.06, 0.12, 'triangle', 300);   // slide clack
-  }, 55);
+  beep(220, 0.28, 0.45, 'sine', 40);
+  beep(180, 0.12, 0.25, 'square', 60);
+  noiseBurst(0.15, 0.35, 2500, 'highpass');
+  setTimeout(function(){ beep(700, 0.06, 0.12, 'triangle', 300); }, 55);
 }
-
-// Meaty hit
 function sndHit(){
   beep(180, 0.09, 0.28, 'sine', 70);
   noiseBurst(0.07, 0.18, 900);
 }
-
-// Zombie death - growl + squish
 function sndDeath(){
   beep(95, 0.5, 0.28, 'sawtooth', 30);
   noiseBurst(0.22, 0.22, 500);
   setTimeout(function(){ noiseBurst(0.28, 0.15, 350); }, 90);
 }
-
 function sndHurt(){ beep(90, 0.35, 0.22, 'square', 40); noiseBurst(0.2, 0.15, 500); }
 function sndGrowl(){ beep(55 + Math.random()*25, 0.7, 0.06, 'sawtooth', 25); }
-function sndEnemyShot(){ beep(4000, 0.08, 0);
-}
-function resetK.12, 'square', 180); }
+function sndEnemyShot(){ beep(400, 0.08, 0.12, 'square', 180); }
 function sndWin(){ beep(520,0.15,0.2); setTimeout(function(){beep(660,0.15,0.2);},150); setTimeout(function(){beep(880,0.3,0.25);},300); }
 function sndReloadStart(){ beep(300,0.08,0.12); }
 function sndReloadEnd(){ beep(700,0.08,0.12); beep(900,0.08,0.10); }
 function sndHeadshotHit(){ beep(900,0.1,0.2,'square',600); beep(1200,0.15,0.15,'square',800); }
 function sndKnife(){ beep(400,0.06,0.1,'triangle',200); noiseBurst(0.05,0.08,3000); }
 
-// Demon voice - deep growl modulated
 function demonVoice(){
   ensureAudio();
   if (!AC) return;
   try {
     var t0 = AC.currentTime;
-    // Layer 1: deep growl
     var o1 = AC.createOscillator();
     o1.type = 'sawtooth';
     o1.frequency.setValueAtTime(65, t0);
@@ -358,7 +373,6 @@ function demonVoice(){
     o1.connect(g1); g1.connect(AC.destination);
     o1.start(t0); o1.stop(t0 + 0.75);
 
-    // Layer 2: high mechanical
     var o2 = AC.createOscillator();
     o2.type = 'square';
     o2.frequency.setValueAtTime(180, t0);
@@ -370,7 +384,6 @@ function demonVoice(){
     o2.connect(g2); g2.connect(AC.destination);
     o2.start(t0); o2.stop(t0 + 0.65);
 
-    // Syllable pulses
     for (var i = 0; i < 3; i++){
       (function(idx){
         setTimeout(function(){
@@ -423,7 +436,9 @@ function showKillstreak(text){
   el._hideTimer = setTimeout(function(){
     el.style.opacity = '0';
     el.style.transform = 'translateX(-50%) scale(1)';
-  }, 120illstreak(){
+  }, 1200);
+}
+function resetKillstreak(){
   killTimes = [];
   var el = document.getElementById('killstreak');
   if (el){ el.style.opacity = '0'; el.textContent = ''; }
@@ -758,30 +773,27 @@ function showMenu(){
   playBgMusic();
 }
 function showLevels(){
+  updateLevelButtons();
   document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('levelsScreen').style.display = 'flex';
   document.getElementById('gameScreen').classList.remove('active');
   document.getElementById('vhsLine').style.display = 'none';
   document.getElementById('killstreak').style.opacity = '0';
-  renderLevelGrid();
   state.running = false;
   playBgMusic();
 }
-function renderLevelGrid(){
-  var grid = document.getElementById('levelsGrid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  for (var i = 1; i <= MAX_LEVEL; i++){
-    var btn = document.createElement('button');
-    btn.className = 'lvlBtn';
-    var isBoss = (i === 10 || i === 20), unlocked = i <= progress;
-    if (isBoss) btn.className += ' boss';
-    if (unlocked) btn.className += ' unlocked'; else btn.className += ' locked';
-    btn.textContent = isBoss ? 'BOSS' : String(i);
-    if (unlocked){ (function(lvl){ btn.addEventListener('click', function(){ initAudio(); startLevel(lvl); }); })(i); }
-    grid.appendChild(btn);
-  }
-}
+
+// ===== LEVEL BUTTONS (static, event delegation) =====
+document.getElementById('levelsGrid').addEventListener('click', function(e){
+  var btn = e.target;
+  while (btn && btn !== this && !btn.classList.contains('lvlBtn')){ btn = btn.parentNode; }
+  if (!btn || btn === this) return;
+  if (!btn.classList.contains('unlocked')) return;
+  var lvl = parseInt(btn.getAttribute('data-lvl'), 10);
+  if (isNaN(lvl)) return;
+  initAudio();
+  startLevel(lvl);
+});
 
 document.getElementById('menuPlay').addEventListener('click', function(){ initAudio(); playBgMusic(); showLevels(); });
 document.getElementById('levelsBack').addEventListener('click', function(){ showMenu(); });
@@ -1408,7 +1420,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// ===== PISTOL IN BOTTOM-RIGHT CORNER =====
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
 
@@ -1424,7 +1435,6 @@ function drawGun(){
   var bobY = Math.sin(state.bob * 2) * 3;
   var recoilRot = -state.pistolKick * 0.10;
 
-  // Anchor: bottom-right corner
   var anchorX = W * 0.92 + bobX;
   var anchorY = H * 0.98 + bobY + reloadOffset - kick * 0.6;
 
@@ -1433,13 +1443,10 @@ function drawGun(){
   ctx.rotate(recoilRot);
 
   if (pistolImgLoaded && pistolCleanCanvas){
-    // Image is bottom-right aligned
     var imgW = Math.min(W * 0.62, 520);
     var imgH = imgW * (pistolCleanCanvas.height / pistolCleanCanvas.width);
-    // Draw so bottom-right of image is at (0,0)
     ctx.drawImage(pistolCleanCanvas, -imgW, -imgH, imgW, imgH);
 
-    // Muzzle flash at top-left of image (barrel points up-left)
     if (state.muzzleFlash > 0.05){
       var mf = state.muzzleFlash;
       var fx = -imgW * 0.65, fy2 = -imgH * 0.78;
@@ -1460,9 +1467,7 @@ function drawGun(){
       ctx.fill();
     }
   } else {
-    // Fallback procedural pistol - bottom-right aligned
     var S = Math.min(W, H) * 0.10;
-    // Forearm
     ctx.fillStyle = '#2d4a24';
     ctx.beginPath();
     ctx.moveTo(-S*1.0, -S*0.5);
@@ -1471,7 +1476,6 @@ function drawGun(){
     ctx.lineTo(-S*1.6, -S*3.5);
     ctx.closePath();
     ctx.fill();
-    // Hand
     ctx.fillStyle = '#c9a07a';
     ctx.beginPath();
     ctx.moveTo(-S*1.2, -S*2.0);
@@ -1480,7 +1484,6 @@ function drawGun(){
     ctx.lineTo(-S*1.4, -S*3.6);
     ctx.closePath();
     ctx.fill();
-    // Slide
     ctx.fillStyle = '#1a1a20';
     ctx.beginPath();
     ctx.moveTo(-S*0.4, -S*3.2);
@@ -1489,7 +1492,6 @@ function drawGun(){
     ctx.lineTo(-S*0.5, -S*2.2);
     ctx.closePath();
     ctx.fill();
-    // Barrel into depth
     ctx.fillStyle = '#2a2a32';
     ctx.beginPath();
     ctx.moveTo(-S*1.0, -S*3.4);
@@ -1592,9 +1594,10 @@ function startLoop(){
   requestAnimationFrame(mainLoop);
 }
 
+// ===== INIT =====
 initBgMusic();
 resize();
-renderLevelGrid();
+updateLevelButtons();
 showMenu();
 })();
 </script>
