@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -9,18 +9,17 @@
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.svg">
-<title>Arena</title>
+<title>ARENA</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff;position:fixed;top:0;left:0}
 .screen{position:fixed;inset:0;z-index:50;display:none}
 #menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
-#menuScreen::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.5) 100%);pointer-events:none}
-#menuTitle{position:absolute;top:calc(20px + env(safe-area-inset-top));right:24px;font-size:44px;letter-spacing:10px;font-weight:900;color:#fff;text-shadow:3px 3px 0 #000,0 0 30px rgba(0,0,0,0.9);z-index:2}
-#menuSubtitle{position:absolute;top:calc(76px + env(safe-area-inset-top));right:24px;font-size:12px;letter-spacing:4px;color:rgba(255,255,255,0.85);text-shadow:2px 2px 0 #000;z-index:2}
-#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:70vh;position:relative;z-index:2}
+#menuTitle{position:absolute;top:calc(16px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:44px;letter-spacing:12px;font-weight:900;color:#fff;text-shadow:3px 3px 0 #000,0 0 30px rgba(0,0,0,0.95);z-index:2}
+#menuSubtitle{position:absolute;top:calc(72px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);font-size:13px;letter-spacing:6px;color:#fff;text-shadow:2px 2px 0 #000;z-index:2}
+#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;max-height:44vh;position:relative;z-index:2;margin-top:100px;margin-bottom:10px}
 #menuSoldier svg{max-height:100%;height:auto;width:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.85))}
-#menuPlay{padding:18px 70px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.7),inset 0 0 15px rgba(255,215,0,0.2);z-index:2;position:relative}
+#menuPlay{padding:18px 70px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.7),inset 0 0 15px rgba(255,215,0,0.2);z-index:2;position:relative;margin-bottom:20px}
 #menuPlay:active{background:#ffd700;color:#1a1a1a}
 #levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 #levelsTitle{font-size:28px;letter-spacing:8px;color:#ffcc00;margin-bottom:20px;font-weight:900;text-shadow:0 0 16px rgba(255,200,0,0.5)}
@@ -86,7 +85,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
-  <div id="menuSubtitle">BETA 2.0.0</div>
+  <div id="menuSubtitle">BETA 2.1.0</div>
   <div id="menuSoldier">
     <svg viewBox="0 0 160 260" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
       <ellipse cx="80" cy="252" rx="48" ry="6" fill="rgba(0,0,0,0.5)"/>
@@ -137,13 +136,13 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
       <rect x="70" y="20" width="8" height="6" fill="#2d4a24"/>
     </svg>
   </div>
-  <button id="menuPlay">ГРАТИ</button>
+  <button id="menuPlay">PLAY</button>
 </div>
 
 <div id="levelsScreen" class="screen">
-  <div id="levelsTitle">РІВНІ</div>
+  <div id="levelsTitle">LEVELS</div>
   <div id="levelsGrid"></div>
-  <button id="levelsBack">НАЗАД</button>
+  <button id="levelsBack">BACK</button>
 </div>
 
 <div id="gameScreen">
@@ -165,38 +164,37 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 2.0.0</div>
+  <div id="version">beta 2.1.0</div>
   <div id="vhsLine"></div>
 
   <div id="dead">
-    <h1>ТИ МЕРТВИЙ</h1>
+    <h1>YOU DIED</h1>
     <div class="stat">KILLS: <span id="dsc">0 / 0</span></div>
     <div class="btnRow">
-      <button class="btn ghost" id="deadMenu">МЕНЮ</button>
-      <button class="btn primary" id="deadRetry">ЗАНОВО</button>
+      <button class="btn ghost" id="deadMenu">MENU</button>
+      <button class="btn primary" id="deadRetry">RETRY</button>
     </div>
   </div>
 
   <div id="win">
-    <h1>РІВЕНЬ ПРОЙДЕНО</h1>
+    <h1>LEVEL CLEAR</h1>
     <div class="stat">KILLS: <span id="wsc">0 / 0</span></div>
     <div class="stat">TIME: <span id="wtime">0</span>s</div>
     <div class="btnRow">
-      <button class="btn ghost" id="winMenu">МЕНЮ</button>
-      <button class="btn primary" id="winNext">ДАЛІ</button>
+      <button class="btn ghost" id="winMenu">MENU</button>
+      <button class="btn primary" id="winNext">NEXT</button>
     </div>
   </div>
 </div>
 
-<div id="rotate"><div class="box"></div>ПОВЕРНИ ТЕЛЕФОН<br>ГОРИЗОНТАЛЬНО</div>
+<div id="rotate"><div class="box"></div>ROTATE DEVICE<br>TO LANDSCAPE</div>
 
 <script>
 (function(){
 "use strict";
 
-// ===== ФОНОВАЯ МУЗЫКА (MP3) =====
+// ===== BACKGROUND MUSIC =====
 var BG_MUSIC = null;
-var musicStarted = false;
 function initBgMusic(){
   if (BG_MUSIC) return;
   try {
@@ -211,7 +209,6 @@ function playBgMusic(){
   if (!BG_MUSIC) return;
   var p = BG_MUSIC.play();
   if (p && p.catch) p.catch(function(){});
-  musicStarted = true;
 }
 function pauseBgMusic(){
   if (!BG_MUSIC) return;
@@ -237,33 +234,17 @@ var WEAPONS = {
 var KNIFE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
   '<path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/>' +
   '<path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/>' +
-  '<path d="M 48 22 L 100 23 L 108 25 L 100 25 L 48 24 Z" fill="rgba(255,255,255,0.65)"/>' +
   '<rect x="38" y="18" width="8" height="14" fill="#4a4a4a" rx="1"/>' +
-  '<rect x="38" y="18" width="8" height="2" fill="#5a5a5a"/>' +
   '<rect x="8" y="19" width="32" height="12" fill="#3a2a1a" rx="2"/>' +
-  '<rect x="12" y="20" width="2" height="10" fill="#2a1a0a"/>' +
-  '<rect x="18" y="20" width="2" height="10" fill="#2a1a0a"/>' +
-  '<rect x="24" y="20" width="2" height="10" fill="#2a1a0a"/>' +
-  '<rect x="30" y="20" width="2" height="10" fill="#2a1a0a"/>' +
   '<circle cx="36" cy="25" r="3" fill="#8a7a3a"/>' +
-  '<circle cx="36" cy="25" r="1.5" fill="#5a4a1a"/>' +
   '</svg>';
 
 var PISTOL_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
   '<rect x="18" y="14" width="82" height="14" fill="#3a3a42" rx="2"/>' +
   '<rect x="18" y="16" width="82" height="3" fill="#5a5a62"/>' +
   '<circle cx="97" cy="21" r="5" fill="#000"/>' +
-  '<circle cx="97" cy="21" r="2.5" fill="#1a1a20"/>' +
   '<rect x="12" y="17" width="28" height="16" fill="#2a2a32" rx="2"/>' +
   '<path d="M 18 30 L 36 30 L 40 48 L 18 48 Z" fill="#1a1a20"/>' +
-  '<rect x="21" y="33" width="14" height="12" fill="#0a0a10"/>' +
-  '<rect x="21" y="33" width="14" height="1.5" fill="#222"/>' +
-  '<rect x="21" y="37" width="14" height="1.5" fill="#222"/>' +
-  '<rect x="21" y="41" width="14" height="1.5" fill="#222"/>' +
-  '<circle cx="38" cy="32" r="3" fill="none" stroke="#444" stroke-width="1.2"/>' +
-  '<rect x="55" y="10" width="3" height="5" fill="#555"/>' +
-  '<rect x="88" y="10" width="3" height="5" fill="#555"/>' +
-  '<rect x="16" y="28" width="30" height="2" fill="#0a0a10"/>' +
   '</svg>';
 
 function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : PISTOL_SVG; }
@@ -276,7 +257,7 @@ var SPAWN = {
   19:{n:30,f:20,s:20}
 };
 
-// ===== АУДИО ЭФФЕКТЫ =====
+// ===== AUDIO =====
 var AC = null;
 function initAudio(){
   initBgMusic();
@@ -520,6 +501,7 @@ function startLevel(level){
   state.currentWeapon = 'pistol';
   state.magAmmo = 7; state.reloading = false; state.reloadTimer = 0;
   state.headshotFlash = 0;
+  state.bob = 0;
   state.timeStart = performance.now();
   spawnLevel(level);
   updateAmmoHUD();
@@ -536,6 +518,7 @@ function startLevel(level){
   resize();
   state.running = true;
   playBgMusic();
+  startLoop();
 }
 
 function updateAmmoHUD(){
@@ -678,8 +661,8 @@ function renderLevelGrid(){
     var isBoss = (i === 10 || i === 20), unlocked = i <= progress;
     if (isBoss) btn.className += ' boss';
     if (unlocked) btn.className += ' unlocked'; else btn.className += ' locked';
-    btn.textContent = isBoss ? 'БОС' : String(i);
-    if (unlocked){ (function(lvl){ btn.addEventListener('click', function(){ initAudio(); startLevel(lvl); requestAnimationFrame(mainLoop); }); })(i); }
+    btn.textContent = isBoss ? 'BOSS' : String(i);
+    if (unlocked){ (function(lvl){ btn.addEventListener('click', function(){ initAudio(); startLevel(lvl); }); })(i); }
     grid.appendChild(btn);
   }
 }
@@ -687,9 +670,9 @@ function renderLevelGrid(){
 document.getElementById('menuPlay').addEventListener('click', function(){ initAudio(); playBgMusic(); showLevels(); });
 document.getElementById('levelsBack').addEventListener('click', function(){ showMenu(); });
 document.getElementById('deadMenu').addEventListener('click', function(){ showMenu(); });
-document.getElementById('deadRetry').addEventListener('click', function(){ startLevel(state.level); requestAnimationFrame(mainLoop); });
+document.getElementById('deadRetry').addEventListener('click', function(){ startLevel(state.level); });
 document.getElementById('winMenu').addEventListener('click', function(){ showMenu(); });
-document.getElementById('winNext').addEventListener('click', function(){ var n = state.level + 1; if (n > MAX_LEVEL){ showMenu(); return; } startLevel(n); requestAnimationFrame(mainLoop); });
+document.getElementById('winNext').addEventListener('click', function(){ var n = state.level + 1; if (n > MAX_LEVEL){ showMenu(); return; } startLevel(n); });
 
 function startReload(){
   if (state.reloading || state.currentWeapon !== 'pistol') return;
@@ -1240,7 +1223,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   var x0 = Math.floor(sX - sizeW/2), x1 = Math.floor(sX + sizeW/2);
   var yBot = Math.floor(horizon + (H/corrected)/2);
   var yTop = Math.floor(yBot - sizeH);
-  var tint = 1;
   var bob = Math.sin(e.wobble)*sizeH*0.02;
   var walkOff = e.frame === 0 ? 0 : sizeH*0.025;
   var startCol = Math.max(0, Math.floor(x0/colW));
@@ -1248,13 +1230,13 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   var skinRGB = hexToRgb(e.def.skin);
   var darkRGB = hexToRgb(e.def.dark);
   var bloodRGB = hexToRgb(e.def.blood || '#5a0808');
-  var skinStyle = 'rgb(' + Math.round(skinRGB[0]*tint) + ',' + Math.round(skinRGB[1]*tint) + ',' + Math.round(skinRGB[2]*tint) + ')';
-  var darkStyle = 'rgb(' + Math.round(darkRGB[0]*tint) + ',' + Math.round(darkRGB[1]*tint) + ',' + Math.round(darkRGB[2]*tint) + ')';
-  var bloodStyle = 'rgb(' + Math.round(bloodRGB[0]*tint) + ',' + Math.round(bloodRGB[1]*tint) + ',' + Math.round(bloodRGB[2]*tint) + ')';
+  var skinStyle = 'rgb(' + skinRGB[0] + ',' + skinRGB[1] + ',' + skinRGB[2] + ')';
+  var darkStyle = 'rgb(' + darkRGB[0] + ',' + darkRGB[1] + ',' + darkRGB[2] + ')';
+  var bloodStyle = 'rgb(' + bloodRGB[0] + ',' + bloodRGB[1] + ',' + bloodRGB[2] + ')';
   var eyeStyle = 'rgb(220,20,20)';
   var eyeGlint = '#ffaaaa';
   var whiteStyle = 'rgb(230,230,230)';
-  var gunStyle = 'rgb(40,40,40)';
+  var gunStyle = 'rgb(30,30,30)';
 
   for (var c = startCol; c <= endCol; c++){
     if (zbuf[c] < corrected) continue;
@@ -1262,31 +1244,35 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
     var uMid = ((sx+sw/2)-x0)/sizeW;
     if (uMid < 0 || uMid > 1) continue;
 
-    if (uMid > 0.02 && uMid < 0.20 && sizeH > 20){
+    // Arms reaching forward
+    if (uMid > 0.02 && uMid < 0.22 && sizeH > 20){
       ctx.fillStyle = skinStyle;
-      ctx.fillRect(sx, yTop + sizeH*0.32 + bob, sw, sizeH*0.10);
+      ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.09);
     }
-    if (uMid > 0.80 && uMid < 0.98 && sizeH > 20){
+    if (uMid > 0.78 && uMid < 0.98 && sizeH > 20){
       ctx.fillStyle = skinStyle;
-      ctx.fillRect(sx, yTop + sizeH*0.32 + bob, sw, sizeH*0.10);
+      ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.09);
     }
-    if (uMid < 0.06 && sizeH > 25){
+    // Claws / hands
+    if (uMid < 0.07 && sizeH > 25){
       ctx.fillStyle = darkStyle;
-      ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.14);
+      ctx.fillRect(sx, yTop + sizeH*0.28 + bob, sw, sizeH*0.16);
     }
-    if (uMid > 0.94 && sizeH > 25){
+    if (uMid > 0.93 && sizeH > 25){
       ctx.fillStyle = darkStyle;
-      ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.14);
+      ctx.fillRect(sx, yTop + sizeH*0.28 + bob, sw, sizeH*0.16);
     }
 
+    // Head
     if (uMid > 0.28 && uMid < 0.72){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop + bob, sw, sizeH*0.05);
     }
     if (uMid > 0.22 && uMid < 0.78){
       ctx.fillStyle = skinStyle;
-      ctx.fillRect(sx, yTop+sizeH*0.05+bob, sw, sizeH*0.18);
+      ctx.fillRect(sx, yTop+sizeH*0.05+bob, sw, sizeH*0.19);
     }
+    // Head shading
     if (uMid > 0.22 && uMid < 0.28){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
@@ -1295,71 +1281,95 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
     }
+    // Sunken eyes with glow
     if (sizeH > 22){
-      if (uMid > 0.30 && uMid < 0.38){
+      if (uMid > 0.30 && uMid < 0.40){
         ctx.fillStyle = eyeStyle;
-        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.035);
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.04);
       }
-      if (uMid > 0.30 && uMid < 0.34 && sizeH > 30){
+      if (uMid > 0.31 && uMid < 0.34 && sizeH > 32){
         ctx.fillStyle = eyeGlint;
-        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.012);
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.014);
       }
-      if (uMid > 0.62 && uMid < 0.70){
+      if (uMid > 0.60 && uMid < 0.70){
         ctx.fillStyle = eyeStyle;
-        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.035);
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.04);
       }
-      if (uMid > 0.66 && uMid < 0.70 && sizeH > 30){
+      if (uMid > 0.66 && uMid < 0.69 && sizeH > 32){
         ctx.fillStyle = eyeGlint;
-        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.012);
+        ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.014);
       }
     }
+    // Open mouth with teeth
     if (uMid > 0.34 && uMid < 0.66 && sizeH > 30){
       ctx.fillStyle = '#000';
-      ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.03);
+      ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.035);
       if (sizeH > 45 && (c%3 === 0)){
         ctx.fillStyle = whiteStyle;
-        ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.02);
+        ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.022);
       }
     }
-    if (uMid > 0.40 && uMid < 0.50 && sizeH > 35){
+    // Blood on mouth
+    if (uMid > 0.42 && uMid < 0.50 && sizeH > 35){
       ctx.fillStyle = bloodStyle;
-      ctx.fillRect(sx, yTop+sizeH*0.225+bob, sw, sizeH*0.015);
+      ctx.fillRect(sx, yTop+sizeH*0.225+bob, sw, sizeH*0.016);
     }
+
+    // Torso - torn clothing
     if (uMid > 0.18 && uMid < 0.82){
       ctx.fillStyle = darkStyle;
-      ctx.fillRect(sx, yTop+sizeH*0.24+bob, sw, sizeH*0.32);
+      ctx.fillRect(sx, yTop+sizeH*0.24+bob, sw, sizeH*0.33);
     }
-    if ((uMid > 0.32 && uMid < 0.42) || (uMid > 0.58 && uMid < 0.68)){
+    // Torn skin patches showing flesh
+    if ((uMid > 0.30 && uMid < 0.44) || (uMid > 0.56 && uMid < 0.70)){
       ctx.fillStyle = skinStyle;
-      ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.18);
+      ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.16);
     }
-    if (uMid > 0.45 && uMid < 0.55 && sizeH > 30){
+    // Blood stain on chest
+    if (uMid > 0.44 && uMid < 0.56 && sizeH > 30){
       ctx.fillStyle = bloodStyle;
-      ctx.fillRect(sx, yTop+sizeH*0.36+bob, sw, sizeH*0.10);
+      ctx.fillRect(sx, yTop+sizeH*0.36+bob, sw, sizeH*0.11);
     }
-    if (e.hasGun && uMid > 0.72 && uMid < 0.90 && sizeH > 15){
+    // Ribs showing
+    if (uMid > 0.32 && uMid < 0.42 && sizeH > 55){
+      ctx.fillStyle = '#ddd';
+      ctx.fillRect(sx, yTop+sizeH*0.32+bob, sw, sizeH*0.008);
+      ctx.fillRect(sx, yTop+sizeH*0.37+bob, sw, sizeH*0.008);
+    }
+
+    // Gun for shooter
+    if (e.hasGun && uMid > 0.72 && uMid < 0.92 && sizeH > 15){
       ctx.fillStyle = gunStyle;
-      ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.08);
+      ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.09);
+      // Muzzle
+      if (uMid > 0.88 && uMid < 0.92){
+        ctx.fillStyle = '#555';
+        ctx.fillRect(sx, yTop+sizeH*0.31+bob, sw, sizeH*0.03);
+      }
     }
+
+    // Legs (animated walking)
     if (uMid > 0.22 && uMid < 0.44){
       ctx.fillStyle = darkStyle;
-      ctx.fillRect(sx, yBot-sizeH*0.30+walkOff, sw, sizeH*0.30);
+      ctx.fillRect(sx, yBot-sizeH*0.31+walkOff, sw, sizeH*0.31);
     }
     if (uMid > 0.56 && uMid < 0.78){
       ctx.fillStyle = darkStyle;
-      ctx.fillRect(sx, yBot-sizeH*0.30-walkOff, sw, sizeH*0.30);
+      ctx.fillRect(sx, yBot-sizeH*0.31-walkOff, sw, sizeH*0.31);
     }
+    // Feet
     if (uMid > 0.20 && uMid < 0.46){
       ctx.fillStyle = '#1a1a10';
-      ctx.fillRect(sx, yBot-sizeH*0.04, sw, sizeH*0.04);
+      ctx.fillRect(sx, yBot-sizeH*0.05, sw, sizeH*0.05);
     }
     if (uMid > 0.54 && uMid < 0.80){
       ctx.fillStyle = '#1a1a10';
-      ctx.fillRect(sx, yBot-sizeH*0.04, sw, sizeH*0.04);
+      ctx.fillRect(sx, yBot-sizeH*0.05, sw, sizeH*0.05);
     }
   }
 }
 
+// BETTER PISTOL - First person view with hand
 function drawGun(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
 
@@ -1367,130 +1377,191 @@ function drawGun(){
   if (state.reloading){
     var pct = state.reloadTimer / WEAPONS.pistol.reloadTime;
     var phase = pct < 0.5 ? pct*2 : (1-pct)*2;
-    reloadOffset = phase * H * 0.25;
+    reloadOffset = phase * H * 0.22;
   }
 
-  var kick = state.pistolKick * 20;
-  var bobX = Math.sin(state.bob) * 10;
-  var bobY = Math.sin(state.bob * 2) * 5;
+  var kick = state.pistolKick * 22;
+  var bobX = Math.sin(state.bob) * 8;
+  var bobY = Math.sin(state.bob * 2) * 4;
 
   var cx = W * 0.68 + bobX;
-  var cy = H * 0.78 + kick + bobY + reloadOffset;
-  var S = Math.min(W, H) * 0.11;
+  var cy = H * 0.80 + kick + bobY + reloadOffset;
+  var S = Math.min(W, H) * 0.10;
 
   ctx.save();
   ctx.translate(cx, cy);
 
+  // ===== FOREARM (camouflage sleeve) =====
   ctx.fillStyle = '#2d4a24';
   ctx.beginPath();
-  ctx.moveTo(S*1.2, S*3.2);
-  ctx.lineTo(S*3.6, S*4.0);
-  ctx.lineTo(S*3.6, S*8.0);
-  ctx.lineTo(S*0.6, S*8.0);
+  ctx.moveTo(S*1.4, S*3.0);
+  ctx.lineTo(S*3.8, S*3.6);
+  ctx.lineTo(S*3.8, S*7.5);
+  ctx.lineTo(S*0.8, S*7.5);
   ctx.closePath();
   ctx.fill();
+  // Camo pattern
   ctx.fillStyle = '#1f3518';
-  ctx.beginPath();
-  ctx.moveTo(S*1.4, S*4.5);
-  ctx.lineTo(S*3.4, S*5.1);
-  ctx.lineTo(S*3.4, S*5.8);
-  ctx.lineTo(S*1.3, S*5.2);
-  ctx.closePath();
-  ctx.fill();
+  ctx.fillRect(S*1.6, S*4.2, S*0.8, S*0.6);
+  ctx.fillRect(S*2.8, S*4.8, S*0.7, S*0.5);
+  ctx.fillRect(S*2.0, S*5.6, S*1.2, S*0.5);
+  ctx.fillRect(S*3.2, S*6.0, S*0.5, S*0.6);
 
+  // ===== HAND (gripping the pistol) =====
+  // Palm/base
   ctx.fillStyle = '#c9a07a';
   ctx.beginPath();
-  ctx.moveTo(S*1.4, S*2.2);
-  ctx.lineTo(S*3.8, S*2.4);
-  ctx.lineTo(S*3.9, S*4.0);
-  ctx.lineTo(S*1.3, S*4.0);
+  ctx.moveTo(S*1.6, S*2.0);
+  ctx.lineTo(S*3.6, S*2.2);
+  ctx.lineTo(S*3.8, S*3.8);
+  ctx.lineTo(S*1.4, S*3.8);
   ctx.closePath();
   ctx.fill();
+  // Fingers wrapping around grip
+  ctx.fillStyle = '#c9a07a';
+  for (var fg = 0; fg < 4; fg++){
+    var fy = S*2.2 + fg*S*0.42;
+    ctx.beginPath();
+    ctx.moveTo(S*1.5, fy);
+    ctx.lineTo(S*3.5, fy + S*0.06);
+    ctx.lineTo(S*3.5, fy + S*0.32);
+    ctx.lineTo(S*1.5, fy + S*0.36);
+    ctx.closePath();
+    ctx.fill();
+    // Finger shadow/detail
+    ctx.fillStyle = '#a88060';
+    ctx.fillRect(S*1.5, fy + S*0.30, S*2.0, S*0.06);
+    ctx.fillStyle = '#c9a07a';
+  }
+  // Thumb
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.ellipse(S*3.4, S*2.0, S*0.35, S*0.28, -0.4, 0, Math.PI*2);
+  ctx.fill();
+  // Thumb shadow
+  ctx.fillStyle = '#a88060';
+  ctx.beginPath();
+  ctx.ellipse(S*3.5, S*2.15, S*0.20, S*0.14, -0.4, 0, Math.PI*2);
+  ctx.fill();
 
+  // ===== PISTOL - seen from first person, barrel forward-left =====
+  // Rear of slide (closest to us)
+  ctx.fillStyle = '#1a1a20';
+  ctx.beginPath();
+  ctx.moveTo(S*1.2, S*0.6);
+  ctx.lineTo(S*3.0, S*0.4);
+  ctx.lineTo(S*3.1, S*1.6);
+  ctx.lineTo(S*1.2, S*1.8);
+  ctx.closePath();
+  ctx.fill();
+  // Serrations on rear slide
+  ctx.fillStyle = '#0a0a10';
+  for (var ns = 0; ns < 6; ns++){
+    ctx.fillRect(S*1.25, S*0.72 + ns*S*0.18, S*1.75, S*0.08);
+  }
+  // Slide top edge (lighter)
   ctx.fillStyle = '#3a3a42';
   ctx.beginPath();
-  ctx.moveTo(S*0.8, S*1.2);
-  ctx.lineTo(S*2.4, S*1.0);
-  ctx.lineTo(S*2.6, S*2.6);
-  ctx.lineTo(S*0.8, S*2.8);
+  ctx.moveTo(S*1.2, S*0.6);
+  ctx.lineTo(S*3.0, S*0.4);
+  ctx.lineTo(S*3.05, S*0.6);
+  ctx.lineTo(S*1.2, S*0.8);
   ctx.closePath();
   ctx.fill();
-  ctx.fillStyle = '#1a1a22';
-  for (var ns = 0; ns < 5; ns++){
-    ctx.fillRect(S*0.9, S*1.35 + ns*S*0.28, S*1.5, S*0.10);
-  }
 
+  // ===== BARREL going into the distance (up-left) =====
   ctx.fillStyle = '#2a2a32';
   ctx.beginPath();
-  ctx.moveTo(S*0.6, S*1.2);
-  ctx.lineTo(S*-0.6, S*0.0);
-  ctx.lineTo(S*-0.4, S*-0.6);
-  ctx.lineTo(S*0.6, S*0.6);
+  ctx.moveTo(S*1.0, S*0.6);
+  ctx.lineTo(S*-0.8, S*-0.5);
+  ctx.lineTo(S*-0.6, S*-1.0);
+  ctx.lineTo(S*0.9, S*0.1);
   ctx.closePath();
   ctx.fill();
+  // Top light edge of barrel
   ctx.fillStyle = '#5a5a62';
   ctx.beginPath();
-  ctx.moveTo(S*0.6, S*1.2);
-  ctx.lineTo(S*-0.6, S*0.0);
-  ctx.lineTo(S*-0.45, S*-0.25);
-  ctx.lineTo(S*0.65, S*0.9);
+  ctx.moveTo(S*1.0, S*0.6);
+  ctx.lineTo(S*-0.8, S*-0.5);
+  ctx.lineTo(S*-0.75, S*-0.72);
+  ctx.lineTo(S*1.05, S*0.35);
+  ctx.closePath();
+  ctx.fill();
+  // Bottom dark edge
+  ctx.fillStyle = '#0a0a10';
+  ctx.beginPath();
+  ctx.moveTo(S*0.9, S*0.1);
+  ctx.lineTo(S*-0.6, S*-1.0);
+  ctx.lineTo(S*-0.55, S*-1.15);
+  ctx.lineTo(S*1.0, S*-0.05);
   ctx.closePath();
   ctx.fill();
 
-  ctx.fillStyle = '#1a1a22';
-  ctx.beginPath();
-  ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
-  ctx.fill();
-  ctx.strokeStyle = '#555';
-  ctx.lineWidth = Math.max(1, S*0.08);
-  ctx.beginPath();
-  ctx.ellipse(S*-0.55, S*-0.35, S*0.35, S*0.18, -0.7, 0, Math.PI*2);
-  ctx.stroke();
+  // ===== MUZZLE (dark hole at the end of barrel) =====
   ctx.fillStyle = '#000';
   ctx.beginPath();
-  ctx.ellipse(S*-0.55, S*-0.35, S*0.20, S*0.10, -0.7, 0, Math.PI*2);
+  ctx.ellipse(S*-0.75, S*-0.75, S*0.28, S*0.15, -0.62, 0, Math.PI*2);
   ctx.fill();
-
-  ctx.fillStyle = '#ddd';
+  ctx.strokeStyle = '#555';
+  ctx.lineWidth = Math.max(1, S*0.06);
   ctx.beginPath();
-  ctx.ellipse(S*-0.50, S*-0.50, S*0.10, S*0.06, 0, 0, Math.PI*2);
-  ctx.fill();
-
-  ctx.fillStyle = '#1a1a22';
-  ctx.fillRect(S*1.15, S*0.85, S*0.5, S*0.2);
-
-  ctx.fillStyle = '#1a1a22';
-  ctx.beginPath();
-  ctx.moveTo(S*1.0, S*2.6);
-  ctx.lineTo(S*2.4, S*2.6);
-  ctx.lineTo(S*3.0, S*4.2);
-  ctx.lineTo(S*1.6, S*4.4);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = '#0a0a10';
-  for (var mr = 0; mr < 3; mr++){
-    ctx.fillRect(S*1.2, S*3.0 + mr*S*0.4, S*1.3, S*0.1);
-  }
-
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(S*2.2, S*2.2, S*0.55, S*0.4, -0.3, 0, Math.PI*2);
-  ctx.fill();
-
-  ctx.strokeStyle = '#2a2a32';
-  ctx.lineWidth = S*0.18;
-  ctx.beginPath();
-  ctx.moveTo(S*0.9, S*2.5);
-  ctx.quadraticCurveTo(S*0.5, S*3.2, S*1.0, S*3.4);
+  ctx.ellipse(S*-0.75, S*-0.75, S*0.28, S*0.15, -0.62, 0, Math.PI*2);
   ctx.stroke();
 
-  ctx.fillStyle = 'rgba(255,255,255,0.15)';
-  ctx.fillRect(S*0.85, S*1.25, S*1.4, S*0.12);
+  // ===== FRONT SIGHT =====
+  ctx.fillStyle = '#ddd';
+  ctx.beginPath();
+  ctx.ellipse(S*-0.60, S*-1.05, S*0.10, S*0.05, 0, 0, Math.PI*2);
+  ctx.fill();
 
+  // ===== REAR SIGHT =====
+  ctx.fillStyle = '#1a1a20';
+  ctx.fillRect(S*1.4, S*0.4, S*0.45, S*0.18);
+  ctx.fillRect(S*2.1, S*0.4, S*0.45, S*0.18);
+
+  // ===== TRIGGER GUARD (visible from below) =====
+  ctx.strokeStyle = '#1a1a20';
+  ctx.lineWidth = S*0.16;
+  ctx.beginPath();
+  ctx.moveTo(S*1.2, S*1.7);
+  ctx.quadraticCurveTo(S*0.9, S*2.4, S*1.4, S*2.6);
+  ctx.stroke();
+  // Trigger
+  ctx.strokeStyle = '#0a0a10';
+  ctx.lineWidth = S*0.08;
+  ctx.beginPath();
+  ctx.moveTo(S*1.2, S*1.8);
+  ctx.quadraticCurveTo(S*1.0, S*2.2, S*1.2, S*2.4);
+  ctx.stroke();
+
+  // ===== GRIP (angled down) =====
+  ctx.fillStyle = '#1a1a20';
+  ctx.beginPath();
+  ctx.moveTo(S*1.4, S*1.7);
+  ctx.lineTo(S*3.1, S*1.5);
+  ctx.lineTo(S*3.9, S*3.6);
+  ctx.lineTo(S*2.1, S*3.8);
+  ctx.closePath();
+  ctx.fill();
+  // Grip texture (cross-hatch)
+  ctx.fillStyle = '#0a0a10';
+  for (var gh = 0; gh < 4; gh++){
+    ctx.fillRect(S*2.0, S*2.0 + gh*S*0.35, S*1.6, S*0.08);
+  }
+
+  // ===== SLIDE DETAIL - ejection port =====
+  ctx.fillStyle = '#0a0a10';
+  ctx.fillRect(S*0.8, S*0.55, S*0.5, S*0.4);
+
+  // ===== HIGHLIGHT along slide =====
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
+  ctx.fillRect(S*1.15, S*0.68, S*1.8, S*0.06);
+
+  // ===== MUZZLE FLASH =====
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
-    var fx = S*-0.55, fy2 = S*-0.35;
-    var R = S * 3.5 * mf;
+    var fx = S*-0.8, fy2 = S*-0.8;
+    var R = S * 3.2 * mf;
     var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
     grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
     grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
@@ -1498,11 +1569,12 @@ function drawGun(){
     grd.addColorStop(1, 'rgba(255,80,0,0)');
     ctx.fillStyle = grd;
     ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
+    // Core
     ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
     ctx.beginPath();
-    ctx.moveTo(fx + R*0.1, fy2 + R*0.25);
-    ctx.lineTo(fx - R*0.9, fy2 - R*0.5);
-    ctx.lineTo(fx + R*0.4, fy2 - R*0.35);
+    ctx.moveTo(fx + R*0.15, fy2 + R*0.30);
+    ctx.lineTo(fx - R*0.9, fy2 - R*0.6);
+    ctx.lineTo(fx + R*0.35, fy2 - R*0.45);
     ctx.closePath();
     ctx.fill();
   }
@@ -1532,8 +1604,6 @@ function drawKnife(){
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.018, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#4a4a4a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.035);
-  ctx.fillStyle = '#2a2a2a';
-  ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.01);
 
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
@@ -1568,39 +1638,32 @@ function drawKnife(){
   ctx.closePath();
   ctx.fill();
 
-  ctx.fillStyle = '#a8b4c0';
-  for (var z = 0; z < 5; z++){
-    var zy = -kW*0.20 - z*kW*0.13;
-    ctx.beginPath();
-    ctx.moveTo(-kW*0.065 + z*0.002*kW, zy);
-    ctx.lineTo(-kW*0.085, zy - kW*0.02);
-    ctx.lineTo(-kW*0.065, zy + kW*0.02);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  ctx.fillStyle = '#6a7684';
-  ctx.beginPath();
-  ctx.ellipse(-kW*0.02, -kW*0.55, kW*0.008, kW*0.04, 0, 0, Math.PI*2);
-  ctx.fill();
-
   ctx.restore();
 }
 
+// ===== RAF LOOP WITH GUARD (fixes speed bug) =====
 var lastTime = 0;
+var loopRunning = false;
 function mainLoop(t){
+  if (!loopRunning) return;
   var dt = Math.min(0.05, (t - lastTime)/1000 || 0.016);
   lastTime = t;
   if (state.running || state.dead || state.won){
     update(dt);
     if (state.map) render();
+    requestAnimationFrame(mainLoop);
+  } else {
+    loopRunning = false;
   }
-  if (state.running || state.dead || state.won) requestAnimationFrame(mainLoop);
+}
+function startLoop(){
+  if (loopRunning) return;
+  loopRunning = true;
+  lastTime = performance.now();
+  requestAnimationFrame(mainLoop);
 }
 
-// Подготовка музыки при загрузке страницы
 initBgMusic();
-
 resize();
 renderLevelGrid();
 showMenu();
