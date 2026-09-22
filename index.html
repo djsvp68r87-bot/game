@@ -11,12 +11,12 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
 html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background:#000;font-family:"Courier New",monospace;touch-action:none;color:#fff;position:fixed;top:0;left:0}
 .screen{position:fixed;inset:0;z-index:50;display:none}
-#menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
+#menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(20px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom))}
 #menuTitle{position:absolute;top:calc(16px + env(safe-area-inset-top));right:22px;font-size:50px;letter-spacing:10px;font-weight:900;color:#fff;text-shadow:4px 4px 0 #000,0 0 40px #000,0 0 12px #000;z-index:10}
 #menuSubtitle{position:absolute;top:calc(74px + env(safe-area-inset-top));right:22px;font-size:14px;letter-spacing:4px;color:#fff;text-shadow:2px 2px 0 #000,0 0 8px #000;z-index:10}
-#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;position:relative;z-index:2;margin-top:60px;margin-bottom:8px}
-#menuSoldier svg{height:100%;max-height:52vh;width:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.85))}
-#menuPlay{padding:16px 62px;font-size:22px;font-weight:900;letter-spacing:7px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 28px rgba(255,215,0,0.7),inset 0 0 15px rgba(255,215,0,0.2);z-index:2;position:relative;margin-bottom:40px}
+#menuSoldier{flex:1;display:flex;align-items:center;justify-content:center;width:100%;z-index:2;margin-top:50px;margin-bottom:8px}
+#menuSoldier svg{height:100%;max-height:52vh;width:auto;image-rendering:pixelated}
+#menuPlay{padding:16px 62px;font-size:22px;font-weight:900;letter-spacing:7px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 28px rgba(255,215,0,0.7);z-index:2;margin-bottom:30px}
 #menuPlay:active{background:#ffd700;color:#1a1a1a}
 #levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto}
 #levelsTitle{font-size:26px;letter-spacing:8px;color:#ffcc00;margin-bottom:16px;font-weight:900;flex-shrink:0}
@@ -41,8 +41,8 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 .hud-hp{color:#ff4444}
 .hud-am{color:#66ddff}
 .hud-sc{color:#88ff88}
-#minimap{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + env(safe-area-inset-top));background:rgba(0,0,0,0.85);border:2px solid #888;z-index:11;image-rendering:pixelated;display:block}
-#weaponBtn{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(102px + env(safe-area-inset-top));width:140px;height:52px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.82);border:2px solid #ffcc00;box-shadow:0 0 12px rgba(255,200,0,0.45);display:flex;align-items:center;justify-content:center;padding:4px}
+#minimap{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + env(safe-area-inset-top));background:rgba(0,0,0,0.85);border:2px solid #888;z-index:11;display:block}
+#weaponBtn{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(102px + env(safe-area-inset-top));width:140px;height:52px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.82);border:2px solid #ffcc00;display:flex;align-items:center;justify-content:center;padding:4px}
 #weaponBtn svg{width:100%;height:100%}
 #joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(5px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.25);z-index:10;pointer-events:none}
 #joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.75);border:2px solid rgba(255,255,255,0.55)}
@@ -59,24 +59,23 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #dead,#win{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:20;text-align:center;font-family:"Courier New",monospace;padding:20px}
 #dead{background:rgba(40,0,0,0.92)}
 #win{background:rgba(0,40,10,0.92)}
-#dead h1{font-size:44px;color:#ff3344;margin-bottom:18px;letter-spacing:8px;text-shadow:0 0 30px #f00}
-#win h1{font-size:40px;color:#88ff88;margin-bottom:18px;letter-spacing:8px;text-shadow:0 0 30px #0f0}
+#dead h1{font-size:44px;color:#ff3344;margin-bottom:18px;letter-spacing:8px}
+#win h1{font-size:40px;color:#88ff88;margin-bottom:18px;letter-spacing:8px}
 #dead .stat,#win .stat{font-size:22px;color:#ffcc00;letter-spacing:4px;margin:6px 0}
 .btn{font-family:"Courier New",monospace;font-weight:900;font-size:15px;letter-spacing:3px;padding:14px 30px;cursor:pointer;border:none;margin:6px}
 .btn.primary{background:#ffcc00;color:#000}
 .btn.ghost{background:transparent;color:#ccc;border:2px solid #666}
 #rotate{position:fixed;inset:0;background:#05050a;color:#ffcc00;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:100;font-size:20px;font-weight:900;text-align:center;padding:20px}
-#rotate .box{width:70px;height:120px;border:3px solid #ffcc00;margin-bottom:24px;animation:rot 2s ease-in-out infinite}
-@keyframes rot{0%,100%{transform:rotate(0)}50%{transform:rotate(90deg)}}
+#rotate .box{width:70px;height:120px;border:3px solid #ffcc00;margin-bottom:24px}
 #vhsLine{position:fixed;left:0;right:0;height:3px;background:rgba(255,255,255,0.07);pointer-events:none;z-index:15;display:none}
-#killstreak{position:fixed;left:50%;top:22%;transform:translateX(-50%);font-family:"Courier New",monospace;font-weight:900;font-size:36px;letter-spacing:6px;color:#ff2222;text-shadow:0 0 20px #f00,0 0 8px #000,4px 4px 0 #000;z-index:18;pointer-events:none;opacity:0;transition:opacity 0.3s ease-out;text-align:center;white-space:nowrap}
+#killstreak{position:fixed;left:50%;top:22%;transform:translateX(-50%);font-family:"Courier New",monospace;font-weight:900;font-size:36px;letter-spacing:6px;color:#ff2222;text-shadow:0 0 20px #f00,4px 4px 0 #000;z-index:18;pointer-events:none;opacity:0;text-align:center;white-space:nowrap}
 </style>
 </head>
 <body>
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
-  <div id="menuSubtitle">BETA 2.3.0</div>
+  <div id="menuSubtitle">BETA 2.3.1</div>
   <div id="menuSoldier">
     <svg viewBox="0 0 160 260" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
       <ellipse cx="80" cy="252" rx="48" ry="6" fill="rgba(0,0,0,0.5)"/>
@@ -89,12 +88,9 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
       <rect x="74" y="108" width="14" height="10" fill="#3a5528"/>
       <rect x="92" y="100" width="12" height="14" fill="#3a5528"/>
       <rect x="58" y="126" width="14" height="10" fill="#3a5528"/>
-      <rect x="82" y="134" width="14" height="10" fill="#3a5528"/>
       <rect x="48" y="112" width="64" height="46" fill="#2a3a1a"/>
-      <rect x="48" y="132" width="64" height="4" fill="#1a2a10"/>
       <rect x="52" y="120" width="22" height="14" fill="#0057b7"/>
       <rect x="52" y="127" width="22" height="7" fill="#ffd700"/>
-      <rect x="51" y="119" width="24" height="16" fill="none" stroke="#000" stroke-width="1"/>
       <rect x="112" y="104" width="16" height="52" fill="#3a5a2a"/>
       <rect x="112" y="148" width="16" height="12" fill="#c9a07a"/>
       <rect x="32" y="110" width="16" height="48" fill="#4a6a3a"/>
@@ -104,15 +100,12 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
       <rect x="46" y="147" width="12" height="10" fill="#3a2a1a"/>
       <rect x="56" y="42" width="48" height="48" fill="#c9a07a"/>
       <rect x="56" y="42" width="6" height="48" fill="#a88060"/>
-      <rect x="98" y="42" width="6" height="48" fill="#b89070"/>
       <rect x="64" y="62" width="8" height="6" fill="#1a1a1a"/>
-      <rect x="64" y="62" width="3" height="3" fill="#fff"/>
       <rect x="72" y="84" width="16" height="4" fill="#8a4030"/>
       <rect x="48" y="30" width="64" height="16" fill="#3a5a2a"/>
       <rect x="54" y="24" width="52" height="8" fill="#4a6a3a"/>
       <rect x="62" y="18" width="36" height="8" fill="#4a6a3a"/>
       <rect x="40" y="42" width="80" height="8" fill="#2d4a24"/>
-      <rect x="40" y="42" width="80" height="3" fill="#5f7f4a"/>
       <rect x="76" y="24" width="4" height="12" fill="#ffd700"/>
       <rect x="72" y="28" width="3" height="8" fill="#ffd700"/>
       <rect x="81" y="28" width="3" height="8" fill="#ffd700"/>
@@ -167,7 +160,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   <div id="hurt"></div>
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
-  <div id="version">beta 2.3.0</div>
+  <div id="version">beta 2.3.1</div>
   <div id="vhsLine"></div>
   <div id="killstreak"></div>
 
@@ -186,7 +179,6 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 </div>
 
 <div id="rotate"><div class="box"></div>ROTATE DEVICE<br>TO LANDSCAPE</div>
-
 <script>
 (function(){
 "use strict";
@@ -214,8 +206,8 @@ function pauseBgMusic(){
 
 // ===== PISTOL IMAGE =====
 var pistolImg = new Image();
-var pistolImgLoaded = false;
-var pistolCleanCanvas = null;
+var pistolReady = false;
+var pistolClean = null;
 pistolImg.onload = function(){
   try {
     var c = document.createElement('canvas');
@@ -233,13 +225,13 @@ pistolImg.onload = function(){
       }
     }
     ic.putImageData(imgData, 0, 0);
-    pistolCleanCanvas = c;
-    pistolImgLoaded = true;
+    pistolClean = c;
   } catch(e){
-    pistolCleanCanvas = null;
-    pistolImgLoaded = true;
+    pistolClean = null;
   }
+  pistolReady = true;
 };
+pistolImg.onerror = function(){ pistolReady = false; };
 pistolImg.src = 'pistol.png.jpg';
 
 var MAX_LEVEL = 20;
@@ -257,16 +249,17 @@ function updateLevelButtons(){
   var btns = document.querySelectorAll('#levelsGrid .lvlBtn');
   for (var i = 0; i < btns.length; i++){
     var lvl = parseInt(btns[i].getAttribute('data-lvl'), 10);
-    btns[i].className = 'lvlBtn';
-    if (lvl === 10 || lvl === 20) btns[i].className += ' boss';
-    if (lvl <= progress) btns[i].className += ' unlocked';
-    else btns[i].className += ' locked';
+    var cls = 'lvlBtn';
+    if (lvl === 10 || lvl === 20) cls += ' boss';
+    if (lvl <= progress) cls += ' unlocked';
+    else cls += ' locked';
+    btns[i].className = cls;
   }
 }
 
 var WEAPONS = {
   pistol: { name:'PISTOL', speed:1.7, damage:25, magSize:7, reloadTime:3.0 },
-  knife:  { name:'KNIFE',  speed:2.5, damage:0 }
+  knife:  { name:'KNIFE',  speed:2.7, damage:0 }
 };
 
 var KNIFE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"><path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/><path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/><rect x="38" y="18" width="8" height="14" fill="#4a4a4a"/><rect x="8" y="19" width="32" height="12" fill="#3a2a1a"/><circle cx="36" cy="25" r="3" fill="#8a7a3a"/></svg>';
@@ -281,7 +274,6 @@ var SPAWN = {
   19:{n:30,f:20,s:20}
 };
 
-// ===== AUDIO =====
 var AC = null;
 function ensureAudio(){
   if (!AC){
@@ -372,7 +364,6 @@ function demonVoice(){
     g1.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.7);
     o1.connect(g1); g1.connect(AC.destination);
     o1.start(t0); o1.stop(t0 + 0.75);
-
     var o2 = AC.createOscillator();
     o2.type = 'square';
     o2.frequency.setValueAtTime(180, t0);
@@ -383,7 +374,6 @@ function demonVoice(){
     g2.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.6);
     o2.connect(g2); g2.connect(AC.destination);
     o2.start(t0); o2.stop(t0 + 0.65);
-
     for (var i = 0; i < 3; i++){
       (function(idx){
         setTimeout(function(){
@@ -404,12 +394,10 @@ function demonVoice(){
         }, idx * 170);
       })(i);
     }
-
     noiseBurst(0.5, 0.1, 700);
   } catch(e){}
 }
 
-// ===== KILLSTREAK =====
 var killTimes = [];
 function registerKill(){
   var now = performance.now();
@@ -430,13 +418,9 @@ function showKillstreak(text){
   if (!el) return;
   el.textContent = text;
   el.style.opacity = '1';
-  el.style.transform = 'translateX(-50%) scale(1.15)';
   demonVoice();
   clearTimeout(el._hideTimer);
-  el._hideTimer = setTimeout(function(){
-    el.style.opacity = '0';
-    el.style.transform = 'translateX(-50%) scale(1)';
-  }, 1200);
+  el._hideTimer = setTimeout(function(){ el.style.opacity = '0'; }, 1200);
 }
 function resetKillstreak(){
   killTimes = [];
@@ -783,7 +767,6 @@ function showLevels(){
   playBgMusic();
 }
 
-// ===== LEVEL BUTTONS (static, event delegation) =====
 document.getElementById('levelsGrid').addEventListener('click', function(e){
   var btn = e.target;
   while (btn && btn !== this && !btn.classList.contains('lvlBtn')){ btn = btn.parentNode; }
@@ -867,10 +850,11 @@ function fire(){
     }
   }
   if (hit){
-    var headshot = hitVerticalPct < 0.30;
-    var dmg = headshot ? 75 : 25;
+    var headshot = hit888VerticalPct < 0.30;
+   '); var dmg = headshot ? 75 :  }
+25;
     hit.hp -= dmg;
-    if (headshot){ sndHeadshotHit(); state.headshotFlash = 0.5; } else { sndHit(); }
+         if (headshot){ s enndHeadshotHit(); state.headshotFlash.st = 0.5; } else { sndHit(); }
     spawnBlood(hit.x, hit.y, headshot ? 14 : 7);
     if (hit.hp <= 0){
       hit.alive = false;
@@ -1116,8 +1100,7 @@ function updateBoss(en, dist, dx, dy, dt){
   }
   if (en.attackCooldown <= 0){
     if (en.attackPhase === 0 || en.attackPhase === 1){
-      if (dist > 1){ fireEnemyBullet(en, dx/dist, dy/dist, 15, 3.0, '#888888'); }
-      en.stonesThrown++;
+      if (dist > 1){ fireEnemyBullet(en, dx/dist, dy/dist, 15, 3.0, '#888onesThrown++;
       en.attackPhase = 1;
       if (en.stonesThrown >= 3){ en.attackPhase = 2; en.attackCooldown = 1.5; } else en.attackCooldown = 2;
     } else if (en.attackPhase === 2){
@@ -1442,10 +1425,13 @@ function drawGun(){
   ctx.translate(anchorX, anchorY);
   ctx.rotate(recoilRot);
 
-  if (pistolImgLoaded && pistolCleanCanvas){
+  if (pistolReady){
+    var srcImg = pistolClean || pistolImg;
+    var srcW = (pistolClean ? pistolClean.width : pistolImg.width) || 512;
+    var srcH = (pistolClean ? pistolClean.height : pistolImg.height) || 512;
     var imgW = Math.min(W * 0.62, 520);
-    var imgH = imgW * (pistolCleanCanvas.height / pistolCleanCanvas.width);
-    ctx.drawImage(pistolCleanCanvas, -imgW, -imgH, imgW, imgH);
+    var imgH = imgW * (srcH / srcW);
+    ctx.drawImage(srcImg, -imgW, -imgH, imgW, imgH);
 
     if (state.muzzleFlash > 0.05){
       var mf = state.muzzleFlash;
@@ -1458,13 +1444,6 @@ function drawGun(){
       grd.addColorStop(1, 'rgba(255,80,0,0)');
       ctx.fillStyle = grd;
       ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
-      ctx.beginPath();
-      ctx.moveTo(fx + R*0.15, fy2 + R*0.30);
-      ctx.lineTo(fx - R*0.9, fy2 - R*0.6);
-      ctx.lineTo(fx + R*0.35, fy2 - R*0.45);
-      ctx.closePath();
-      ctx.fill();
     }
   } else {
     var S = Math.min(W, H) * 0.10;
@@ -1500,16 +1479,6 @@ function drawGun(){
     ctx.lineTo(-S*1.1, -S*2.9);
     ctx.closePath();
     ctx.fill();
-    if (state.muzzleFlash > 0.05){
-      var mf2 = state.muzzleFlash;
-      var fx2 = -S*3.4, fy3 = -S*4.2;
-      var R2 = S * 2.8 * mf2;
-      var grd2 = ctx.createRadialGradient(fx2, fy3, 0, fx2, fy3, R2);
-      grd2.addColorStop(0, 'rgba(255,250,210,' + (mf2*0.98) + ')');
-      grd2.addColorStop(1, 'rgba(255,80,0,0)');
-      ctx.fillStyle = grd2;
-      ctx.beginPath(); ctx.arc(fx2, fy3, R2, 0, Math.PI*2); ctx.fill();
-    }
   }
 
   ctx.restore();
@@ -1572,7 +1541,6 @@ function drawKnife(){
   ctx.restore();
 }
 
-// ===== RAF LOOP =====
 var lastTime = 0;
 var loopRunning = false;
 function mainLoop(t){
@@ -1594,7 +1562,6 @@ function startLoop(){
   requestAnimationFrame(mainLoop);
 }
 
-// ===== INIT =====
 initBgMusic();
 resize();
 updateLevelButtons();
