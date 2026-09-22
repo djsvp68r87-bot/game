@@ -35,8 +35,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:"Co
 #gameScreen{display:none;z-index:10}
 #gameScreen.active{display:block}
 canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
-
-/* HUD */
 #hud{position:fixed;inset:0;pointer-events:none;z-index:5;font-family:"Courier New",monospace;font-weight:900}
 #hudLeft{position:absolute;top:calc(6px + env(safe-area-inset-top));left:calc(12px + env(safe-area-inset-left));display:flex;gap:8px}
 #hudCenter{position:absolute;top:calc(6px + env(safe-area-inset-top));left:50%;transform:translateX(-50%)}
@@ -46,16 +44,11 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
 .hud-hp{color:#ff4444}
 .hud-am{color:#66ddff}
 .hud-sc{color:#88ff88}
-
-#minimap{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(58px + env(safe-area-inset-top));background:rgba(0,0,0,0.78);border:2px solid #888;z-index:11;image-rendering:pixelated;display:block}
-
-#weaponBtn{position:fixed;right:calc(12px + env(safe-area-inset-right));top:calc(152px + env(safe-area-inset-top));width:140px;height:52px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.82);border:2px solid #ffcc00;box-shadow:0 0 12px rgba(255,200,0,0.45);display:flex;align-items:center;justify-content:center;padding:4px}
+#minimap{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + env(safe-area-inset-top));background:rgba(0,0,0,0.85);border:2px solid #888;z-index:11;image-rendering:pixelated;display:block}
+#weaponBtn{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(102px + env(safe-area-inset-top));width:140px;height:52px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.82);border:2px solid #ffcc00;box-shadow:0 0 12px rgba(255,200,0,0.45);display:flex;align-items:center;justify-content:center;padding:4px}
 #weaponBtn:active{transform:scale(0.95);background:rgba(60,50,0,0.9)}
 #weaponBtn svg{width:100%;height:100%}
-
-#fireZone{position:fixed;right:0;top:0;bottom:0;width:30%;z-index:4;pointer-events:none}
 #fireHint{position:fixed;right:calc(20px + env(safe-area-inset-right));bottom:calc(20px + env(safe-area-inset-bottom));font-family:"Courier New",monospace;font-weight:900;font-size:13px;letter-spacing:2px;color:rgba(255,80,80,0.45);border:2px dashed rgba(255,80,80,0.4);padding:8px 14px;z-index:4;pointer-events:none;border-radius:4px}
-
 #joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(20px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.22);z-index:10;pointer-events:none}
 #joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.7);border:2px solid rgba(255,255,255,0.5);box-shadow:0 0 16px rgba(255,200,60,0.6)}
 #cross{position:fixed;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;z-index:5;pointer-events:none}
@@ -103,8 +96,6 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
       <rect x="68" y="76" width="8" height="10" fill="#3a5528"/>
       <rect x="46" y="94" width="10" height="8" fill="#3a5528"/>
       <rect x="62" y="100" width="10" height="8" fill="#3a5528"/>
-      <rect x="44" y="114" width="8" height="8" fill="#3a5528"/>
-      <rect x="66" y="116" width="10" height="8" fill="#3a5528"/>
       <rect x="40" y="90" width="42" height="6" fill="#2a2018"/>
       <rect x="40" y="108" width="42" height="6" fill="#2a2018"/>
       <rect x="44" y="92" width="8" height="14" fill="#3a2a1a"/>
@@ -165,9 +156,8 @@ canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
   <div id="hurt"></div>
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
-  <div id="fireZone"></div>
   <div id="fireHint">FIRE →</div>
-  <div id="version">beta 1.0.4</div>
+  <div id="version">beta 1.0.5</div>
 
   <div id="dead">
     <h1>YOU DIED</h1>
@@ -211,7 +201,6 @@ var WEAPONS = {
   knife:  { name:'KNIFE',  speed:2.5, damage:0 }
 };
 
-// Горизонтальные иконки оружия
 var KNIFE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
   '<path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/>' +
   '<path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/>' +
@@ -291,6 +280,7 @@ function sndHeadshot(){ tone(900,'square',0.1,0.2,600); tone(1200,'square',0.15,
 function sndKnife(){ tone(400,'triangle',0.06,0.1,200); noise(0.05,0.08,3000); }
 
 function mulberry32(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
 function generateMap(level){
   if (level === 10) return generateBossArena();
   var size = 20 + Math.min(level, 6) * 2;
@@ -419,9 +409,11 @@ function makeBoss(x, y){
     attackPhase:0, attackTimer:0, attackCooldown:0, stonesThrown:0
   };
 }
+
+// Ищет свободную клетку, максимально далеко от игрока
 function findFreeCellFar(minDist){
   minDist = minDist || 5;
-  for (var t = 0; t < 500; t++){
+  for (var t = 0; t < 800; t++){
     var x = 1.5 + Math.random() * (state.MAP_W - 3);
     var y = 1.5 + Math.random() * (state.MAP_H - 3);
     if (!isWall(x, y) && Math.hypot(x-state.px, y-state.py) > minDist &&
@@ -429,6 +421,25 @@ function findFreeCellFar(minDist){
   }
   return {x:4, y:4};
 }
+
+// Ищет БЕЗОПАСНЫЙ спавн для игрока (не в стене, с запасом)
+function findSafeSpawn(){
+  for (var t = 0; t < 1500; t++){
+    var x = 2.5 + Math.random() * (state.MAP_W - 5);
+    var y = 2.5 + Math.random() * (state.MAP_H - 5);
+    // Проверяем 8 точек вокруг — все должны быть свободны
+    var ok = true;
+    for (var dx = -0.7; dx <= 0.7; dx += 0.35){
+      for (var dy = -0.7; dy <= 0.7; dy += 0.35){
+        if (isWall(x+dx, y+dy)){ ok = false; break; }
+      }
+      if (!ok) break;
+    }
+    if (ok) return {x:x, y:y};
+  }
+  return {x:2.5, y:2.5};
+}
+
 function pickSkin(rng){
   var r = rng();
   if (r < 0.25) return 'dark';
@@ -463,7 +474,10 @@ function startLevel(level){
   state.level = level;
   var m = generateMap(level);
   state.map = m.grid; state.MAP_W = m.W; state.MAP_H = m.H;
-  state.px = 2.5; state.py = 2.5; state.dir = 0; state.pitch = 0;
+  // БЕЗОПАСНЫЙ СПАВН
+  var sp = findSafeSpawn();
+  state.px = sp.x; state.py = sp.y;
+  state.dir = 0; state.pitch = 0;
   state.hp = 100; state.maxHp = 100;
   state.score = 0; state.dead = false; state.won = false;
   state.blood = []; state.particles = []; state.enemyBullets = [];
@@ -504,8 +518,6 @@ function updateJoyBase(){ var r = joy.baseEl.getBoundingClientRect(); joy.cx = r
 function setStick(x, y){ joy.stickEl.style.left = (50+x*50)+'%'; joy.stickEl.style.top = (50+y*50)+'%'; }
 
 var look = {active:false, id:null, lastX:0, lastY:0};
-
-// Тап по правой 30% → выстрел (если не свайп)
 var fireTap = {active:false, id:null, startX:0, startY:0, startTime:0, moved:false, isRight:false};
 
 cv.addEventListener('touchstart', function(e){
@@ -514,22 +526,19 @@ cv.addEventListener('touchstart', function(e){
   var vw = window.innerWidth, vh = window.innerHeight;
   for (var i = 0; i < e.changedTouches.length; i++){
     var t = e.changedTouches[i];
-    var isRightZone = t.clientX > vw * 0.70;
-    // Джойстик — левая нижняя зона
+    // Правая ПОЛОВИНА экрана
+    var isRightZone = t.clientX > vw * 0.50;
     if (!joy.active && t.clientX < vw * 0.5 && t.clientY > vh * 0.5){
       joy.active = true; joy.id = t.identifier; joy.dx = 0; joy.dy = 0; setStick(0,0); continue;
     }
-    // Правый тап — кандидат на выстрел (и/или поворот)
     if (isRightZone && !fireTap.active && !look.active){
       fireTap.active = true; fireTap.id = t.identifier;
       fireTap.startX = t.clientX; fireTap.startY = t.clientY;
       fireTap.startTime = performance.now();
       fireTap.moved = false; fireTap.isRight = true;
-      // Начинаем отслеживать как потенциальный поворот тоже
       look.active = true; look.id = t.identifier; look.lastX = t.clientX; look.lastY = t.clientY;
       continue;
     }
-    // Иначе — поворот
     if (!look.active){ look.active = true; look.id = t.identifier; look.lastX = t.clientX; look.lastY = t.clientY; }
   }
   e.preventDefault();
@@ -548,7 +557,6 @@ cv.addEventListener('touchmove', function(e){
     if (look.active && t.identifier === look.id){
       var lx = t.clientX - look.lastX, ly = t.clientY - look.lastY;
       look.lastX = t.clientX; look.lastY = t.clientY;
-      // Проверяем сдвиг для fireTap
       if (fireTap.active && t.identifier === fireTap.id){
         var totalDx = t.clientX - fireTap.startX;
         var totalDy = t.clientY - fireTap.startY;
@@ -569,7 +577,6 @@ function endTouch(e){
     var t = e.changedTouches[i];
     if (joy.active && t.identifier === joy.id){ joy.active = false; joy.id = null; joy.dx = 0; joy.dy = 0; setStick(0,0); }
     if (look.active && t.identifier === look.id){ look.active = false; look.id = null; }
-    // Тап в правой зоне = выстрел (если не сдвинулся)
     if (fireTap.active && t.identifier === fireTap.id){
       var dt = performance.now() - fireTap.startTime;
       if (!fireTap.moved && dt < 350 && fireTap.isRight) fire();
@@ -603,7 +610,6 @@ function switchWeapon(){
   tone(600,'square',0.06,0.1);
 }
 document.getElementById('weaponBtn').addEventListener('touchstart', function(e){ if (!state.running || state.dead) return; switchWeapon(); e.preventDefault(); e.stopPropagation(); }, {passive:false});
-document.getElementById('weaponBtn').addEventListener('click', function(e){ if (!state.running || state.dead) return; switchWeapon(); });
 
 function showMenu(){
   document.getElementById('menuScreen').style.display = 'flex';
@@ -632,7 +638,6 @@ function renderLevelGrid(){
     if (isBoss) btn.className += ' boss';
     if (unlocked) btn.className += ' unlocked'; else btn.className += ' locked';
     btn.textContent = isBoss ? 'BOSS' : String(i);
-    btn.setAttribute('data-level', String(i));
     if (unlocked){ (function(lvl){ btn.addEventListener('click', function(){ initAudio(); startLevel(lvl); requestAnimationFrame(mainLoop); }); })(i); }
     grid.appendChild(btn);
   }
@@ -698,10 +703,9 @@ function fire(){
     var perp = Math.abs(ex*dy - ey*dx);
     var hitR = en.isBoss ? 1.4 : 0.4;
     if (perp < hitR && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)){
-      var corrected = proj;
       var scale = en.scale || 1;
-      var sizeH = Math.min(H*2, H/corrected) * scale;
-      var yBot = horizon + (H/corrected)/2;
+      var sizeH = Math.min(H*2, H/proj) * scale;
+      var yBot = horizon + (H/proj)/2;
       var yTop = yBot - sizeH;
       var pct = (H/2 - yTop) / sizeH;
       if (pct < 0 || pct > 1) continue;
@@ -756,6 +760,18 @@ function playerHurt(dmg){
     state.hp = 0; state.dead = true; state.running = false;
     document.getElementById('dsc').textContent = state.score + ' / ' + state.totalEnemies;
     document.getElementById('dead').style.display = 'flex';
+  }
+}
+
+// АВТО-ВЫТАЛКИВАНИЕ из стены
+function unstickPlayer(){
+  if (!isWall(state.px, state.py)) return;
+  for (var r = 0.2; r <= 2.0; r += 0.2){
+    for (var a = 0; a < 6.28; a += 0.4){
+      var tx = state.px + Math.cos(a) * r;
+      var ty = state.py + Math.sin(a) * r;
+      if (!isWall(tx, ty)){ state.px = tx; state.py = ty; return; }
+    }
   }
 }
 
@@ -818,6 +834,9 @@ function update(dt){
       }
     }
   } else state.bob *= 0.9;
+
+  // Авто-выталкивание если застрял
+  unstickPlayer();
 
   for (var i = 0; i < state.enemies.length; i++){
     var en = state.enemies[i];
@@ -1105,7 +1124,6 @@ function render(){
   }
 }
 
-// Прямоугольная мини-карта 140x90
 function drawMinimap(){
   if (!state.map) return;
   var mmW = 140, mmH = 90;
@@ -1252,14 +1270,11 @@ function drawKnife(){
   ctx.fillStyle = '#3a2a1a';
   ctx.fillRect(-kW*0.045, kW*0.05, kW*0.09, kW*0.30);
   ctx.fillStyle = '#2a1a0a';
-  for (var h = 0; h < 4; h++){
-    ctx.fillRect(-kW*0.05, kW*0.08 + h*kW*0.07, kW*0.10, kW*0.02);
-  }
+  for (var h = 0; h < 4; h++) ctx.fillRect(-kW*0.05, kW*0.08 + h*kW*0.07, kW*0.10, kW*0.02);
   ctx.fillStyle = '#8a7a3a';
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.035, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#5a4a1a';
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.018, 0, Math.PI*2); ctx.fill();
-
   ctx.fillStyle = '#4a4a4a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.035);
   ctx.fillStyle = '#2a2a2a';
@@ -1277,7 +1292,6 @@ function drawKnife(){
   ctx.lineTo(kW*0.055, 0);
   ctx.closePath();
   ctx.fill();
-
   ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -1288,7 +1302,6 @@ function drawKnife(){
   ctx.lineTo(kW*0.055, 0);
   ctx.closePath();
   ctx.fill();
-
   ctx.fillStyle = 'rgba(255,255,255,0.75)';
   ctx.beginPath();
   ctx.moveTo(-kW*0.01, -kW*0.10);
@@ -1297,7 +1310,6 @@ function drawKnife(){
   ctx.lineTo(kW*0.010, -kW*0.10);
   ctx.closePath();
   ctx.fill();
-
   ctx.fillStyle = '#a8b4c0';
   for (var z = 0; z < 5; z++){
     var zy = -kW*0.20 - z*kW*0.13;
@@ -1308,12 +1320,10 @@ function drawKnife(){
     ctx.closePath();
     ctx.fill();
   }
-
   ctx.fillStyle = '#6a7684';
   ctx.beginPath();
   ctx.ellipse(-kW*0.02, -kW*0.55, kW*0.008, kW*0.04, 0, 0, Math.PI*2);
   ctx.fill();
-
   ctx.restore();
 }
 
