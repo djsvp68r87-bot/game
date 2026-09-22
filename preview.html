@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Preview — Zombies & Soldier</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#f0f0f0;font-family:"Courier New",monospace;padding:20px;color:#000}
+  h1{font-size:22px;margin-bottom:10px}
+  h2{font-size:16px;margin:24px 0 8px;letter-spacing:2px;color:#333}
+  .row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px}
+  .card{background:#fff;border:2px solid #333;padding:10px;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+  .card .name{font-size:12px;font-weight:bold;margin-top:6px;letter-spacing:1px}
+  canvas{image-rendering:pixelated;display:block}
+</style>
+</head>
+<body>
+
+<h1>ZOMBIES & SOLDIER — PREVIEW</h1>
+
+<h2>◼ ZOMBIES — 3 ВИДА × 3 ТИПА</h2>
+<div class="row" id="zombieRow"></div>
+
+<h2>◼ SHOOTERS — стрелки с пистолетами</h2>
+<div class="row" id="shooterRow"></div>
+
+<h2>◼ BOSS</h2>
+<div class="row" id="bossRow"></div>
+
+<h2>◼ SOLDIER — украинский солдат для меню</h2>
+<div class="row" id="soldierRow"></div>
+
+<script>
+(function(){
+"use strict";
+
+// Каждый спрайт рисуется кодом 64x96 (пиксель-арт)
+function drawZombieSprite(ctx, kind, skin, W, H){
+  // kind: normal | fast | shooter
+  // skin: dark | green | light
+  var palette = {
+    dark:  { main:'#1a5522', dark:'#0d2a10', skin:'#2a6a2a', skinDark:'#154015', blood:'#5a0808' },
+    green: { main:'#c02828', dark:'#6a1010', skin:'#d43838', skinDark:'#8a1818', blood:'#5a0808' },
+    light: { main:'#d8c020', dark:'#806a10', skin:'#e8d040', skinDark:'#a08018', blood:'#5a0808' }
+  };
+  var c = palette[skin];
+
+  ctx.imageSmoothingEnabled = false;
+
+  // Коэффициенты размеров
+  var sizeMul = (kind === 'fast') ? 0.78 : 1;
+
+  // РАЗМЕР СПРАЙТА
+  var cx = W/2;
+  var baseY = H - 4;
+
+  // ============= ТЕЛО =============
+  var bodyW = 22 * sizeMul;
+  var bodyH = 26 * sizeMul;
+  var bodyX = cx - bodyW/2;
+  var bodyY = baseY - 26 - bodyH;
+
+  // Торс — рваная одежда
+  ctx.fillStyle = c.main;
+  ctx.fillRect(bodyX, bodyY, bodyW, bodyH);
+  // Тёмные полосы на торсе (складки)
+  ctx.fillStyle = c.dark;
+  ctx.fillRect(bodyX + 2, bodyY + 6, bodyW - 4, 2);
+  ctx.fillRect(bodyX + 2, bodyY + 14, bodyW - 4, 2);
+  // Кровь на торсе
+  ctx.fillStyle = c.blood;
+  ctx.fillRect(bodyX + 4, bodyY + 10, 4, 6);
+  ctx.fillRect(bodyX + bodyW - 8, bodyY + 18, 3, 4);
+
+  // ============= РУКИ ВПЕРЁД (как в Doom) =============
+  // Левая рука вытянута вперёд
+  var armW = 8 * sizeMul;
+  var armH = 5 * sizeMul;
+  ctx.fillStyle = c.skin;
+  ctx.fillRect(bodyX - armW + 2, bodyY + 6, armW, armH);   // плечо
+  ctx.fillRect(bodyX - armW - 6, bodyY + 6, 8, armH);      // предплечье вытянуто
+  // Кисть
+  ctx.fillStyle = c.skinDark;
+  ctx.fillRect(bodyX - armW - 8, bodyY + 5, 5, armH + 2);
+
+  // Правая рука
+  ctx.fillStyle = c.skin;
+  ctx.fillRect(bodyX + bodyW - 2, bodyY + 6, armW, armH);
+  ctx.fillRect(bodyX + bodyW + 6, bodyY + 6, 8, armH);
+  ctx.fillStyle = c.skinDark;
+  ctx.fillRect(bodyX + bodyW + 12, bodyY + 5, 5, armH + 2);
+
+  // ============= ГОЛОВА =============
+  var headW = 18 * sizeMul;
+  var headH = 18 * sizeMul;
+  var headX = cx - headW/2;
+  var headY = bodyY - headH + 2;
+
+  ctx.fillStyle = c.skin;
+  ctx.fillRect(headX, headY, headW, headH);
+
+  // Тени на лице
+  ctx.fillStyle = c.skinDark;
+  ctx.fillRect(headX, headY, 3, headH);
+  ctx.fillRect(headX + headW - 3, headY, 3, headH);
+
+  // Волосы (тёмные, рваные)
+  ctx.fillStyle = c.dark;
+  ctx.fillRect(headX - 1, headY - 2, headW + 2, 5);
+  ctx.fillRect(headX + 2, headY - 4, 4, 3);
+  ctx.fillRect(headX + headW - 6, headY - 4, 4, 3);
+
+  // ============= ГЛАЗА — КРАСНЫЕ С БЛЕСКОМ =============
+  var eyeY = headY + 7;
+  var eyeSize = 3 * sizeMul;
+  // Левый глаз
+  ctx.fillStyle = '#000';
+  ctx.fillRect(headX + 3, eyeY, eyeSize + 1, eyeSize + 1);
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(headX + 4, eyeY + 1, eyeSize - 1, eyeSize - 1);
+  // Блеск
+  ctx.fillStyle = '#ffcccc';
+  ctx.fillRect(headX + 4, eyeY + 1, 1, 1);
+  // Правый глаз
+  ctx.fillStyle = '#000';
+  ctx.fillRect(headX + headW - eyeSize - 4, eyeY, eyeSize + 1, eyeSize + 1);
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(headX + headW - eyeSize - 3, eyeY + 1, eyeSize - 1, eyeSize - 1);
+  ctx.fillStyle = '#ffcccc';
+  ctx.fillRect(headX + headW - eyeSize - 3, eyeY + 1, 1, 1);
+
+  // ============= РОТ С ЗУБАМИ =============
+  var mouthY = headY + headH - 5;
+  ctx.fillStyle = '#000';
+  ctx.fillRect(headX + 4, mouthY, headW - 8, 3);
+  // Зубы
+  ctx.fillStyle = '#eee';
+  for (var t = 0; t < 5; t++){
+    ctx.fillRect(headX + 5 + t*2, mouthY, 1, 2);
+  }
+  // Кровь на рту
+  ctx.fillStyle = c.blood;
+  ctx.fillRect(headX + 6, mouthY + 3, 3, 2);
+
+  // ============= НОГИ =============
+  var legW = 7 * sizeMul;
+  var legH = 22 * sizeMul;
+  ctx.fillStyle = c.dark;
+  ctx.fillRect(bodyX + 2, baseY - legH, legW, legH);
+  ctx.fillRect(bodyX + bodyW - legW - 2, baseY - legH, legW, legH);
+  // Ступни
+  ctx.fillStyle = '#1a1a10';
+  ctx.fillRect(bodyX, baseY - 5, legW + 3, 5);
+  ctx.fillRect(bodyX + bodyW - legW - 3, baseY - 5, legW + 3, 5);
+
+  // ============= ПИСТОЛЕТ ДЛЯ SHOOTER =============
+  if (kind === 'shooter'){
+    // Пистолет в правой руке
+    ctx.fillStyle = '#1a1a22';
+    ctx.fillRect(bodyX + bodyW + 14, bodyY + 4, 10, 4);
+    ctx.fillRect(bodyX + bodyW + 12, bodyY + 8, 6, 5);
+    // Ствол
+    ctx.fillStyle = '#333';
+    ctx.fillRect(bodyX + bodyW + 20, bodyY + 5, 6, 2);
+    // Вспышка у дула (намек на оружие)
+    ctx.fillStyle = '#ffcc00';
+    ctx.fillRect(bodyX + bodyW + 24, bodyY + 5, 2, 2);
+  }
+}
+
+function drawBossSprite(ctx, W, H){
+  // Большой зомби с рогами
+  ctx.imageSmoothingEnabled = false;
+  var cx = W/2, baseY = H - 4;
+
+  // Ноги
+  ctx.fillStyle = '#0a1a08';
+  ctx.fillRect(cx - 22, baseY - 40, 16, 40);
+  ctx.fillRect(cx + 6, baseY - 40, 16, 40);
+  // Ступни
+  ctx.fillStyle = '#000';
+  ctx.fillRect(cx - 26, baseY - 8, 24, 8);
+  ctx.fillRect(cx + 2, baseY - 8, 24, 8);
+
+  // Торс — крупный
+  ctx.fillStyle = '#0d3a10';
+  ctx.fillRect(cx - 30, baseY - 95, 60, 58);
+  // Складки
+  ctx.fillStyle = '#051505';
+  ctx.fillRect(cx - 26, baseY - 82, 52, 3);
+  ctx.fillRect(cx - 26, baseY - 66, 52, 3);
+  // Кровь
+  ctx.fillStyle = '#7a0808';
+  ctx.fillRect(cx - 18, baseY - 76, 10, 8);
+  ctx.fillRect(cx + 10, baseY - 68, 8, 6);
+
+  // Руки
+  ctx.fillStyle = '#0d3a10';
+  ctx.fillRect(cx - 42, baseY - 88, 14, 40);
+  ctx.fillRect(cx + 28, baseY - 88, 14, 40);
+  // Кулаки
+  ctx.fillStyle = '#0a2a0d';
+  ctx.fillRect(cx - 46, baseY - 50, 22, 16);
+  ctx.fillRect(cx + 24, baseY - 50, 22, 16);
+
+  // Голова большая
+  ctx.fillStyle = '#0d3a10';
+  ctx.fillRect(cx - 24, baseY - 128, 48, 36);
+  // Тени
+  ctx.fillStyle = '#051505';
+  ctx.fillRect(cx - 24, baseY - 128, 6, 36);
+  ctx.fillRect(cx + 18, baseY - 128, 6, 36);
+
+  // Рога
+  ctx.fillStyle = '#2a1a05';
+  ctx.beginPath();
+  ctx.moveTo(cx - 22, baseY - 128);
+  ctx.lineTo(cx - 30, baseY - 150);
+  ctx.lineTo(cx - 14, baseY - 128);
+  ctx.closePath(); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(cx + 22, baseY - 128);
+  ctx.lineTo(cx + 30, baseY - 150);
+  ctx.lineTo(cx + 14, baseY - 128);
+  ctx.closePath(); ctx.fill();
+
+  // Глаза — ЯРКО-КРАСНЫЕ
+  ctx.fillStyle = '#000';
+  ctx.fillRect(cx - 14, baseY - 118, 10, 8);
+  ctx.fillRect(cx + 4, baseY - 118, 10, 8);
+  ctx.fillStyle = '#ff0000';
+  ctx.fillRect(cx - 13, baseY - 117, 8, 6);
+  ctx.fillRect(cx + 5, baseY - 117, 8, 6);
+  // Блеск
+  ctx.fillStyle = '#ffaaaa';
+  ctx.fillRect(cx - 12, baseY - 116, 2, 2);
+  ctx.fillRect(cx + 6, baseY - 116, 2, 2);
+
+  // Рот с большими зубами
+  ctx.fillStyle = '#000';
+  ctx.fillRect(cx - 14, baseY - 104, 28, 6);
+  ctx.fillStyle = '#fff';
+  for (var t = 0; t < 7; t++){
+    ctx.fillRect(cx - 13 + t*4, baseY - 104, 2, 5);
+  }
+  // Кровь
+  ctx.fillStyle = '#7a0808';
+  ctx.fillRect(cx - 8, baseY - 99, 5, 4);
+  ctx.fillRect(cx + 4, baseY - 97, 6, 5);
+}
+
+function drawSoldierSprite(ctx, W, H){
+  // Украинский солдат для меню — большой, детальный
+  ctx.imageSmoothingEnabled = false;
+  var cx = W/2, baseY = H - 10;
+
+  // ============= НОГИ =============
+  // Задняя нога
+  ctx.fillStyle = '#2d4a24';
+  ctx.fillRect(cx + 8, baseY - 46, 18, 46);
+  // Ботинок задний
+  ctx.fillStyle = '#1a1a12';
+  ctx.fillRect(cx + 6, baseY - 12, 22, 12);
+
+  // Передняя нога
+  ctx.fillStyle = '#3a5a2a';
+  ctx.fillRect(cx - 24, baseY - 50, 20, 50);
+  // Ботинок передний
+  ctx.fillStyle = '#222215';
+  ctx.fillRect(cx - 30, baseY - 12, 26, 12);
+
+  // ============= ТОРС =============
+  var torsoW = 56;
+  var torsoH = 70;
+  var torsoX = cx - torsoW/2 - 4;
+  var torsoY = baseY - 50 - torsoH;
+
+  // Форма
+  ctx.fillStyle = '#4a6a3a';
+  ctx.fillRect(torsoX, torsoY, torsoW, torsoH);
+
+  // Камуфляжные пятна
+  ctx.fillStyle = '#3a5528';
+  ctx.fillRect(torsoX + 6, torsoY + 8, 10, 10);
+  ctx.fillRect(torsoX + 26, torsoY + 16, 12, 8);
+  ctx.fillRect(torsoX + 14, torsoY + 30, 10, 12);
+  ctx.fillRect(torsoX + 36, torsoY + 40, 12, 10);
+  ctx.fillRect(torsoX + 4, torsoY + 50, 10, 10);
+  ctx.fillRect(torsoX + 28, torsoY + 55, 12, 8);
+
+  // Бронежилет
+  ctx.fillStyle = '#2a3a1a';
+  ctx.fillRect(torsoX + 4, torsoY + 14, torsoW - 8, 34);
+  ctx.fillStyle = '#1a2a10';
+  ctx.fillRect(torsoX + 4, torsoY + 30, torsoW - 8, 3);
+
+  // ============= УКРАИНСКИЙ ФЛАГ НА ГРУДИ =============
+  // Нашивка слева (ближе к плечу)
+  var flagX = torsoX + 6;
+  var flagY = torsoY + 18;
+  var flagW = 16;
+  var flagH = 10;
+  // Верхняя полоса — синяя
+  ctx.fillStyle = '#0057b7';
+  ctx.fillRect(flagX, flagY, flagW, flagH/2);
+  // Нижняя полоса — жёлтая
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(flagX, flagY + flagH/2, flagW, flagH/2);
+  // Обводка
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(flagX + 0.5, flagY + 0.5, flagW - 1, flagH - 1);
+
+  // ============= РУКИ =============
+  // Задняя рука (за спиной)
+  ctx.fillStyle = '#3a5a2a';
+  ctx.fillRect(torsoX + torsoW, torsoY + 16, 14, 42);
+  // Кисть задняя
+  ctx.fillStyle = '#c9a07a';
+  ctx.fillRect(torsoX + torsoW, torsoY + 52, 14, 10);
+
+  // Передняя рука — держит автомат
+  ctx.fillStyle = '#4a6a3a';
+  ctx.fillRect(torsoX - 16, torsoY + 20, 14, 40);
+  // Кисть передняя
+  ctx.fillStyle = '#c9a07a';
+  ctx.fillRect(torsoX - 16, torsoY + 55, 14, 10);
+
+  // ============= АВТОМАТ =============
+  var gunX = torsoX - 40;
+  var gunY = torsoY + 48;
+  // Ствол
+  ctx.fillStyle = '#1a1a22';
+  ctx.fillRect(gunX, gunY, 42, 6);
+  // Магазин
+  ctx.fillStyle = '#0a0a10';
+  ctx.fillRect(gunX + 24, gunY + 6, 10, 18);
+  // Рукоять
+  ctx.fillStyle = '#1a1a22';
+  ctx.fillRect(gunX + 36, gunY + 6, 8, 14);
+  // Дуло
+  ctx.fillStyle = '#000';
+  ctx.fillRect(gunX - 4, gunY + 2, 6, 2);
+  // Приклад
+  ctx.fillStyle = '#3a2a1a';
+  ctx.fillRect(gunX + 42, gunY + 2, 10, 8);
+
+  // ============= ГОЛОВА =============
+  var headW = 30;
+  var headH = 34;
+  var headX = cx - headW/2 - 4;
+  var headY = torsoY - headH + 4;
+
+  // Лицо
+  ctx.fillStyle = '#c9a07a';
+  ctx.fillRect(headX, headY, headW, headH);
+  // Тени
+  ctx.fillStyle = '#a88060';
+  ctx.fillRect(headX, headY, 4, headH);
+  ctx.fillRect(headX + headW - 4, headY, 4, headH);
+
+  // Глаз
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(headX + 6, headY + 14, 5, 4);
+  // Блеск в глазу
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(headX + 6, headY + 14, 2, 2);
+
+  // Нос
+  ctx.fillStyle = '#b89070';
+  ctx.fillRect(headX + 4, headY + 20, 6, 4);
+
+  // Рот
+  ctx.fillStyle = '#8a4030';
+  ctx.fillRect(headX + 4, headY + 28, 10, 3);
+
+  // ============= КАСКА С ТРЕЗУБЦЕМ =============
+  // Верх каски
+  ctx.fillStyle = '#3a5a2a';
+  ctx.fillRect(headX - 4, headY - 6, headW + 8, 12);
+  ctx.fillRect(headX - 2, headY - 10, headW + 4, 6);
+  // Поля каски
+  ctx.fillStyle = '#2d4a24';
+  ctx.fillRect(headX - 10, headY + 6, headW + 20, 6);
+  ctx.fillStyle = '#5f7f4a';
+  ctx.fillRect(headX - 10, headY + 6, headW + 20, 2);
+
+  // ============= ТРЕЗУБЕЦ НА КАСКЕ =============
+  var triX = headX + headW/2 - 4;
+  var triY = headY - 6;
+  ctx.fillStyle = '#ffd700';
+  // Центральный зуб
+  ctx.fillRect(triX + 3, triY, 3, 10);
+  // Боковые зубья
+  ctx.fillRect(triX, triY + 2, 2, 7);
+  ctx.fillRect(triX + 7, triY + 2, 2, 7);
+  // Основание
+  ctx.fillRect(triX, triY + 8, 9, 2);
+
+  // Ремешок каски
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(headX, headY + headH - 4, 4, 6);
+
+  // ============= ПЛЕЧЕВЫЕ НАШИВКИ (сине-жёлтые) =============
+  // На левом плече
+  ctx.fillStyle = '#0057b7';
+  ctx.fillRect(torsoX + 4, torsoY + 6, 8, 4);
+  ctx.fillStyle = '#ffd700';
+  ctx.fillRect(torsoX + 4, torsoY + 10, 8, 4);
+}
+
+// Создание карточек
+var zombieRow = document.getElementById('zombieRow');
+var shooterRow = document.getElementById('shooterRow');
+var bossRow = document.getElementById('bossRow');
+var soldierRow = document.getElementById('soldierRow');
+
+function makeCard(label, w, h, drawFn){
+  var card = document.createElement('div');
+  card.className = 'card';
+  var cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  cv.style.width = w + 'px';
+  cv.style.height = h + 'px';
+  var ctx = cv.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  // Белый фон
+  ctx.fillStyle = '#f8f8f8';
+  ctx.fillRect(0, 0, w, h);
+  // Тонкая сетка
+  ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+  ctx.lineWidth = 1;
+  for (var x = 0; x < w; x += 8){
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+  }
+  for (var y = 0; y < h; y += 8){
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+  drawFn(ctx, w, h);
+  var name = document.createElement('div');
+  name.className = 'name';
+  name.textContent = label;
+  card.appendChild(cv);
+  card.appendChild(name);
+  return card;
+}
+
+// ZOMBIE NORMAL
+['dark','green','light'].forEach(function(skin){
+  zombieRow.appendChild(makeCard('NORMAL ' + skin.toUpperCase(), 80, 120, function(ctx,w,h){ drawZombieSprite(ctx,'normal',skin,w,h); }));
+});
+// ZOMBIE FAST
+['dark','green','light'].forEach(function(skin){
+  zombieRow.appendChild(makeCard('FAST ' + skin.toUpperCase(), 80, 120, function(ctx,w,h){ drawZombieSprite(ctx,'fast',skin,w,h); }));
+});
+// SHOOTERS
+['dark','green','light'].forEach(function(skin){
+  shooterRow.appendChild(makeCard('SHOOTER ' + skin.toUpperCase(), 100, 120, function(ctx,w,h){ drawZombieSprite(ctx,'shooter',skin,w,h); }));
+});
+// BOSS
+bossRow.appendChild(makeCard('BOSS', 140, 180, drawBossSprite));
+// SOLDIER
+soldierRow.appendChild(makeCard('UKRAINIAN SOLDIER', 160, 260, drawSoldierSprite));
+
+})();
+</script>
+</body>
+</html>
