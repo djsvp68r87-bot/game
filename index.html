@@ -194,6 +194,30 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 (function(){
 "use strict";
 
+// ===== ФОНОВАЯ МУЗЫКА (MP3) =====
+var BG_MUSIC = null;
+var musicStarted = false;
+function initBgMusic(){
+  if (BG_MUSIC) return;
+  try {
+    BG_MUSIC = new Audio('Rory_in_early_20s_-_yaderi_80164590.mp3');
+    BG_MUSIC.loop = true;
+    BG_MUSIC.volume = 0.35;
+    BG_MUSIC.preload = 'auto';
+  } catch(e) { BG_MUSIC = null; }
+}
+function playBgMusic(){
+  initBgMusic();
+  if (!BG_MUSIC) return;
+  var p = BG_MUSIC.play();
+  if (p && p.catch) p.catch(function(){});
+  musicStarted = true;
+}
+function pauseBgMusic(){
+  if (!BG_MUSIC) return;
+  try { BG_MUSIC.pause(); } catch(e){}
+}
+
 var MAX_LEVEL = 20;
 var progress = 1;
 try {
@@ -244,7 +268,6 @@ var PISTOL_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" p
 
 function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : PISTOL_SVG; }
 
-// УРОВНИ 1-9 — как было; 10 — босс; 11-19 — больше зомби; 20 — босс
 var SPAWN = {
   1:{n:5,f:2,s:1}, 2:{n:5,f:5,s:0}, 3:{n:5,f:0,s:5}, 4:{n:3,f:3,s:3},
   5:{n:0,f:5,s:5}, 6:{n:5,f:3,s:3}, 7:{n:5,f:4,s:3}, 8:{n:5,f:4,s:4}, 9:{n:5,f:5,s:5},
@@ -253,11 +276,14 @@ var SPAWN = {
   19:{n:30,f:20,s:20}
 };
 
-// ===== АУДИО + МУЗЫКА =====
+// ===== АУДИО ЭФФЕКТЫ =====
 var AC = null;
-var musicState = { playing:false, mode:null, timerId:null, step:0 };
-
-function initAudio(){ if (AC) return; try{ AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); }catch(e){ AC = null; } }
+function initAudio(){
+  initBgMusic();
+  playBgMusic();
+  if (AC) return;
+  try{ AC = new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); }catch(e){ AC = null; }
+}
 function tone(f,t,d,v,fe){
   if (!AC) return;
   try{
@@ -283,66 +309,6 @@ function noise(d,v,ff){
     s.connect(fl); fl.connect(g); g.connect(AC.destination); s.start(t0);
   }catch(e){}
 }
-
-// === МУЗЫКА ===
-function stopMusic(){
-  if (musicState.timerId){ clearInterval(musicState.timerId); musicState.timerId = null; }
-  musicState.playing = false; musicState.mode = null;
-}
-function startMusic(mode){
-  if (!AC) return;
-  if (musicState.playing && musicState.mode === mode) return;
-  stopMusic();
-  musicState.playing = true;
-  musicState.mode = mode;
-  musicState.step = 0;
-
-  var bassNotes;
-  var bassSpeed;
-  var bassVol;
-  if (mode === 'menu'){
-    bassNotes = [55, 55, 62, 62, 58, 58, 55, 51];
-    bassSpeed = 700; bassVol = 0.10;
-  } else if (mode === 'game'){
-    bassNotes = [82, 82, 87, 82, 77, 77, 82, 74];
-    bassSpeed = 400; bassVol = 0.11;
-  } else if (mode === 'boss'){
-    bassNotes = [55, 55, 55, 62, 55, 55, 65, 62];
-    bassSpeed = 250; bassVol = 0.13;
-  } else {
-    bassNotes = [55]; bassSpeed = 700; bassVol = 0.10;
-  }
-
-  musicState.timerId = setInterval(function(){
-    if (!AC || !musicState.playing) return;
-    var step = musicState.step++;
-    var note = bassNotes[step % bassNotes.length];
-    // Бас-линия
-    tone(note, 'sawtooth', bassSpeed/1000 * 1.8, bassVol, note*0.98);
-    // Глубокий низкий тон (VHS бас)
-    if (step % 4 === 0){
-      tone(note/2, 'sine', 1.2, bassVol*0.6, note/2*0.98);
-    }
-    // Высокие тревожные ноты (как у Yaderi)
-    if (mode === 'game' && step % 8 === 5){
-      tone(800, 'triangle', 0.3, 0.05, 700);
-    }
-    if (mode === 'boss' && step % 4 === 2){
-      tone(1200, 'square', 0.15, 0.06, 900);
-      tone(400, 'sawtooth', 0.2, 0.05, 200);
-    }
-    // VHS шум в фоне
-    if (step % 16 === 0){
-      noise(0.5, 0.02, 400);
-    }
-    // Редкие глитчи
-    if (Math.random() < 0.03){
-      tone(200 + Math.random()*1800, 'square', 0.04, 0.06);
-    }
-  }, bassSpeed);
-}
-
-// === ЗВУКИ ===
 function sndGun(){ tone(240,'square',0.09,0.18,40); noise(0.12,0.20,1400); }
 function sndHit(){ tone(500,'square',0.06,0.14,220); noise(0.06,0.10,2000); }
 function sndDeath(){ tone(180,'sawtooth',0.5,0.22,30); noise(0.4,0.12,600); }
@@ -569,9 +535,7 @@ function startLevel(level){
   document.getElementById('gameScreen').classList.add('active');
   resize();
   state.running = true;
-  // Музыка
-  if (level === 10 || level === 20) startMusic('boss');
-  else startMusic('game');
+  playBgMusic();
 }
 
 function updateAmmoHUD(){
@@ -693,7 +657,7 @@ function showMenu(){
   document.getElementById('reloadBar').style.display = 'none';
   document.getElementById('vhsLine').style.display = 'none';
   state.running = false;
-  startMusic('menu');
+  playBgMusic();
 }
 function showLevels(){
   document.getElementById('menuScreen').style.display = 'none';
@@ -702,7 +666,7 @@ function showLevels(){
   document.getElementById('vhsLine').style.display = 'none';
   renderLevelGrid();
   state.running = false;
-  startMusic('menu');
+  playBgMusic();
 }
 function renderLevelGrid(){
   var grid = document.getElementById('levelsGrid');
@@ -720,7 +684,7 @@ function renderLevelGrid(){
   }
 }
 
-document.getElementById('menuPlay').addEventListener('click', function(){ initAudio(); startMusic('menu'); showLevels(); });
+document.getElementById('menuPlay').addEventListener('click', function(){ initAudio(); playBgMusic(); showLevels(); });
 document.getElementById('levelsBack').addEventListener('click', function(){ showMenu(); });
 document.getElementById('deadMenu').addEventListener('click', function(){ showMenu(); });
 document.getElementById('deadRetry').addEventListener('click', function(){ startLevel(state.level); requestAnimationFrame(mainLoop); });
@@ -835,6 +799,7 @@ function playerHurt(dmg){
   document.getElementById('hp').textContent = Math.max(0, Math.round(state.hp));
   if (state.hp <= 0){
     state.hp = 0; state.dead = true; state.running = false;
+    pauseBgMusic();
     document.getElementById('dsc').textContent = state.score + ' / ' + state.totalEnemies;
     document.getElementById('dead').style.display = 'flex';
     document.getElementById('vhsLine').style.display = 'none';
@@ -852,7 +817,6 @@ function unstickPlayer(){
   }
 }
 
-// VHS line animation
 var vhsEl = document.getElementById('vhsLine');
 var vhsY = 0;
 function updateVHS(dt){
@@ -1056,7 +1020,6 @@ function fireEnemyBullet(en, dx, dy, dmg, spd, color){
 
 var zbufArr = null, zbufLen = 0;
 
-// СВЕТЛЫЕ ТЕКСТУРЫ — без затемнения
 function wallTex(u, v, side, level){
   if (level === 10 || level === 20){
     var lineH = (v < 0.08 || v > 0.92);
@@ -1091,7 +1054,6 @@ function render(){
   var horizon = H/2 + bobY + state.pitch;
 
   var isBoss = (state.level === 10 || state.level === 20);
-  // Светлый потолок и пол — без затемнения
   var ceilGrad = ctx.createLinearGradient(0, 0, 0, Math.max(1,horizon));
   ceilGrad.addColorStop(0, isBoss ? '#5a5a68' : '#3a3a4a');
   ceilGrad.addColorStop(1, isBoss ? '#7a7a88' : '#5a5a6a');
@@ -1128,7 +1090,6 @@ function render(){
     var wallX = side === 0 ? state.py + d*rayDy : state.px + d*rayDx;
     wallX -= Math.floor(wallX);
     var base = wallTex(wallX, 0.5, side, state.level);
-    // БЕЗ затемнения — fogMul = 1
     var fogMul = 1;
     var px = i*colW, pw = colW+1;
     var topH = (y1-y0)*0.12, midH = (y1-y0)*0.72;
@@ -1263,7 +1224,6 @@ function drawMinimap(){
 
 function hexToRgb(hex){ return [parseInt(hex.substr(1,2),16), parseInt(hex.substr(3,2),16), parseInt(hex.substr(5,2),16)]; }
 
-// УЛУЧШЕННЫЙ СПРАЙТ ЗОМБИ — руки вперёд, глаза, зубы, кровь
 function drawSprite(sp, horizon, colW, rayCount, zbuf){
   var dx = sp.x-state.px, dy = sp.y-state.py;
   var angle = Math.atan2(dy, dx) - state.dir;
@@ -1280,7 +1240,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   var x0 = Math.floor(sX - sizeW/2), x1 = Math.floor(sX + sizeW/2);
   var yBot = Math.floor(horizon + (H/corrected)/2);
   var yTop = Math.floor(yBot - sizeH);
-  // Без тумана
   var tint = 1;
   var bob = Math.sin(e.wobble)*sizeH*0.02;
   var walkOff = e.frame === 0 ? 0 : sizeH*0.025;
@@ -1303,18 +1262,14 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
     var uMid = ((sx+sw/2)-x0)/sizeW;
     if (uMid < 0 || uMid > 1) continue;
 
-    // РУКИ ВПЕРЁД (по бокам от тела, вытянуты в стороны)
-    // Левая рука-предплечье
     if (uMid > 0.02 && uMid < 0.20 && sizeH > 20){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop + sizeH*0.32 + bob, sw, sizeH*0.10);
     }
-    // Правая рука
     if (uMid > 0.80 && uMid < 0.98 && sizeH > 20){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop + sizeH*0.32 + bob, sw, sizeH*0.10);
     }
-    // Кулаки-кисти
     if (uMid < 0.06 && sizeH > 25){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.14);
@@ -1324,17 +1279,14 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillRect(sx, yTop + sizeH*0.30 + bob, sw, sizeH*0.14);
     }
 
-    // ВОЛОСЫ (тёмные сверху головы)
     if (uMid > 0.28 && uMid < 0.72){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop + bob, sw, sizeH*0.05);
     }
-    // ГОЛОВА
     if (uMid > 0.22 && uMid < 0.78){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop+sizeH*0.05+bob, sw, sizeH*0.18);
     }
-    // Тени на щеках
     if (uMid > 0.22 && uMid < 0.28){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
@@ -1343,9 +1295,7 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.08+bob, sw, sizeH*0.14);
     }
-    // ГЛАЗА — ярко-красные с блеском
     if (sizeH > 22){
-      // Левый глаз
       if (uMid > 0.30 && uMid < 0.38){
         ctx.fillStyle = eyeStyle;
         ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.035);
@@ -1354,7 +1304,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
         ctx.fillStyle = eyeGlint;
         ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.012);
       }
-      // Правый глаз
       if (uMid > 0.62 && uMid < 0.70){
         ctx.fillStyle = eyeStyle;
         ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.035);
@@ -1364,7 +1313,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
         ctx.fillRect(sx, yTop+sizeH*0.13+bob, sw, sizeH*0.012);
       }
     }
-    // РОТ С ЗУБАМИ
     if (uMid > 0.34 && uMid < 0.66 && sizeH > 30){
       ctx.fillStyle = '#000';
       ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.03);
@@ -1373,35 +1321,26 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
         ctx.fillRect(sx, yTop+sizeH*0.20+bob, sw, sizeH*0.02);
       }
     }
-    // КРОВЬ НА РТУ
     if (uMid > 0.40 && uMid < 0.50 && sizeH > 35){
       ctx.fillStyle = bloodStyle;
       ctx.fillRect(sx, yTop+sizeH*0.225+bob, sw, sizeH*0.015);
     }
-
-    // ТОРС
     if (uMid > 0.18 && uMid < 0.82){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yTop+sizeH*0.24+bob, sw, sizeH*0.32);
     }
-    // Кожа на торсе
     if ((uMid > 0.32 && uMid < 0.42) || (uMid > 0.58 && uMid < 0.68)){
       ctx.fillStyle = skinStyle;
       ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.18);
     }
-    // КРОВЬ НА ТОРСЕ
     if (uMid > 0.45 && uMid < 0.55 && sizeH > 30){
       ctx.fillStyle = bloodStyle;
       ctx.fillRect(sx, yTop+sizeH*0.36+bob, sw, sizeH*0.10);
     }
-
-    // ПИСТОЛЕТ ДЛЯ SHOOTER
     if (e.hasGun && uMid > 0.72 && uMid < 0.90 && sizeH > 15){
       ctx.fillStyle = gunStyle;
       ctx.fillRect(sx, yTop+sizeH*0.30+bob, sw, sizeH*0.08);
     }
-
-    // НОГИ
     if (uMid > 0.22 && uMid < 0.44){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yBot-sizeH*0.30+walkOff, sw, sizeH*0.30);
@@ -1410,7 +1349,6 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
       ctx.fillStyle = darkStyle;
       ctx.fillRect(sx, yBot-sizeH*0.30-walkOff, sw, sizeH*0.30);
     }
-    // Ступни
     if (uMid > 0.20 && uMid < 0.46){
       ctx.fillStyle = '#1a1a10';
       ctx.fillRect(sx, yBot-sizeH*0.04, sw, sizeH*0.04);
@@ -1659,6 +1597,9 @@ function mainLoop(t){
   }
   if (state.running || state.dead || state.won) requestAnimationFrame(mainLoop);
 }
+
+// Подготовка музыки при загрузке страницы
+initBgMusic();
 
 resize();
 renderLevelGrid();
