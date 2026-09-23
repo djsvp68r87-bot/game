@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Shotgun Test</title>
+<style>
+  html,body{margin:0;padding:0;background:#000;width:100vw;height:100vh;overflow:hidden;position:fixed;top:0;left:0}
+  canvas{display:block;width:100vw;height:100vh;image-rendering:pixelated}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<script>
+(function(){
+var cv = document.getElementById('cv');
+var ctx = cv.getContext('2d', {alpha:false});
+var W = 0, H = 0;
+
+function resize(){
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = cv.width = Math.floor(window.innerWidth * dpr);
+  H = cv.height = Math.floor(window.innerHeight * dpr);
+  cv.style.width = window.innerWidth + 'px';
+  cv.style.height = window.innerHeight + 'px';
+  ctx.imageSmoothingEnabled = false;
+  draw();
+}
+window.addEventListener('resize', resize);
+window.addEventListener('orientationchange', function(){ setTimeout(resize, 250); });
+
+function draw(){
+  // Background - like in game
+  var ceilGrad = ctx.createLinearGradient(0, 0, 0, H/2);
+  ceilGrad.addColorStop(0, '#3a3a4a');
+  ceilGrad.addColorStop(1, '#5a5a6a');
+  ctx.fillStyle = ceilGrad;
+  ctx.fillRect(0, 0, W, H/2);
+
+  var floorGrad = ctx.createLinearGradient(0, H/2, 0, H);
+  floorGrad.addColorStop(0, '#4a4a52');
+  floorGrad.addColorStop(1, '#6a6a72');
+  ctx.fillStyle = floorGrad;
+  ctx.fillRect(0, H/2, W, H/2);
+
+  drawShotgun();
+}
+
+function drawShotgun(){
+  // ===== SHOTGUN - Remington 870 style, first person =====
+
+  var S = Math.min(W, H) * 0.11;  // scale unit
+  // Anchor: bottom-right, gun sits in lower right area
+  var cx = W * 0.58;
+  var cy = H * 1.05;
+
+  ctx.save();
+  ctx.translate(cx, cy);
+
+  // ===== ARM (forearm) coming from bottom-right =====
+  ctx.fillStyle = '#2d4a24';
+  ctx.beginPath();
+  ctx.moveTo(S*1.8, S*0.3);
+  ctx.lineTo(S*5.5, S*0.8);
+  ctx.lineTo(S*5.5, S*6.0);
+  ctx.lineTo(S*1.2, S*4.5);
+  ctx.closePath();
+  ctx.fill();
+  // Sleeve camo stripes
+  ctx.fillStyle = '#1f3518';
+  ctx.beginPath();
+  ctx.moveTo(S*2.2, S*1.4);
+  ctx.lineTo(S*5.0, S*1.9);
+  ctx.lineTo(S*5.0, S*2.4);
+  ctx.lineTo(S*2.0, S*1.9);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(S*2.5, S*2.8);
+  ctx.lineTo(S*5.0, S*3.2);
+  ctx.lineTo(S*5.0, S*3.7);
+  ctx.lineTo(S*2.3, S*3.3);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== STOCK (right side, behind) =====
+  ctx.fillStyle = '#5a3a1a';  // wood
+  ctx.beginPath();
+  ctx.moveTo(S*2.2, -S*0.3);
+  ctx.lineTo(S*4.0, -S*0.8);
+  ctx.lineTo(S*4.6, S*1.4);
+  ctx.lineTo(S*2.8, S*1.9);
+  ctx.closePath();
+  ctx.fill();
+  // Wood grain darker
+  ctx.fillStyle = '#3a2410';
+  ctx.beginPath();
+  ctx.moveTo(S*2.6, S*0.1);
+  ctx.lineTo(S*4.1, -S*0.4);
+  ctx.lineTo(S*4.3, S*0.5);
+  ctx.lineTo(S*2.8, S*1.0);
+  ctx.closePath();
+  ctx.fill();
+  // Butt plate (black rubber)
+  ctx.fillStyle = '#1a1a1a';
+  ctx.beginPath();
+  ctx.moveTo(S*3.9, -S*0.8);
+  ctx.lineTo(S*4.6, -S*1.0);
+  ctx.lineTo(S*5.2, S*1.2);
+  ctx.lineTo(S*4.6, S*1.4);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== RECEIVER (main body) =====
+  ctx.fillStyle = '#2a2a2a';
+  ctx.beginPath();
+  ctx.moveTo(S*0.6, -S*0.8);
+  ctx.lineTo(S*2.4, -S*0.5);
+  ctx.lineTo(S*2.6, S*1.8);
+  ctx.lineTo(S*0.5, S*1.4);
+  ctx.closePath();
+  ctx.fill();
+  // Receiver top highlight
+  ctx.fillStyle = '#4a4a4a';
+  ctx.beginPath();
+  ctx.moveTo(S*0.6, -S*0.8);
+  ctx.lineTo(S*2.4, -S*0.5);
+  ctx.lineTo(S*2.4, -S*0.3);
+  ctx.lineTo(S*0.6, -S*0.6);
+  ctx.closePath();
+  ctx.fill();
+  // Ejection port (dark hole)
+  ctx.fillStyle = '#050505';
+  ctx.fillRect(S*1.4, -S*0.15, S*0.5, S*0.3);
+  // Slide-action bar detail
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(S*0.7, S*0.4, S*1.7, S*0.15);
+
+  // ===== TRIGGER GUARD =====
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = S*0.12;
+  ctx.beginPath();
+  ctx.moveTo(S*0.85, S*1.4);
+  ctx.quadraticCurveTo(S*0.6, S*2.1, S*1.4, S*2.0);
+  ctx.stroke();
+  // Trigger
+  ctx.fillStyle = '#0a0a0a';
+  ctx.beginPath();
+  ctx.moveTo(S*0.95, S*1.5);
+  ctx.quadraticCurveTo(S*0.9, S*1.9, S*1.1, S*1.95);
+  ctx.lineTo(S*1.2, S*1.9);
+  ctx.quadraticCurveTo(S*1.05, S*1.7, S*1.1, S*1.5);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== BARREL (extends forward-up-left) =====
+  // Main barrel body
+  ctx.fillStyle = '#1e1e1e';
+  ctx.beginPath();
+  ctx.moveTo(S*0.6, -S*0.8);
+  ctx.lineTo(-S*4.0, -S*2.4);
+  ctx.lineTo(-S*4.0, -S*1.4);
+  ctx.lineTo(S*0.5, -S*0.3);
+  ctx.closePath();
+  ctx.fill();
+  // Barrel top highlight (metal shine)
+  ctx.fillStyle = '#3e3e3e';
+  ctx.beginPath();
+  ctx.moveTo(S*0.6, -S*0.8);
+  ctx.lineTo(-S*4.0, -S*2.4);
+  ctx.lineTo(-S*4.0, -S*2.15);
+  ctx.lineTo(S*0.6, -S*0.55);
+  ctx.closePath();
+  ctx.fill();
+  // Barrel bottom shadow
+  ctx.fillStyle = '#0a0a0a';
+  ctx.beginPath();
+  ctx.moveTo(S*0.5, -S*0.3);
+  ctx.lineTo(-S*4.0, -S*1.4);
+  ctx.lineTo(-S*4.0, -S*1.2);
+  ctx.lineTo(S*0.5, -S*0.1);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== TUBE MAGAZINE (under barrel) =====
+  ctx.fillStyle = '#222';
+  ctx.beginPath();
+  ctx.moveTo(S*0.5, -S*0.2);
+  ctx.lineTo(-S*3.4, -S*1.2);
+  ctx.lineTo(-S*3.4, -S*0.85);
+  ctx.lineTo(S*0.5, S*0.15);
+  ctx.closePath();
+  ctx.fill();
+  // Tube highlight
+  ctx.fillStyle = '#3a3a3a';
+  ctx.beginPath();
+  ctx.moveTo(S*0.5, -S*0.2);
+  ctx.lineTo(-S*3.4, -S*1.2);
+  ctx.lineTo(-S*3.4, -S*1.1);
+  ctx.lineTo(S*0.5, -S*0.1);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== PUMP / FOREND (wooden pump grip under barrel) =====
+  ctx.fillStyle = '#5a3a1a';
+  ctx.beginPath();
+  ctx.moveTo(-S*1.4, -S*0.9);
+  ctx.lineTo(-S*2.9, -S*1.15);
+  ctx.lineTo(-S*3.0, -S*0.3);
+  ctx.lineTo(-S*1.4, -S*0.05);
+  ctx.closePath();
+  ctx.fill();
+  // Pump grooves (wood texture)
+  ctx.fillStyle = '#3a2410';
+  for (var g = 0; g < 5; g++){
+    ctx.beginPath();
+    ctx.moveTo(-S*1.55 - g*S*0.28, -S*0.85);
+    ctx.lineTo(-S*1.65 - g*S*0.28, -S*0.1);
+    ctx.lineTo(-S*1.55 - g*S*0.28, -S*0.1);
+    ctx.lineTo(-S*1.45 - g*S*0.28, -S*0.85);
+    ctx.closePath();
+    ctx.fill();
+  }
+  // Pump front highlight
+  ctx.fillStyle = '#7a5a2a';
+  ctx.beginPath();
+  ctx.moveTo(-S*1.4, -S*0.9);
+  ctx.lineTo(-S*2.9, -S*1.15);
+  ctx.lineTo(-S*2.9, -S*1.05);
+  ctx.lineTo(-S*1.4, -S*0.8);
+  ctx.closePath();
+  ctx.fill();
+
+  // ===== HAND on pump =====
+  // Fingers wrapped around pump
+  ctx.fillStyle = '#c9a07a';
+  for (var f = 0; f < 4; f++){
+    var fx = -S*1.5 - f*S*0.35;
+    var fy = -S*0.7;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.lineTo(fx - S*0.15, fy + S*0.15);
+    ctx.lineTo(fx - S*0.15, fy + S*0.55);
+    ctx.lineTo(fx, fy + S*0.7);
+    ctx.lineTo(fx + S*0.25, fy + S*0.55);
+    ctx.lineTo(fx + S*0.25, fy + S*0.15);
+    ctx.closePath();
+    ctx.fill();
+    // Knuckle shadow
+    ctx.fillStyle = '#a88060';
+    ctx.fillRect(fx - S*0.1, fy + S*0.1, S*0.3, S*0.08);
+    ctx.fillStyle = '#c9a07a';
+  }
+  // Thumb on top of pump
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.ellipse(-S*1.6, -S*0.85, S*0.35, S*0.2, 0.15, 0, Math.PI*2);
+  ctx.fill();
+  // Thumb shadow
+  ctx.fillStyle = '#a88060';
+  ctx.beginPath();
+  ctx.ellipse(-S*1.65, -S*0.85, S*0.18, S*0.1, 0.15, 0, Math.PI*2);
+  ctx.fill();
+
+  // ===== REAR SIGHT (on receiver top) =====
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(S*1.9, -S*0.75, S*0.15, S*0.25);
+
+  // ===== FRONT BEAD SIGHT (on barrel end) =====
+  ctx.fillStyle = '#ddd';
+  ctx.beginPath();
+  ctx.arc(-S*3.85, -S*2.2, S*0.09, 0, Math.PI*2);
+  ctx.fill();
+
+  // ===== MUZZLE (open hole) =====
+  ctx.fillStyle = '#000';
+  ctx.beginPath();
+  ctx.ellipse(-S*3.95, -S*1.9, S*0.13, S*0.35, -0.55, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = '#555';
+  ctx.lineWidth = S*0.05;
+  ctx.beginPath();
+  ctx.ellipse(-S*3.95, -S*1.9, S*0.13, S*0.35, -0.55, 0, Math.PI*2);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+resize();
+})();
+</script>
+</body>
+</html>
