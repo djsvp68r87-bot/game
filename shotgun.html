@@ -46,231 +46,217 @@ function draw(){
 }
 
 function drawShotgun(){
-  var S = Math.min(W, H) * 0.11;
-
-  // ===== Anchor: bottom-right corner =====
-  var cx = W * 0.72;
-  var cy = H * 0.98;
+  // ===== SHOTGUN viewed from BEHIND - looking down the barrel =====
+  // Anchor: bottom center (slightly right)
+  var S = Math.min(W, H) * 0.10;
+  var anchorX = W * 0.55;
+  var anchorY = H * 1.0;
 
   ctx.save();
-  ctx.translate(cx, cy);
+  ctx.translate(anchorX, anchorY);
 
-  // Angle: barrel points forward into screen (up-left), so rotate slightly
-  ctx.rotate(-0.08);
-
-  // ===== FOREARM (coming from bottom-right) =====
-  ctx.fillStyle = '#2d4a24';
-  ctx.beginPath();
-  ctx.moveTo(S*1.4, S*0.8);
-  ctx.lineTo(S*4.0, S*1.3);
-  ctx.lineTo(S*4.0, S*5.0);
-  ctx.lineTo(S*0.8, S*4.0);
-  ctx.closePath();
-  ctx.fill();
-  // Camo stripes
-  ctx.fillStyle = '#1f3518';
-  ctx.beginPath();
-  ctx.moveTo(S*1.8, S*1.8);
-  ctx.lineTo(S*3.6, S*2.2);
-  ctx.lineTo(S*3.6, S*2.7);
-  ctx.lineTo(S*1.6, S*2.3);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== STOCK (wooden, behind receiver, goes right) =====
+  // ============ STOCK (bottom, closest to us - wide, narrows upward) ============
   ctx.fillStyle = '#5a3a1a';
   ctx.beginPath();
-  ctx.moveTo(S*1.6, S*0.3);
-  ctx.lineTo(S*3.4, S*0.7);
-  ctx.lineTo(S*3.7, S*2.4);
-  ctx.lineTo(S*1.7, S*2.1);
+  ctx.moveTo(-S*2.2, S*0.3);
+  ctx.lineTo(S*2.2, S*0.3);
+  ctx.lineTo(S*1.8, -S*1.2);
+  ctx.lineTo(-S*1.8, -S*1.2);
   ctx.closePath();
   ctx.fill();
-  // Wood grain
-  ctx.fillStyle = '#3a2410';
-  ctx.beginPath();
-  ctx.moveTo(S*1.9, S*0.9);
-  ctx.lineTo(S*3.5, S*1.2);
-  ctx.lineTo(S*3.6, S*1.7);
-  ctx.lineTo(S*1.9, S*1.5);
-  ctx.closePath();
-  ctx.fill();
-  // Butt plate
-  ctx.fillStyle = '#1a1a1a';
-  ctx.beginPath();
-  ctx.moveTo(S*3.4, S*0.7);
-  ctx.lineTo(S*4.1, S*0.9);
-  ctx.lineTo(S*4.4, S*2.6);
-  ctx.lineTo(S*3.7, S*2.4);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== RECEIVER (main body) =====
-  ctx.fillStyle = '#2a2a2a';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, -S*0.3);
-  ctx.lineTo(S*1.7, S*0.3);
-  ctx.lineTo(S*1.7, S*2.3);
-  ctx.lineTo(-S*0.3, S*1.6);
-  ctx.closePath();
-  ctx.fill();
-  // Top highlight
-  ctx.fillStyle = '#4a4a4a';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, -S*0.3);
-  ctx.lineTo(S*1.7, S*0.3);
-  ctx.lineTo(S*1.7, S*0.5);
-  ctx.lineTo(-S*0.2, -S*0.1);
-  ctx.closePath();
-  ctx.fill();
-  // Ejection port
-  ctx.fillStyle = '#050505';
-  ctx.fillRect(S*0.8, S*0.35, S*0.55, S*0.35);
-  // Slide-action bar
-  ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(-S*0.1, S*1.0, S*1.8, S*0.18);
-
-  // ===== TRIGGER GUARD =====
-  ctx.strokeStyle = '#1a1a1a';
-  ctx.lineWidth = S*0.12;
-  ctx.beginPath();
-  ctx.moveTo(S*0.15, S*1.8);
-  ctx.quadraticCurveTo(-S*0.1, S*2.5, S*0.6, S*2.5);
-  ctx.stroke();
-  // Trigger
-  ctx.fillStyle = '#0a0a0a';
-  ctx.beginPath();
-  ctx.moveTo(S*0.2, S*1.85);
-  ctx.quadraticCurveTo(S*0.15, S*2.25, S*0.4, S*2.3);
-  ctx.lineTo(S*0.5, S*2.25);
-  ctx.quadraticCurveTo(S*0.3, S*2.05, S*0.35, S*1.85);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== BARREL (extends forward into screen, up-left) =====
-  ctx.fillStyle = '#1e1e1e';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, -S*0.3);
-  ctx.lineTo(-S*2.6, -S*1.5);
-  ctx.lineTo(-S*2.6, -S*0.7);
-  ctx.lineTo(-S*0.2, S*0.2);
-  ctx.closePath();
-  ctx.fill();
-  // Top highlight
-  ctx.fillStyle = '#3e3e3e';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, -S*0.3);
-  ctx.lineTo(-S*2.6, -S*1.5);
-  ctx.lineTo(-S*2.6, -S*1.3);
-  ctx.lineTo(-S*0.2, -S*0.1);
-  ctx.closePath();
-  ctx.fill();
-  // Bottom shadow
-  ctx.fillStyle = '#0a0a0a';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, S*0.2);
-  ctx.lineTo(-S*2.6, -S*0.7);
-  ctx.lineTo(-S*2.6, -S*0.55);
-  ctx.lineTo(-S*0.2, S*0.35);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== TUBE MAGAZINE =====
-  ctx.fillStyle = '#222';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, S*0.3);
-  ctx.lineTo(-S*2.2, -S*0.5);
-  ctx.lineTo(-S*2.2, -S*0.2);
-  ctx.lineTo(-S*0.2, S*0.6);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = '#3a3a3a';
-  ctx.beginPath();
-  ctx.moveTo(-S*0.2, S*0.3);
-  ctx.lineTo(-S*2.2, -S*0.5);
-  ctx.lineTo(-S*2.2, -S*0.4);
-  ctx.lineTo(-S*0.2, S*0.4);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== PUMP / FOREND (wooden, in middle-left) =====
-  ctx.fillStyle = '#5a3a1a';
-  ctx.beginPath();
-  ctx.moveTo(-S*1.2, -S*0.6);
-  ctx.lineTo(-S*2.2, -S*1.0);
-  ctx.lineTo(-S*2.3, -S*0.1);
-  ctx.lineTo(-S*1.2, S*0.3);
-  ctx.closePath();
-  ctx.fill();
-  // Pump ridges
+  // Wood grain vertical stripes
   ctx.fillStyle = '#3a2410';
   for (var g = 0; g < 5; g++){
-    var gx = -S*1.25 - g*S*0.21;
-    ctx.beginPath();
-    ctx.moveTo(gx, -S*0.55 - g*S*0.08);
-    ctx.lineTo(gx - S*0.06, -S*0.55 - g*S*0.08);
-    ctx.lineTo(gx - S*0.06, S*0.25 - g*S*0.08);
-    ctx.lineTo(gx, S*0.25 - g*S*0.08);
-    ctx.closePath();
-    ctx.fill();
+    var gx = -S*1.8 + g*S*0.75;
+    ctx.fillRect(gx, S*0.3, S*0.12, S*1.4);
   }
-  // Pump front edge highlight
-  ctx.fillStyle = '#7a5a2a';
+  // Butt plate (bottom edge, rubber)
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(-S*2.2, S*0.15, S*4.4, S*0.35);
+  // Butt plate detail lines
+  ctx.fillStyle = '#0a0a0a';
+  for (var bp = 0; bp < 8; bp++){
+    ctx.fillRect(-S*2.0 + bp*S*0.5, S*0.2, S*0.06, S*0.25);
+  }
+
+  // ============ RECEIVER (middle - box shape, narrower) ============
+  ctx.fillStyle = '#2a2a2a';
   ctx.beginPath();
-  ctx.moveTo(-S*1.2, -S*0.6);
-  ctx.lineTo(-S*2.2, -S*1.0);
-  ctx.lineTo(-S*2.2, -S*0.9);
-  ctx.lineTo(-S*1.2, -S*0.5);
+  ctx.moveTo(-S*1.5, -S*1.2);
+  ctx.lineTo(S*1.5, -S*1.2);
+  ctx.lineTo(S*1.3, -S*2.6);
+  ctx.lineTo(-S*1.3, -S*2.6);
+  ctx.closePath();
+  ctx.fill();
+  // Top edge highlight
+  ctx.fillStyle = '#4a4a4a';
+  ctx.fillRect(-S*1.3, -S*2.6, S*2.6, S*0.12);
+  // Side highlights
+  ctx.fillStyle = '#3a3a3a';
+  ctx.fillRect(-S*1.5, -S*2.6, S*0.15, S*1.4);
+  ctx.fillRect(S*1.35, -S*2.6, S*0.15, S*1.4);
+  // Ejection port (dark hole on right side)
+  ctx.fillStyle = '#050505';
+  ctx.fillRect(S*0.7, -S*2.0, S*0.5, S*0.35);
+  // Receiver top surface (lighter - we see it from above/behind slightly)
+  ctx.fillStyle = '#333';
+  ctx.beginPath();
+  ctx.moveTo(-S*1.3, -S*2.6);
+  ctx.lineTo(S*1.3, -S*2.6);
+  ctx.lineTo(S*1.1, -S*2.8);
+  ctx.lineTo(-S*1.1, -S*2.8);
   ctx.closePath();
   ctx.fill();
 
-  // ===== HAND on pump =====
-  ctx.fillStyle = '#c9a07a';
-  for (var f = 0; f < 4; f++){
-    var fx = -S*1.25 - f*S*0.25;
-    var fy = -S*0.5;
-    ctx.beginPath();
-    ctx.moveTo(fx, fy);
-    ctx.lineTo(fx - S*0.1, fy + S*0.1);
-    ctx.lineTo(fx - S*0.1, fy + S*0.45);
-    ctx.lineTo(fx, fy + S*0.55);
-    ctx.lineTo(fx + S*0.2, fy + S*0.45);
-    ctx.lineTo(fx + S*0.2, fy + S*0.1);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#a88060';
-    ctx.fillRect(fx - S*0.05, fy + S*0.05, S*0.22, S*0.06);
-    ctx.fillStyle = '#c9a07a';
-  }
-  // Thumb on top of pump
+  // ============ BARREL (top - long, narrows upward into distance) ============
+  ctx.fillStyle = '#1e1e1e';
   ctx.beginPath();
-  ctx.ellipse(-S*1.4, -S*0.65, S*0.3, S*0.16, 0.2, 0, Math.PI*2);
+  ctx.moveTo(-S*0.7, -S*2.6);
+  ctx.lineTo(S*0.7, -S*2.6);
+  ctx.lineTo(S*0.45, -S*6.2);
+  ctx.lineTo(-S*0.45, -S*6.2);
+  ctx.closePath();
   ctx.fill();
-  ctx.fillStyle = '#a88060';
+  // Top highlight strip
+  ctx.fillStyle = '#3e3e3e';
   ctx.beginPath();
-  ctx.ellipse(-S*1.45, -S*0.65, S*0.14, S*0.08, 0.2, 0, Math.PI*2);
+  ctx.moveTo(-S*0.55, -S*2.6);
+  ctx.lineTo(S*0.15, -S*2.6);
+  ctx.lineTo(S*0.1, -S*6.2);
+  ctx.lineTo(-S*0.35, -S*6.2);
+  ctx.closePath();
   ctx.fill();
-
-  // ===== REAR SIGHT =====
+  // Left edge shadow
   ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(S*1.3, -S*0.15, S*0.15, S*0.25);
+  ctx.beginPath();
+  ctx.moveTo(-S*0.7, -S*2.6);
+  ctx.lineTo(-S*0.5, -S*2.6);
+  ctx.lineTo(-S*0.3, -S*6.2);
+  ctx.lineTo(-S*0.45, -S*6.2);
+  ctx.closePath();
+  ctx.fill();
 
-  // ===== FRONT BEAD =====
+  // Magazine tube (thinner, below barrel, seen from front/back - two tubes)
+  // Actually in this angle the tube is directly below, hidden. Just show top.
+
+  // ============ FRONT SIGHT (top of barrel, small dot) ============
   ctx.fillStyle = '#ddd';
   ctx.beginPath();
-  ctx.arc(-S*2.5, -S*1.35, S*0.08, 0, Math.PI*2);
+  ctx.arc(0, -S*6.0, S*0.13, 0, Math.PI*2);
   ctx.fill();
+  // Sight base
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(-S*0.15, -S*5.9, S*0.3, S*0.15);
 
-  // ===== MUZZLE =====
+  // ============ MUZZLE (very top of barrel - dark opening) ============
   ctx.fillStyle = '#000';
   ctx.beginPath();
-  ctx.ellipse(-S*2.6, -S*1.1, S*0.11, S*0.28, -0.55, 0, Math.PI*2);
+  ctx.ellipse(0, -S*6.2, S*0.42, S*0.10, 0, 0, Math.PI*2);
   ctx.fill();
   ctx.strokeStyle = '#555';
-  ctx.lineWidth = S*0.05;
+  ctx.lineWidth = S*0.04;
   ctx.beginPath();
-  ctx.ellipse(-S*2.6, -S*1.1, S*0.11, S*0.28, -0.55, 0, Math.PI*2);
+  ctx.ellipse(0, -S*6.2, S*0.42, S*0.10, 0, 0, Math.PI*2);
   ctx.stroke();
+  // Inner rim highlight
+  ctx.fillStyle = '#3a3a3a';
+  ctx.beginPath();
+  ctx.ellipse(0, -S*6.18, S*0.32, S*0.06, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Inner hole
+  ctx.fillStyle = '#000';
+  ctx.beginPath();
+  ctx.ellipse(0, -S*6.18, S*0.20, S*0.04, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // ============ REAR SIGHT (on receiver top, small) ============
+  ctx.fillStyle = '#0a0a0a';
+  ctx.fillRect(-S*0.35, -S*2.85, S*0.15, S*0.15);
+  ctx.fillRect(S*0.2, -S*2.85, S*0.15, S*0.15);
+
+  // ============ LEFT ARM (comes from bottom-left) ============
+  ctx.fillStyle = '#2d4a24';
+  ctx.beginPath();
+  ctx.moveTo(-S*4.5, S*1.2);
+  ctx.lineTo(-S*1.6, S*0.3);
+  ctx.lineTo(-S*1.3, -S*1.0);
+  ctx.lineTo(-S*1.6, -S*1.3);
+  ctx.lineTo(-S*3.0, -S*0.5);
+  ctx.lineTo(-S*4.5, S*0.3);
+  ctx.closePath();
+  ctx.fill();
+  // Camo stripes on left arm
+  ctx.fillStyle = '#1f3518';
+  ctx.beginPath();
+  ctx.moveTo(-S*3.8, S*0.5);
+  ctx.lineTo(-S*2.4, -S*0.1);
+  ctx.lineTo(-S*2.2, -S*0.4);
+  ctx.lineTo(-S*3.6, S*0.2);
+  ctx.closePath();
+  ctx.fill();
+
+  // ============ RIGHT ARM (comes from bottom-right) ============
+  ctx.fillStyle = '#2d4a24';
+  ctx.beginPath();
+  ctx.moveTo(S*4.5, S*1.2);
+  ctx.lineTo(S*1.6, S*0.3);
+  ctx.lineTo(S*1.3, -S*1.0);
+  ctx.lineTo(S*1.6, -S*1.3);
+  ctx.lineTo(S*3.0, -S*0.5);
+  ctx.lineTo(S*4.5, S*0.3);
+  ctx.closePath();
+  ctx.fill();
+  // Camo stripes on right arm
+  ctx.fillStyle = '#1f3518';
+  ctx.beginPath();
+  ctx.moveTo(S*3.8, S*0.5);
+  ctx.lineTo(S*2.4, -S*0.1);
+  ctx.lineTo(S*2.2, -S*0.4);
+  ctx.lineTo(S*3.6, S*0.2);
+  ctx.closePath();
+  ctx.fill();
+
+  // ============ LEFT HAND (on forend/pump, mid-height) ============
+  // Palm
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.ellipse(-S*1.5, -S*1.5, S*0.4, S*0.35, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Fingers wrapping from left
+  for (var f = 0; f < 4; f++){
+    ctx.beginPath();
+    ctx.ellipse(-S*1.5 + f*S*0.18, -S*1.75 - f*S*0.02, S*0.12, S*0.28, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+  // Thumb on top
+  ctx.beginPath();
+  ctx.ellipse(-S*1.5, -S*1.15, S*0.25, S*0.15, 0.3, 0, Math.PI*2);
+  ctx.fill();
+
+  // ============ RIGHT HAND (on trigger grip) ============
+  ctx.fillStyle = '#c9a07a';
+  ctx.beginPath();
+  ctx.ellipse(S*1.5, -S*1.5, S*0.4, S*0.35, 0, 0, Math.PI*2);
+  ctx.fill();
+  // Fingers wrapping from right
+  for (var f2 = 0; f2 < 4; f2++){
+    ctx.beginPath();
+    ctx.ellipse(S*1.5 - f2*S*0.18, -S*1.75 - f2*S*0.02, S*0.12, S*0.28, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+  // Thumb on top
+  ctx.beginPath();
+  ctx.ellipse(S*1.5, -S*1.15, S*0.25, S*0.15, -0.3, 0, Math.PI*2);
+  ctx.fill();
+
+  // ============ SHADOWS under hands ============
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.beginPath();
+  ctx.ellipse(-S*1.5, -S*1.2, S*0.4, S*0.1, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(S*1.5, -S*1.2, S*0.4, S*0.1, 0, 0, Math.PI*2);
+  ctx.fill();
 
   ctx.restore();
 }
