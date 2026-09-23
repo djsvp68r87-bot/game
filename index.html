@@ -39,45 +39,16 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 .hud-hp{color:#ff4444}
 .hud-am{color:#66ddff}
 .hud-sc{color:#88ff88}
-
-/* Миникарта */
 #minimap{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + env(safe-area-inset-top));background:rgba(0,0,0,0.85);border:2px solid #888;z-index:11;display:block}
-
-/* Нож — вертикальная кнопка слева от миникарты */
-#slotKnife{position:fixed;
-  right:calc(6px + 140px + 6px + env(safe-area-inset-right));
-  top:calc(6px + env(safe-area-inset-top));
-  width:54px;height:90px;
-  background:rgba(0,0,0,0.82);
-  border:2px solid #666;
-  display:flex;align-items:center;justify-content:center;
-  padding:4px;touch-action:manipulation;z-index:12;overflow:hidden}
+#slotKnife{position:fixed;right:calc(6px + 140px + 6px + env(safe-area-inset-right));top:calc(6px + env(safe-area-inset-top));width:54px;height:90px;background:rgba(0,0,0,0.82);border:2px solid #666;display:flex;align-items:center;justify-content:center;padding:4px;touch-action:manipulation;z-index:12;overflow:hidden}
 #slotKnife.active{border-color:#ffcc00;background:rgba(60,50,0,0.85);box-shadow:0 0 10px rgba(255,200,0,0.6)}
 #slotKnife svg{width:100%;height:100%;transform:rotate(-90deg) scale(1.3)}
-
-/* Пистолет и дробовик — под миникартой */
-#slotPistol{position:fixed;
-  right:calc(6px + env(safe-area-inset-right));
-  top:calc(6px + 90px + 6px + env(safe-area-inset-top));
-  width:140px;height:52px;
-  background:rgba(0,0,0,0.82);
-  border:2px solid #666;
-  display:flex;align-items:center;justify-content:center;
-  padding:3px;touch-action:manipulation;z-index:12;overflow:hidden}
+#slotPistol{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + 90px + 6px + env(safe-area-inset-top));width:140px;height:52px;background:rgba(0,0,0,0.82);border:2px solid #666;display:flex;align-items:center;justify-content:center;padding:3px;touch-action:manipulation;z-index:12;overflow:hidden}
 #slotPistol.active{border-color:#ffcc00;background:rgba(60,50,0,0.85);box-shadow:0 0 10px rgba(255,200,0,0.6)}
 #slotPistol img{max-width:100%;max-height:100%;object-fit:contain;transform:scale(1.1)}
-
-#slotShotgun{position:fixed;
-  right:calc(6px + env(safe-area-inset-right));
-  top:calc(6px + 90px + 6px + 52px + 6px + env(safe-area-inset-top));
-  width:140px;height:52px;
-  background:rgba(0,0,0,0.82);
-  border:2px solid #666;
-  display:flex;align-items:center;justify-content:center;
-  padding:3px;touch-action:manipulation;z-index:12;overflow:hidden}
+#slotShotgun{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + 90px + 6px + 52px + 6px + env(safe-area-inset-top));width:140px;height:52px;background:rgba(0,0,0,0.82);border:2px solid #666;display:flex;align-items:center;justify-content:center;padding:3px;touch-action:manipulation;z-index:12;overflow:hidden}
 #slotShotgun.active{border-color:#ffcc00;background:rgba(60,50,0,0.85);box-shadow:0 0 10px rgba(255,200,0,0.6)}
 #slotShotgun img{max-width:100%;max-height:100%;object-fit:contain;transform:scale(1.15)}
-
 #joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(5px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.25);z-index:10;pointer-events:none}
 #joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.75);border:2px solid rgba(255,255,255,0.55)}
 #cross{position:fixed;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;z-index:5;pointer-events:none}
@@ -86,6 +57,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #cross::after{top:50%;left:0;height:2px;width:100%;margin-top:-1px}
 #flash{position:fixed;inset:0;background:#ffe0a0;opacity:0;pointer-events:none;z-index:6}
 #hurt{position:fixed;inset:0;pointer-events:none;z-index:7;background:radial-gradient(ellipse at center,transparent 30%,rgba(180,0,0,0.85) 100%);opacity:0;transition:opacity 0.4s ease-out}
+#heal{position:fixed;inset:0;pointer-events:none;z-index:7;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,180,60,0.6) 100%);opacity:0;transition:opacity 0.4s ease-out}
 #reloadBar{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);width:180px;height:14px;border:2px solid #ffcc00;background:rgba(0,0,0,0.7);z-index:12;display:none}
 #reloadBar .fill{height:100%;background:#ffcc00;width:0%}
 #reloadBar .txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff}
@@ -109,7 +81,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
-  <div id="menuSubtitle">BETA 2.8.0</div>
+  <div id="menuSubtitle">BETA 2.9.0</div>
   <button id="menuPlay">PLAY</button>
 </div>
 
@@ -148,7 +120,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
       <div class="hud-item hud-sc"><span class="label">KILLS</span><span class="val" id="sc">0 / 0</span></div>
     </div>
     <div id="hudCenter">
-      <div class="hud-item hud-am"><span class="label">AMMO</span><span class="val" id="am">7 / ∞</span></div>
+      <div class="hud-item hud-am"><span class="label">AMMO</span><span class="val" id="am">7 / 7</span></div>
     </div>
   </div>
   <canvas id="minimap"></canvas>
@@ -166,9 +138,10 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
   <div id="cross"></div>
   <div id="flash"></div>
   <div id="hurt"></div>
+  <div id="heal"></div>
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
-  <div id="version">beta 2.8.0</div>
+  <div id="version">beta 2.9.0</div>
   <div id="vhsLine"></div>
   <div id="killstreak"></div>
 
@@ -326,23 +299,10 @@ function noiseBurst(dur, vol, filterFreq, type){
     src.connect(flt); flt.connect(g); g.connect(AC.destination); src.start(t0);
   } catch(e){}
 }
-function sndPistol(){
-  beep(220, 0.28, 0.45, 'sine', 40);
-  beep(180, 0.12, 0.25, 'square', 60);
-  noiseBurst(0.15, 0.35, 2500, 'highpass');
-}
-function sndShotgun(){
-  beep(120, 0.4, 0.5, 'sine', 30);
-  beep(90, 0.2, 0.3, 'square', 40);
-  noiseBurst(0.3, 0.5, 1800, 'highpass');
-  setTimeout(function(){ noiseBurst(0.2, 0.2, 500); }, 80);
-}
+function sndPistol(){ beep(220, 0.28, 0.45, 'sine', 40); beep(180, 0.12, 0.25, 'square', 60); noiseBurst(0.15, 0.35, 2500, 'highpass'); }
+function sndShotgun(){ beep(120, 0.4, 0.5, 'sine', 30); beep(90, 0.2, 0.3, 'square', 40); noiseBurst(0.3, 0.5, 1800, 'highpass'); setTimeout(function(){ noiseBurst(0.2, 0.2, 500); }, 80); }
 function sndHit(){ beep(180, 0.09, 0.28, 'sine', 70); noiseBurst(0.07, 0.18, 900); }
-function sndDeath(){
-  beep(95, 0.5, 0.28, 'sawtooth', 30);
-  noiseBurst(0.22, 0.22, 500);
-  setTimeout(function(){ noiseBurst(0.28, 0.15, 350); }, 90);
-}
+function sndDeath(){ beep(95, 0.5, 0.28, 'sawtooth', 30); noiseBurst(0.22, 0.22, 500); setTimeout(function(){ noiseBurst(0.28, 0.15, 350); }, 90); }
 function sndHurt(){ beep(90, 0.35, 0.22, 'square', 40); noiseBurst(0.2, 0.15, 500); }
 function sndGrowl(){ beep(55 + Math.random()*25, 0.7, 0.06, 'sawtooth', 25); }
 function sndEnemyShot(){ beep(400, 0.08, 0.12, 'square', 180); }
@@ -451,6 +411,41 @@ function generateMap(level){
       grid[cy][cx] = 1;
     }
   }
+  // SECRET ROOM — carved near top-left corner
+  var srx = 3 + Math.floor(rng() * (W - 12)), sry = 3 + Math.floor(rng() * (H - 12));
+  var srw = 3, srh = 3;
+  // Clear 5x5 area
+  for (var yy4 = sry - 1; yy4 <= sry + srh + 1; yy4++){
+    for (var xx4 = srx - 1; xx4 <= srx + srw + 1; xx4++){
+      if (xx4 < 1 || yy4 < 1 || xx4 >= W-1 || yy4 >= H-1) continue;
+      grid[yy4][xx4] = 0;
+    }
+  }
+  // Secret walls around 3x3
+  for (var yy5 = sry - 1; yy5 <= sry + srh; yy5++){
+    for (var xx5 = srx - 1; xx5 <= srx + srw; xx5++){
+      if (xx5 < 1 || yy5 < 1 || xx5 >= W-1 || yy5 >= H-1) continue;
+      if (yy5 === sry - 1 || yy5 === sry + srh || xx5 === srx - 1 || xx5 === srx + srw){
+        grid[yy5][xx5] = 2;
+      }
+    }
+  }
+  // Interior floor = 3 (secret, heals)
+  for (var yy6 = sry; yy6 < sry + srh; yy6++){
+    for (var xx6 = srx; xx6 < srx + srw; xx6++){
+      grid[yy6][xx6] = 3;
+    }
+  }
+  // Entrance at bottom — carve through wall
+  grid[sry + srh][srx + 1] = 3;
+  // Ensure connection to nearest open space
+  var entX = srx + 1, entY = sry + srh + 1;
+  for (var c = 0; c < 6; c++){
+    if (entY >= H-1) break;
+    if (grid[entY][entX] !== 1 && grid[entY][entX] !== 2) break;
+    grid[entY][entX] = 0;
+    entY++;
+  }
   return {grid:grid, W:W, H:H};
 }
 function generateBossArena(){
@@ -488,14 +483,20 @@ var state = {
   map:null, MAP_W:0, MAP_H:0,
   enemies:[], blood:[], particles:[], enemyBullets:[],
   magAmmo:7, reloading:false, reloadTimer:0,
-  headshotFlash:0,
+  headshotFlash:0, healFlash:0,
   recoilPitch: 0, screenShake: 0, shakeX: 0, shakeY: 0
 };
 
 function isWall(x, y){
   var mx = Math.floor(x), my = Math.floor(y);
   if (mx<0||mx>=state.MAP_W||my<0||my>=state.MAP_H) return true;
-  return state.map[my][mx] === 1;
+  var v = state.map[my][mx];
+  return v === 1 || v === 2;
+}
+function isSecretFloor(x, y){
+  var mx = Math.floor(x), my = Math.floor(y);
+  if (mx<0||mx>=state.MAP_W||my<0||my>=state.MAP_H) return false;
+  return state.map[my][mx] === 3;
 }
 
 var ZDEF = {
@@ -535,7 +536,7 @@ function findFreeCellFar(minDist){
   for (var t = 0; t < 800; t++){
     var x = 1.5 + Math.random() * (state.MAP_W - 3);
     var y = 1.5 + Math.random() * (state.MAP_H - 3);
-    if (!isWall(x, y) && Math.hypot(x-state.px, y-state.py) > minDist &&
+    if (!isWall(x, y) && !isSecretFloor(x, y) && Math.hypot(x-state.px, y-state.py) > minDist &&
         !isWall(x+0.4,y) && !isWall(x-0.4,y) && !isWall(x,y+0.4) && !isWall(x,y-0.4)) return {x:x, y:y};
   }
   return {x:4, y:4};
@@ -544,6 +545,7 @@ function findSafeSpawn(){
   for (var t = 0; t < 1500; t++){
     var x = 2.5 + Math.random() * (state.MAP_W - 5);
     var y = 2.5 + Math.random() * (state.MAP_H - 5);
+    if (isSecretFloor(x, y)) continue;
     var ok = true;
     for (var dx = -0.7; dx <= 0.7; dx += 0.35){
       for (var dy = -0.7; dy <= 0.7; dy += 0.35){
@@ -599,7 +601,7 @@ function startLevel(level){
   state.currentWeapon = 'pistol';
   state.magAmmo = WEAPONS.pistol.magSize;
   state.reloading = false; state.reloadTimer = 0;
-  state.headshotFlash = 0; state.bob = 0;
+  state.headshotFlash = 0; state.healFlash = 0; state.bob = 0;
   state.recoilPitch = 0; state.screenShake = 0;
   state.shakeX = 0; state.shakeY = 0;
   state.timeStart = performance.now();
@@ -613,6 +615,7 @@ function startLevel(level){
   document.getElementById('win').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
   document.getElementById('vhsLine').style.display = 'block';
+  document.getElementById('heal').style.opacity = '0';
   document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('levelsScreen').style.display = 'none';
   document.getElementById('gameScreen').classList.add('active');
@@ -729,7 +732,7 @@ function switchWeapon(name){
   state.magAmmo = (name === 'knife') ? 0 : WEAPONS[name].magSize;
   updateWeaponHighlight();
   updateAmmoHUD();
-  tone(600, 'square', 0.06, 0.1);
+  beep(600, 'square', 0.06, 0.1);
 }
 
 function showMenu(){
@@ -741,6 +744,7 @@ function showMenu(){
   document.getElementById('reloadBar').style.display = 'none';
   document.getElementById('vhsLine').style.display = 'none';
   document.getElementById('killstreak').style.opacity = '0';
+  document.getElementById('heal').style.opacity = '0';
   state.running = false;
   playBgMusic();
 }
@@ -806,7 +810,6 @@ function fire(){
   var horizon = H/2 + state.pitch + state.recoilPitch;
 
   if (w.isShotgun){
-    // 8 pellets with small spread
     for (var p = 0; p < w.pellets; p++){
       var ang = state.dir + (Math.random() - 0.5) * w.spread;
       var dx = Math.cos(ang), dy = Math.sin(ang);
@@ -918,6 +921,7 @@ function playerHurt(dmg){
     document.getElementById('dead').style.display = 'flex';
     document.getElementById('vhsLine').style.display = 'none';
     document.getElementById('killstreak').style.opacity = '0';
+    document.getElementById('heal').style.opacity = '0';
   }
 }
 
@@ -959,6 +963,16 @@ function update(dt){
   state.headshotFlash *= Math.max(0, 1 - dt*2);
   document.getElementById('hurt').style.opacity = (state.hurtFlash*0.85).toFixed(3);
   state.pitch *= Math.max(0, 1 - dt * 0.6);
+
+  // SECRET ROOM HEAL
+  if (isSecretFloor(state.px, state.py)){
+    state.hp = Math.min(state.maxHp, state.hp + 20 * dt);
+    state.healFlash = 1;
+    document.getElementById('hp').textContent = Math.round(state.hp);
+  } else {
+    state.healFlash *= Math.max(0, 1 - dt*3);
+  }
+  document.getElementById('heal').style.opacity = (state.healFlash * 0.7).toFixed(3);
 
   if (state.reloading){
     var w = WEAPONS[state.currentWeapon];
@@ -1094,6 +1108,7 @@ function update(dt){
     document.getElementById('winNext').style.display = state.level < MAX_LEVEL ? 'block' : 'none';
     document.getElementById('vhsLine').style.display = 'none';
     document.getElementById('killstreak').style.opacity = '0';
+    document.getElementById('heal').style.opacity = '0';
     unlockNext(state.level);
   }
 }
@@ -1136,7 +1151,23 @@ function fireEnemyBullet(en, dx, dy, dmg, spd, color){
 }
 
 var zbufArr = null, zbufLen = 0;
-function wallTex(u, v, side, level){
+function wallTex(u, v, side, level, tileType){
+  if (tileType === 2){
+    var brickH = 0.25, brickW = 0.5;
+    var row = Math.floor(v/brickH);
+    var offset = (row%2) * (brickW/2);
+    var bx = ((u+offset)%1+1)%1;
+    var mortarH = (v/brickH - Math.floor(v/brickH)) < 0.06;
+    var mortarV = ((bx/brickW) - Math.floor(bx/brickW)) < 0.05;
+    if (mortarH || mortarV) return [80, 10, 10];
+    var seed2 = (row*7 + Math.floor(bx/brickW)*13) % 5;
+    var shade2 = 0.9 + seed2*0.05;
+    return [
+      Math.min(255, Math.floor((side===0?230:200)*shade2)),
+      Math.min(255, Math.floor((side===0?30:20)*shade2)),
+      Math.min(255, Math.floor((side===0?40:30)*shade2))
+    ];
+  }
   if (level === 10 || level === 20){
     var lineH = (v < 0.08 || v > 0.92);
     var lineV = (u < 0.06 || u > 0.94);
@@ -1145,14 +1176,14 @@ function wallTex(u, v, side, level){
     if (lv) return side === 0 ? [220,220,230] : [200,200,210];
     return side === 0 ? [250,250,255] : [230,230,240];
   }
-  var brickH = 0.25, brickW = 0.5;
-  var row = Math.floor(v/brickH);
-  var offset = (row%2) * (brickW/2);
-  var bx = ((u+offset)%1+1)%1;
-  var mortarH = (v/brickH - Math.floor(v/brickH)) < 0.06;
-  var mortarV = ((bx/brickW) - Math.floor(bx/brickW)) < 0.05;
-  if (mortarH || mortarV) return [90,80,70];
-  var seed = (row*7 + Math.floor(bx/brickW)*13) % 5;
+  var brickH2 = 0.25, brickW2 = 0.5;
+  var row2 = Math.floor(v/brickH2);
+  var offset2 = (row2%2) * (brickW2/2);
+  var bx2 = ((u+offset2)%1+1)%1;
+  var mortarH2 = (v/brickH2 - Math.floor(v/brickH2)) < 0.06;
+  var mortarV2 = ((bx2/brickW2) - Math.floor(bx2/brickW2)) < 0.05;
+  if (mortarH2 || mortarV2) return [90,80,70];
+  var seed = (row2*7 + Math.floor(bx2/brickW2)*13) % 5;
   var shade = 0.9 + seed*0.05;
   return [
     Math.min(255, Math.floor((side===0?200:180)*shade)),
@@ -1194,11 +1225,12 @@ function render(){
     var stepX, stepY, sideDistX, sideDistY;
     if (rayDx < 0){ stepX = -1; sideDistX = (state.px - mapX)*deltaX; } else { stepX = 1; sideDistX = (mapX+1-state.px)*deltaX; }
     if (rayDy < 0){ stepY = -1; sideDistY = (state.py - mapY)*deltaY; } else { stepY = 1; sideDistY = (mapY+1-state.py)*deltaY; }
-    var side = 0, hitWall = false;
+    var side = 0, hitWall = false, tileType = 1;
     for (var s = 0; s < 90 && !hitWall; s++){
       if (sideDistX < sideDistY){ sideDistX += deltaX; mapX += stepX; side = 0; } else { sideDistY += deltaY; mapY += stepY; side = 1; }
       if (mapX < 0 || mapX >= state.MAP_W || mapY < 0 || mapY >= state.MAP_H){ hitWall = true; break; }
-      if (state.map[mapY][mapX] === 1) hitWall = true;
+      var v = state.map[mapY][mapX];
+      if (v === 1 || v === 2){ hitWall = true; tileType = v; }
     }
     var d = side === 0 ? sideDistX - deltaX : sideDistY - deltaY;
     if (d < 0.001) d = 0.001;
@@ -1208,7 +1240,7 @@ function render(){
     var y0 = horizon - lineH/2, y1 = horizon + lineH/2;
     var wallX = side === 0 ? state.py + d*rayDy : state.px + d*rayDx;
     wallX -= Math.floor(wallX);
-    var base = wallTex(wallX, 0.5, side, state.level);
+    var base = wallTex(wallX, 0.5, side, state.level, tileType);
     var px = i*colW, pw = colW+1;
     var topH = (y1-y0)*0.12, midH = (y1-y0)*0.72;
     ctx.fillStyle = 'rgb(' + Math.min(255,Math.floor(base[0]*1.10)) + ',' + Math.min(255,Math.floor(base[1]*1.10)) + ',' + Math.min(255,Math.floor(base[2]*1.10)) + ')';
@@ -1291,9 +1323,7 @@ function render(){
   }
 
   drawWeapon();
-
   ctx.restore();
-
   drawMinimap();
 
   if (state.headshotFlash > 0.05){
@@ -1321,8 +1351,12 @@ function drawMinimap(){
   var offY = (mmH - state.MAP_H * cell) / 2;
   for (var y = 0; y < state.MAP_H; y++){
     for (var x = 0; x < state.MAP_W; x++){
-      if (state.map[y][x] === 1){
+      var v = state.map[y][x];
+      if (v === 1){
         miniCtx.fillStyle = '#666';
+        miniCtx.fillRect(offX + x*cell, offY + y*cell, cell+0.5, cell+0.5);
+      } else if (v === 3){
+        miniCtx.fillStyle = '#ff2222';
         miniCtx.fillRect(offX + x*cell, offY + y*cell, cell+0.5, cell+0.5);
       }
     }
@@ -1415,12 +1449,10 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// ===== DRAW WEAPON =====
 function drawWeapon(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
   if (state.currentWeapon === 'pistol' && pistolReady){ drawImageWeapon(pistolImg, 0.55); return; }
   if (state.currentWeapon === 'shotgun' && shotgunReady){ drawImageWeapon(shotgunImg, 0.75); return; }
-  // fallback
   drawKnife();
 }
 
@@ -1435,16 +1467,12 @@ function drawImageWeapon(img, sizeRatio){
   var kick = state.pistolKick * 14;
   var bobX = Math.sin(state.bob) * 5;
   var bobY = Math.sin(state.bob * 2) * 3;
-
   var imgW = W * sizeRatio;
   var imgH = imgW * (img.height / img.width);
   var px = W - imgW + bobX;
   var py = H - imgH + kick + bobY + reloadOffset;
-
   ctx.save();
   ctx.drawImage(img, px, py, imgW, imgH);
-
-  // Muzzle flash - top-left of image
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
     var fx = px + imgW * 0.15;
@@ -1467,11 +1495,9 @@ function drawKnife(){
   var rot = swing * 0.6 - 0.25;
   var kx = W * 0.72 + bobX;
   var ky = H * 0.82 + Math.sin(state.bob)*4 + swing*30;
-
   ctx.save();
   ctx.translate(kx, ky);
   ctx.rotate(rot);
-
   ctx.fillStyle = '#3a2a1a';
   ctx.fillRect(-kW*0.045, kW*0.05, kW*0.09, kW*0.30);
   ctx.fillStyle = '#2a1a0a';
@@ -1480,7 +1506,6 @@ function drawKnife(){
   ctx.beginPath(); ctx.arc(0, kW*0.07, kW*0.035, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#4a4a4a';
   ctx.fillRect(-kW*0.12, kW*0.02, kW*0.24, kW*0.035);
-
   ctx.fillStyle = '#d8e2ec';
   ctx.beginPath();
   ctx.moveTo(-kW*0.055, 0);
@@ -1492,7 +1517,6 @@ function drawKnife(){
   ctx.lineTo(kW*0.055, -kW*0.08);
   ctx.lineTo(kW*0.055, 0);
   ctx.closePath(); ctx.fill();
-
   ctx.fillStyle = '#8a96a4';
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -1502,11 +1526,9 @@ function drawKnife(){
   ctx.lineTo(kW*0.055, -kW*0.08);
   ctx.lineTo(kW*0.055, 0);
   ctx.closePath(); ctx.fill();
-
   ctx.restore();
 }
 
-// ===== BIND BUTTONS =====
 function bindBtn(id, fn){
   var el = document.getElementById(id);
   if (!el) return;
