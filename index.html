@@ -14,7 +14,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 #menuScreen{background:linear-gradient(180deg,#0057b7 0%,#0057b7 50%,#ffd700 50%,#ffd700 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:calc(20px + env(safe-area-inset-top)) 20px calc(40px + env(safe-area-inset-bottom))}
 #menuTitle{position:absolute;top:calc(16px + env(safe-area-inset-top));right:22px;font-size:52px;letter-spacing:12px;font-weight:900;color:#fff;text-shadow:4px 4px 0 #000,0 0 40px #000,0 0 12px #000;z-index:10}
 #menuSubtitle{position:absolute;top:calc(78px + env(safe-area-inset-top));right:22px;font-size:14px;letter-spacing:4px;color:#fff;text-shadow:2px 2px 0 #000,0 0 8px #000;z-index:10}
-#menuPlay{padding:18px 68px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.8),inset 0 0 15px rgba(255,215,0,0.2);z-index:2}
+#menuPlay{padding:18px 68px;font-size:24px;font-weight:900;letter-spacing:8px;background:#1a1a1a;color:#ffd700;border:4px solid #ffd700;font-family:"Courier New",monospace;cursor:pointer;box-shadow:0 0 30px rgba(255,215,0,0.8);z-index:2}
 #menuPlay:active{background:#ffd700;color:#1a1a1a}
 #levelsScreen{background:linear-gradient(180deg,#1a1a22 0%,#0a0a12 100%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #levelsTitle{font-size:26px;letter-spacing:8px;color:#ffcc00;margin-bottom:16px;font-weight:900;flex-shrink:0}
@@ -39,9 +39,45 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 .hud-hp{color:#ff4444}
 .hud-am{color:#66ddff}
 .hud-sc{color:#88ff88}
+
+/* Миникарта */
 #minimap{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(6px + env(safe-area-inset-top));background:rgba(0,0,0,0.85);border:2px solid #888;z-index:11;display:block}
-#weaponBtn{position:fixed;right:calc(6px + env(safe-area-inset-right));top:calc(102px + env(safe-area-inset-top));width:140px;height:52px;z-index:12;cursor:pointer;background:rgba(0,0,0,0.82);border:2px solid #ffcc00;display:flex;align-items:center;justify-content:center;padding:4px;touch-action:manipulation}
-#weaponBtn svg{width:100%;height:100%}
+
+/* Нож — вертикальная кнопка слева от миникарты */
+#slotKnife{position:fixed;
+  right:calc(6px + 140px + 6px + env(safe-area-inset-right));
+  top:calc(6px + env(safe-area-inset-top));
+  width:54px;height:90px;
+  background:rgba(0,0,0,0.82);
+  border:2px solid #666;
+  display:flex;align-items:center;justify-content:center;
+  padding:4px;touch-action:manipulation;z-index:12;overflow:hidden}
+#slotKnife.active{border-color:#ffcc00;background:rgba(60,50,0,0.85);box-shadow:0 0 10px rgba(255,200,0,0.6)}
+#slotKnife svg{width:100%;height:100%;transform:rotate(-90deg) scale(1.3)}
+
+/* Пистолет и дробовик — под миникартой */
+#slotPistol{position:fixed;
+  right:calc(6px + env(safe-area-inset-right));
+  top:calc(6px + 90px + 6px + env(safe-area-inset-top));
+  width:140px;height:52px;
+  background:rgba(0,0,0,0.82);
+  border:2px solid #666;
+  display:flex;align-items:center;justify-content:center;
+  padding:3px;touch-action:manipulation;z-index:12;overflow:hidden}
+#slotPistol.active{border-color:#ffcc00;background:rgba(60,50,0,0.85);box-shadow:0 0 10px rgba(255,200,0,0.6)}
+#slotPistol img{max-width:100%;max-height:100%;object-fit:contain;transform:scale(1.1)}
+
+#slotShotgun{position:fixed;
+  right:calc(6px + env(safe-area-inset-right));
+  top:calc(6px + 90px + 6px + 52px + 6px + env(safe-area-inset-top));
+  width:140px;height:52px;
+  background:rgba(0,0,0,0.82);
+  border:2px solid #666;
+  display:flex;align-items:center;justify-content:center;
+  padding:3px;touch-action:manipulation;z-index:12;overflow:hidden}
+#slotShotgun.active{border-color:#ffcc00;background:rgba(60,50,0,0.85);box-shadow:0 0 10px rgba(255,200,0,0.6)}
+#slotShotgun img{max-width:100%;max-height:100%;object-fit:contain;transform:scale(1.15)}
+
 #joy-base{position:fixed;left:calc(20px + env(safe-area-inset-left));bottom:calc(5px + env(safe-area-inset-bottom));width:130px;height:130px;background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.25);z-index:10;pointer-events:none}
 #joy-stick{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;background:rgba(255,215,60,0.75);border:2px solid rgba(255,255,255,0.55)}
 #cross{position:fixed;left:50%;top:50%;width:24px;height:24px;margin:-12px 0 0 -12px;z-index:5;pointer-events:none}
@@ -73,7 +109,7 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
 
 <div id="menuScreen" class="screen" style="display:flex">
   <div id="menuTitle">ARENA</div>
-  <div id="menuSubtitle">BETA 2.5.0</div>
+  <div id="menuSubtitle">BETA 2.8.0</div>
   <button id="menuPlay">PLAY</button>
 </div>
 
@@ -116,13 +152,23 @@ html,body{width:100vw;height:100vh;margin:0;padding:0;overflow:hidden;background
     </div>
   </div>
   <canvas id="minimap"></canvas>
-  <div id="weaponBtn"></div>
+  <div id="slotKnife">
+    <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/>
+      <path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/>
+      <rect x="38" y="18" width="8" height="14" fill="#4a4a4a"/>
+      <rect x="8" y="19" width="32" height="12" fill="#3a2a1a"/>
+      <circle cx="36" cy="25" r="3" fill="#8a7a3a"/>
+    </svg>
+  </div>
+  <div id="slotPistol"></div>
+  <div id="slotShotgun"></div>
   <div id="cross"></div>
   <div id="flash"></div>
   <div id="hurt"></div>
   <div id="reloadBar"><div class="fill" id="reloadFill"></div><div class="txt">RELOADING</div></div>
   <div id="joy-base"><div id="joy-stick"></div></div>
-  <div id="version">beta 2.5.0</div>
+  <div id="version">beta 2.8.0</div>
   <div id="vhsLine"></div>
   <div id="killstreak"></div>
 
@@ -166,6 +212,18 @@ function pauseBgMusic(){
   try { BG_MUSIC.pause(); } catch(e){}
 }
 
+var pistolImg = new Image();
+var pistolReady = false;
+pistolImg.onload = function(){ pistolReady = true; updateWeaponIcons(); };
+pistolImg.onerror = function(){ pistolReady = false; };
+pistolImg.src = 'pistol.png';
+
+var shotgunImg = new Image();
+var shotgunReady = false;
+shotgunImg.onload = function(){ shotgunReady = true; updateWeaponIcons(); };
+shotgunImg.onerror = function(){ shotgunReady = false; };
+shotgunImg.src = 'shotgun.PNG';
+
 var MAX_LEVEL = 20;
 var progress = 1;
 try {
@@ -190,13 +248,32 @@ function updateLevelButtons(){
 }
 
 var WEAPONS = {
-  pistol: { name:'DEAGLE', speed:1.7, damage:25, magSize:7, reloadTime:3.0 },
-  knife:  { name:'KNIFE',  speed:2.7, damage:0 }
+  pistol: { name:'PISTOL', speed:1.7, damage:25, headDamage:75, magSize:7, reloadTime:3.0, isShotgun:false },
+  shotgun:{ name:'SHOTGUN',speed:1.5, damage:10, headDamage:20, magSize:8, reloadTime:4.0, isShotgun:true, pellets:8, spread:0.12 },
+  knife:  { name:'KNIFE',  speed:2.7, damage:0, headDamage:0, magSize:0, reloadTime:0, isShotgun:false }
 };
 
-var KNIFE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"><path d="M 45 20 L 100 22 L 113 25 L 100 28 L 45 30 Z" fill="#d8e2ec"/><path d="M 45 25 L 100 25 L 113 25 L 100 28 L 45 30 Z" fill="#8a96a4"/><rect x="38" y="18" width="8" height="14" fill="#4a4a4a"/><rect x="8" y="19" width="32" height="12" fill="#3a2a1a"/><circle cx="36" cy="25" r="3" fill="#8a7a3a"/></svg>';
-var DEAGLE_SVG = '<svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="12" width="80" height="18" fill="#1a1a1a"/><rect x="20" y="14" width="80" height="3" fill="#3a3a3a"/><rect x="28" y="18" width="6" height="6" fill="#000"/><rect x="40" y="18" width="6" height="6" fill="#000"/><rect x="52" y="18" width="6" height="6" fill="#000"/><rect x="64" y="18" width="6" height="6" fill="#000"/><rect x="14" y="15" width="26" height="18" fill="#0a0a0a"/><path d="M 20 33 L 38 33 L 42 50 L 20 50 Z" fill="#0a0a0a"/><circle cx="99" cy="20" r="6" fill="#000"/><circle cx="99" cy="20" r="3" fill="#1a1a1a"/></svg>';
-function weaponSVG(n){ return n === 'knife' ? KNIFE_SVG : DEAGLE_SVG; }
+function updateWeaponIcons(){
+  var sp = document.getElementById('slotPistol');
+  if (sp){
+    if (pistolReady) sp.innerHTML = '<img src="pistol.png">';
+    else sp.innerHTML = '<span style="color:#666;font-size:11px">PISTOL</span>';
+  }
+  var ss = document.getElementById('slotShotgun');
+  if (ss){
+    if (shotgunReady) ss.innerHTML = '<img src="shotgun.PNG">';
+    else ss.innerHTML = '<span style="color:#666;font-size:11px">SHOTGUN</span>';
+  }
+}
+
+function updateWeaponHighlight(){
+  var sk = document.getElementById('slotKnife');
+  var sp = document.getElementById('slotPistol');
+  var ss = document.getElementById('slotShotgun');
+  if (sk) sk.className = (state.currentWeapon === 'knife' ? 'active' : '');
+  if (sp) sp.className = (state.currentWeapon === 'pistol' ? 'active' : '');
+  if (ss) ss.className = (state.currentWeapon === 'shotgun' ? 'active' : '');
+}
 
 var SPAWN = {
   1:{n:5,f:2,s:1}, 2:{n:5,f:5,s:0}, 3:{n:5,f:0,s:5}, 4:{n:3,f:3,s:3},
@@ -249,11 +326,16 @@ function noiseBurst(dur, vol, filterFreq, type){
     src.connect(flt); flt.connect(g); g.connect(AC.destination); src.start(t0);
   } catch(e){}
 }
-function sndGun(){
-  beep(220, 0.28, 0.5, 'sine', 40);
-  beep(180, 0.12, 0.28, 'square', 60);
-  noiseBurst(0.18, 0.4, 2500, 'highpass');
-  setTimeout(function(){ beep(700, 0.06, 0.12, 'triangle', 300); }, 55);
+function sndPistol(){
+  beep(220, 0.28, 0.45, 'sine', 40);
+  beep(180, 0.12, 0.25, 'square', 60);
+  noiseBurst(0.15, 0.35, 2500, 'highpass');
+}
+function sndShotgun(){
+  beep(120, 0.4, 0.5, 'sine', 30);
+  beep(90, 0.2, 0.3, 'square', 40);
+  noiseBurst(0.3, 0.5, 1800, 'highpass');
+  setTimeout(function(){ noiseBurst(0.2, 0.2, 500); }, 80);
 }
 function sndHit(){ beep(180, 0.09, 0.28, 'sine', 70); noiseBurst(0.07, 0.18, 900); }
 function sndDeath(){
@@ -515,7 +597,8 @@ function startLevel(level){
   state.blood = []; state.particles = []; state.enemyBullets = [];
   state.hurtFlash = 0; state.pistolKick = 0; state.muzzleFlash = 0;
   state.currentWeapon = 'pistol';
-  state.magAmmo = 7; state.reloading = false; state.reloadTimer = 0;
+  state.magAmmo = WEAPONS.pistol.magSize;
+  state.reloading = false; state.reloadTimer = 0;
   state.headshotFlash = 0; state.bob = 0;
   state.recoilPitch = 0; state.screenShake = 0;
   state.shakeX = 0; state.shakeY = 0;
@@ -523,13 +606,13 @@ function startLevel(level){
   resetKillstreak();
   spawnLevel(level);
   updateAmmoHUD();
+  updateWeaponHighlight();
   document.getElementById('hp').textContent = '100';
   document.getElementById('sc').textContent = '0 / ' + state.totalEnemies;
   document.getElementById('dead').style.display = 'none';
   document.getElementById('win').style.display = 'none';
   document.getElementById('reloadBar').style.display = 'none';
   document.getElementById('vhsLine').style.display = 'block';
-  updateWeaponBtn();
   document.getElementById('menuScreen').style.display = 'none';
   document.getElementById('levelsScreen').style.display = 'none';
   document.getElementById('gameScreen').classList.add('active');
@@ -540,7 +623,9 @@ function startLevel(level){
 }
 
 function updateAmmoHUD(){
-  document.getElementById('am').textContent = state.currentWeapon === 'knife' ? '∞' : (state.magAmmo + ' / ∞');
+  var w = WEAPONS[state.currentWeapon];
+  if (state.currentWeapon === 'knife') document.getElementById('am').textContent = '∞';
+  else document.getElementById('am').textContent = state.magAmmo + ' / ' + w.magSize;
 }
 function updateKillsHUD(){
   document.getElementById('sc').textContent = state.score + ' / ' + state.totalEnemies;
@@ -627,19 +712,24 @@ window.addEventListener('keydown', function(e){
   var k = e.key.toLowerCase();
   if (k in keys) keys[k] = 1;
   if (k === ' ') fire();
-  if (k === 'q' || k === 'tab') switchWeapon();
+  if (k === '1') switchWeapon('pistol');
+  if (k === '2') switchWeapon('shotgun');
+  if (k === '3') switchWeapon('knife');
   if (k === 'r') startReload();
 });
 window.addEventListener('keyup', function(e){ var k = e.key.toLowerCase(); if (k in keys) keys[k] = 0; });
 
-function updateWeaponBtn(){
-  var next = state.currentWeapon === 'pistol' ? 'knife' : 'pistol';
-  document.getElementById('weaponBtn').innerHTML = weaponSVG(next);
-}
-function switchWeapon(){
+function switchWeapon(name){
   if (state.reloading) return;
-  state.currentWeapon = state.currentWeapon === 'pistol' ? 'knife' : 'pistol';
-  updateWeaponBtn(); updateAmmoHUD();
+  if (!WEAPONS[name]) return;
+  state.currentWeapon = name;
+  state.reloading = false;
+  state.reloadTimer = 0;
+  document.getElementById('reloadBar').style.display = 'none';
+  state.magAmmo = (name === 'knife') ? 0 : WEAPONS[name].magSize;
+  updateWeaponHighlight();
+  updateAmmoHUD();
+  tone(600, 'square', 0.06, 0.1);
 }
 
 function showMenu(){
@@ -666,8 +756,10 @@ function showLevels(){
 }
 
 function startReload(){
-  if (state.reloading || state.currentWeapon !== 'pistol') return;
-  if (state.magAmmo >= WEAPONS.pistol.magSize) return;
+  if (state.reloading) return;
+  var w = WEAPONS[state.currentWeapon];
+  if (state.currentWeapon === 'knife') return;
+  if (state.magAmmo >= w.magSize) return;
   state.reloading = true; state.reloadTimer = 0;
   sndReloadStart();
   document.getElementById('reloadBar').style.display = 'block';
@@ -676,6 +768,8 @@ function startReload(){
 
 function fire(){
   if (!state.running || state.dead || state.won) return;
+  var w = WEAPONS[state.currentWeapon];
+
   if (state.currentWeapon === 'knife'){
     state.pistolKick = 0.8; sndKnife();
     var kdx = Math.cos(state.dir), kdy = Math.sin(state.dir);
@@ -691,56 +785,105 @@ function fire(){
     }
     return;
   }
+
   if (state.reloading) return;
   if (state.magAmmo <= 0){ startReload(); return; }
   state.magAmmo--;
   updateAmmoHUD();
-  sndGun();
+
+  if (w.isShotgun) sndShotgun(); else sndPistol();
+
   state.pistolKick = 1;
   state.muzzleFlash = 1;
-  state.recoilPitch -= 25;
-  state.screenShake = 14;
+  state.recoilPitch -= w.isShotgun ? 35 : 22;
+  state.screenShake = w.isShotgun ? 20 : 12;
+
   var flash = document.getElementById('flash');
   flash.style.transition = 'none';
-  flash.style.opacity = '0.32';
-  requestAnimationFrame(function(){ flash.style.transition = 'opacity 0.12s'; flash.style.opacity = '0'; });
-  var dx = Math.cos(state.dir), dy = Math.sin(state.dir);
-  var hit = null, hitDist = Infinity, hitVerticalPct = 0;
+  flash.style.opacity = w.isShotgun ? '0.45' : '0.28';
+  requestAnimationFrame(function(){ flash.style.transition = 'opacity 0.15s'; flash.style.opacity = '0'; });
+
   var horizon = H/2 + state.pitch + state.recoilPitch;
-  for (var i = 0; i < state.enemies.length; i++){
-    var en = state.enemies[i];
-    if (!en.alive) continue;
-    var ex = en.x - state.px, ey = en.y - state.py;
-    var proj = ex*dx + ey*dy;
-    if (proj < 0) continue;
-    var perp = Math.abs(ex*dy - ey*dx);
-    var hitR = en.isBoss ? 1.4 : 0.4;
-    if (perp < hitR && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)){
-      var scale = en.scale || 1;
-      var sizeH = Math.min(H*2, H/proj) * scale;
-      var yBot = horizon + (H/proj)/2;
-      var yTop = yBot - sizeH;
-      var pct = (H/2 - yTop) / sizeH;
-      if (pct < 0 || pct > 1) continue;
-      hit = en; hitDist = proj; hitVerticalPct = pct;
+
+  if (w.isShotgun){
+    // 8 pellets with small spread
+    for (var p = 0; p < w.pellets; p++){
+      var ang = state.dir + (Math.random() - 0.5) * w.spread;
+      var dx = Math.cos(ang), dy = Math.sin(ang);
+      var hit = null, hitDist = Infinity, hitVerticalPct = 0;
+      for (var i = 0; i < state.enemies.length; i++){
+        var en = state.enemies[i];
+        if (!en.alive) continue;
+        var ex = en.x - state.px, ey = en.y - state.py;
+        var proj = ex*dx + ey*dy;
+        if (proj < 0 || proj > 15) continue;
+        var perp = Math.abs(ex*dy - ey*dx);
+        var hitR = en.isBoss ? 1.4 : 0.45;
+        if (perp < hitR && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)){
+          var scale = en.scale || 1;
+          var sizeH = Math.min(H*2, H/proj) * scale;
+          var yBot = horizon + (H/proj)/2;
+          var yTop = yBot - sizeH;
+          var pct = (H/2 - yTop) / sizeH;
+          if (pct < 0 || pct > 1) continue;
+          hit = en; hitDist = proj; hitVerticalPct = pct;
+        }
+      }
+      if (hit){
+        var headshot = hitVerticalPct < 0.30;
+        var dmg = headshot ? w.headDamage : w.damage;
+        hit.hp -= dmg;
+        if (headshot){ sndHeadshotHit(); state.headshotFlash = 0.5; } else { sndHit(); }
+        spawnBlood(hit.x, hit.y, headshot ? 8 : 4);
+        if (hit.hp <= 0){
+          hit.alive = false;
+          state.score++;
+          updateKillsHUD();
+          sndDeath();
+          spawnBlood(hit.x, hit.y, 16);
+          registerKill();
+        }
+      }
+    }
+  } else {
+    var dx = Math.cos(state.dir), dy = Math.sin(state.dir);
+    var hit = null, hitDist = Infinity, hitVerticalPct = 0;
+    for (var i = 0; i < state.enemies.length; i++){
+      var en = state.enemies[i];
+      if (!en.alive) continue;
+      var ex = en.x - state.px, ey = en.y - state.py;
+      var proj = ex*dx + ey*dy;
+      if (proj < 0) continue;
+      var perp = Math.abs(ex*dy - ey*dx);
+      var hitR = en.isBoss ? 1.4 : 0.4;
+      if (perp < hitR && proj < hitDist && !wallBetween(state.px, state.py, en.x, en.y)){
+        var scale = en.scale || 1;
+        var sizeH = Math.min(H*2, H/proj) * scale;
+        var yBot = horizon + (H/proj)/2;
+        var yTop = yBot - sizeH;
+        var pct = (H/2 - yTop) / sizeH;
+        if (pct < 0 || pct > 1) continue;
+        hit = en; hitDist = proj; hitVerticalPct = pct;
+      }
+    }
+    if (hit){
+      var headshot = hitVerticalPct < 0.30;
+      var dmg = headshot ? w.headDamage : w.damage;
+      hit.hp -= dmg;
+      if (headshot){ sndHeadshotHit(); state.headshotFlash = 0.5; } else { sndHit(); }
+      spawnBlood(hit.x, hit.y, headshot ? 14 : 7);
+      if (hit.hp <= 0){
+        hit.alive = false;
+        state.score++;
+        updateKillsHUD();
+        sndDeath();
+        spawnBlood(hit.x, hit.y, 16);
+        registerKill();
+      }
     }
   }
-  if (hit){
-    var headshot = hitVerticalPct < 0.30;
-    var dmg = headshot ? 75 : 25;
-    hit.hp -= dmg;
-    if (headshot){ sndHeadshotHit(); state.headshotFlash = 0.5; } else { sndHit(); }
-    spawnBlood(hit.x, hit.y, headshot ? 14 : 7);
-    if (hit.hp <= 0){
-      hit.alive = false;
-      state.score++;
-      updateKillsHUD();
-      sndDeath();
-      spawnBlood(hit.x, hit.y, 16);
-      registerKill();
-    }
-    if (state.magAmmo <= 0 && !state.reloading) startReload();
-  }
+
+  if (state.magAmmo <= 0 && !state.reloading) startReload();
 }
 
 function wallBetween(x1, y1, x2, y2){
@@ -818,12 +961,13 @@ function update(dt){
   state.pitch *= Math.max(0, 1 - dt * 0.6);
 
   if (state.reloading){
+    var w = WEAPONS[state.currentWeapon];
     state.reloadTimer += dt;
-    var pct = Math.min(1, state.reloadTimer / WEAPONS.pistol.reloadTime);
+    var pct = Math.min(1, state.reloadTimer / w.reloadTime);
     document.getElementById('reloadFill').style.width = (pct*100)+'%';
-    if (state.reloadTimer >= WEAPONS.pistol.reloadTime){
+    if (state.reloadTimer >= w.reloadTime){
       state.reloading = false;
-      state.magAmmo = WEAPONS.pistol.magSize;
+      state.magAmmo = w.magSize;
       updateAmmoHUD();
       sndReloadEnd();
       document.getElementById('reloadBar').style.display = 'none';
@@ -1146,10 +1290,11 @@ function render(){
     ctx.globalAlpha = 1;
   }
 
-  drawGun();
-  drawMinimap();
+  drawWeapon();
 
   ctx.restore();
+
+  drawMinimap();
 
   if (state.headshotFlash > 0.05){
     ctx.fillStyle = 'rgba(255,220,80,' + (state.headshotFlash*0.15) + ')';
@@ -1270,299 +1415,48 @@ function drawSprite(sp, horizon, colW, rayCount, zbuf){
   }
 }
 
-// ===== DESERT EAGLE - HANDPAINTED CODE =====
-function drawGun(){
+// ===== DRAW WEAPON =====
+function drawWeapon(){
   if (state.currentWeapon === 'knife'){ drawKnife(); return; }
+  if (state.currentWeapon === 'pistol' && pistolReady){ drawImageWeapon(pistolImg, 0.55); return; }
+  if (state.currentWeapon === 'shotgun' && shotgunReady){ drawImageWeapon(shotgunImg, 0.75); return; }
+  // fallback
+  drawKnife();
+}
 
+function drawImageWeapon(img, sizeRatio){
   var reloadOffset = 0;
   if (state.reloading){
-    var pct = state.reloadTimer / WEAPONS.pistol.reloadTime;
+    var w = WEAPONS[state.currentWeapon];
+    var pct = state.reloadTimer / w.reloadTime;
     var phase = pct < 0.5 ? pct*2 : (1-pct)*2;
-    reloadOffset = phase * H * 0.28;
+    reloadOffset = phase * 80;
   }
-
-  var kick = state.pistolKick * 30;
-  var bobX = Math.sin(state.bob) * 7;
+  var kick = state.pistolKick * 14;
+  var bobX = Math.sin(state.bob) * 5;
   var bobY = Math.sin(state.bob * 2) * 3;
-  var recoilRot = -state.pistolKick * 0.14;
 
-  var cx = W * 0.60 + bobX;
-  var cy = H * 1.02 + bobY + reloadOffset - kick * 0.7;
-  var S = Math.min(W, H) * 0.14;
+  var imgW = W * sizeRatio;
+  var imgH = imgW * (img.height / img.width);
+  var px = W - imgW + bobX;
+  var py = H - imgH + kick + bobY + reloadOffset;
 
   ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(recoilRot);
+  ctx.drawImage(img, px, py, imgW, imgH);
 
-  // ===== ARM/FOREARM (from bottom-right) =====
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.moveTo(S*1.6, S*0.6);
-  ctx.lineTo(S*5.0, S*1.2);
-  ctx.lineTo(S*5.0, S*6.0);
-  ctx.lineTo(S*1.2, S*5.0);
-  ctx.closePath();
-  ctx.fill();
-  // Shadow on arm
-  ctx.fillStyle = '#a88060';
-  ctx.beginPath();
-  ctx.moveTo(S*2.8, S*1.8);
-  ctx.lineTo(S*5.0, S*2.2);
-  ctx.lineTo(S*5.0, S*4.0);
-  ctx.lineTo(S*2.4, S*3.6);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== GRIP (Desert Eagle - large angular grip) =====
-  // Main grip body
-  ctx.fillStyle = '#0a0a0a';
-  ctx.beginPath();
-  ctx.moveTo(S*1.0, -S*0.4);
-  ctx.lineTo(S*2.2, -S*0.4);
-  ctx.lineTo(S*2.9, S*3.6);
-  ctx.lineTo(S*1.4, S*3.9);
-  ctx.closePath();
-  ctx.fill();
-  // Right side of grip (lighter for volume)
-  ctx.fillStyle = '#1a1a1a';
-  ctx.beginPath();
-  ctx.moveTo(S*1.0, -S*0.4);
-  ctx.lineTo(S*1.6, -S*0.4);
-  ctx.lineTo(S*2.2, S*3.7);
-  ctx.lineTo(S*1.4, S*3.9);
-  ctx.closePath();
-  ctx.fill();
-
-  // Grip texture - diamond pattern
-  ctx.strokeStyle = '#2a2a2a';
-  ctx.lineWidth = S*0.04;
-  for (var i = 0; i < 5; i++){
-    var y1 = S*0.0 + i*S*0.7;
-    ctx.beginPath();
-    ctx.moveTo(S*1.1, y1);
-    ctx.lineTo(S*2.6, y1 + S*0.5);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(S*2.6, y1);
-    ctx.lineTo(S*1.1, y1 + S*0.5);
-    ctx.stroke();
-  }
-
-  // Magazine base plate (metal)
-  ctx.fillStyle = '#3a3a3a';
-  ctx.beginPath();
-  ctx.moveTo(S*1.35, S*3.7);
-  ctx.lineTo(S*2.9, S*3.7);
-  ctx.lineTo(S*2.85, S*4.1);
-  ctx.lineTo(S*1.4, S*4.15);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(S*1.5, S*3.9, S*1.2, S*0.08);
-
-  // ===== MAIN SLIDE (huge block, Desert Eagle signature) =====
-  // Slide body - dark
-  ctx.fillStyle = '#1a1a1a';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.2, -S*1.7);
-  ctx.lineTo(S*2.0, -S*1.5);
-  ctx.lineTo(S*2.1, S*0.4);
-  ctx.lineTo(-S*3.0, S*0.5);
-  ctx.closePath();
-  ctx.fill();
-
-  // Top edge of slide (highlighted)
-  ctx.fillStyle = '#3a3a3a';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.2, -S*1.7);
-  ctx.lineTo(S*2.0, -S*1.5);
-  ctx.lineTo(S*2.0, -S*1.3);
-  ctx.lineTo(-S*3.2, -S*1.5);
-  ctx.closePath();
-  ctx.fill();
-
-  // Bottom edge (shadow)
-  ctx.fillStyle = '#0a0a0a';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.0, S*0.4);
-  ctx.lineTo(S*2.1, S*0.4);
-  ctx.lineTo(S*2.1, S*0.5);
-  ctx.lineTo(-S*3.0, S*0.5);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== BARREL (extends forward and up-left, with vents) =====
-  // Main barrel block
-  ctx.fillStyle = '#1a1a1a';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.2, -S*1.7);
-  ctx.lineTo(-S*6.0, -S*2.8);
-  ctx.lineTo(-S*6.0, -S*1.4);
-  ctx.lineTo(-S*3.0, -S*0.4);
-  ctx.closePath();
-  ctx.fill();
-
-  // Top of barrel (highlight)
-  ctx.fillStyle = '#3a3a3a';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.2, -S*1.7);
-  ctx.lineTo(-S*6.0, -S*2.8);
-  ctx.lineTo(-S*6.0, -S*2.5);
-  ctx.lineTo(-S*3.2, -S*1.4);
-  ctx.closePath();
-  ctx.fill();
-
-  // Ventilation slots (Desert Eagle signature)
-  ctx.fillStyle = '#000';
-  for (var v = 0; v < 4; v++){
-    var vx = -S*3.6 - v*S*0.5;
-    var vy = -S*1.5 - v*S*0.3;
-    ctx.beginPath();
-    ctx.moveTo(vx, vy);
-    ctx.lineTo(vx - S*0.25, vy - S*0.2);
-    ctx.lineTo(vx - S*0.25, vy + S*0.2);
-    ctx.lineTo(vx, vy + S*0.4);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  // Muzzle - big round hole
-  ctx.fillStyle = '#000';
-  ctx.beginPath();
-  ctx.ellipse(-S*5.9, -S*2.1, S*0.25, S*0.5, -0.5, 0, Math.PI*2);
-  ctx.fill();
-  ctx.strokeStyle = '#4a4a4a';
-  ctx.lineWidth = S*0.06;
-  ctx.beginPath();
-  ctx.ellipse(-S*5.9, -S*2.1, S*0.25, S*0.5, -0.5, 0, Math.PI*2);
-  ctx.stroke();
-
-  // ===== REAR SLIDE SERRATIONS =====
-  ctx.fillStyle = '#000';
-  for (var ns = 0; ns < 6; ns++){
-    ctx.fillRect(-S*2.9, -S*1.5 + ns*S*0.3, S*0.12, S*0.2);
-  }
-
-  // ===== HAMMER (rear, above grip) =====
-  ctx.fillStyle = '#0a0a0a';
-  ctx.beginPath();
-  ctx.moveTo(-S*2.9, -S*1.6);
-  ctx.lineTo(-S*2.4, -S*2.4);
-  ctx.lineTo(-S*2.15, -S*1.9);
-  ctx.lineTo(-S*2.7, -S*1.3);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = '#5a5a5a';
-  ctx.fillRect(-S*2.85, -S*2.2, S*0.35, S*0.15);
-
-  // ===== TRIGGER GUARD =====
-  ctx.strokeStyle = '#0a0a0a';
-  ctx.lineWidth = S*0.18;
-  ctx.beginPath();
-  ctx.moveTo(S*0.15, S*0.3);
-  ctx.quadraticCurveTo(S*0.4, S*1.2, S*1.15, S*1.1);
-  ctx.stroke();
-
-  // Trigger
-  ctx.fillStyle = '#0a0a0a';
-  ctx.beginPath();
-  ctx.moveTo(S*0.30, S*0.5);
-  ctx.quadraticCurveTo(S*0.5, S*0.9, S*0.42, S*1.05);
-  ctx.lineTo(S*0.58, S*1.0);
-  ctx.quadraticCurveTo(S*0.65, S*0.75, S*0.5, S*0.5);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== REAR SIGHT =====
-  ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(-S*3.05, -S*2.0, S*1.3, S*0.22);
-  // Rear notch
-  ctx.fillStyle = '#5a5a5a';
-  ctx.fillRect(-S*2.9, -S*2.2, S*0.15, S*0.3);
-  ctx.fillRect(-S*2.0, -S*2.2, S*0.15, S*0.3);
-
-  // ===== FRONT SIGHT =====
-  ctx.fillStyle = '#0a0a0a';
-  ctx.fillRect(-S*5.7, -S*3.1, S*0.5, S*0.2);
-  ctx.fillStyle = '#ddd';
-  ctx.fillRect(-S*5.55, -S*3.3, S*0.15, S*0.25);
-
-  // ===== HAND GRIPPING =====
-  // Thumb (over the grip top)
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(S*1.9, -S*0.15, S*0.5, S*0.35, -0.3, 0, Math.PI*2);
-  ctx.fill();
-  ctx.fillStyle = '#a88060';
-  ctx.beginPath();
-  ctx.ellipse(S*2.0, S*0.0, S*0.25, S*0.15, -0.3, 0, Math.PI*2);
-  ctx.fill();
-
-  // Fingers wrapping the grip
-  ctx.fillStyle = '#c9a07a';
-  for (var f = 0; f < 4; f++){
-    var fy = S*0.3 + f*S*0.55;
-    ctx.beginPath();
-    ctx.moveTo(S*1.15, fy);
-    ctx.lineTo(S*2.15, fy - S*0.05);
-    ctx.lineTo(S*2.25, fy + S*0.35);
-    ctx.lineTo(S*1.15, fy + S*0.45);
-    ctx.closePath();
-    ctx.fill();
-    // Finger shadow between fingers
-    ctx.fillStyle = '#a88060';
-    ctx.fillRect(S*1.15, fy + S*0.35, S*1.1, S*0.06);
-    ctx.fillStyle = '#c9a07a';
-  }
-
-  // Index finger on trigger
-  ctx.fillStyle = '#c9a07a';
-  ctx.beginPath();
-  ctx.ellipse(S*0.55, S*0.75, S*0.42, S*0.22, 0.2, 0, Math.PI*2);
-  ctx.fill();
-
-  // ===== BLIK ON SLIDE =====
-  ctx.fillStyle = 'rgba(255,255,255,0.18)';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.0, -S*1.55);
-  ctx.lineTo(S*1.85, -S*1.35);
-  ctx.lineTo(S*1.85, -S*1.20);
-  ctx.lineTo(-S*3.0, -S*1.40);
-  ctx.closePath();
-  ctx.fill();
-
-  // Small highlight on barrel top
-  ctx.fillStyle = 'rgba(255,255,255,0.10)';
-  ctx.beginPath();
-  ctx.moveTo(-S*3.2, -S*1.6);
-  ctx.lineTo(-S*5.9, -S*2.7);
-  ctx.lineTo(-S*5.9, -S*2.5);
-  ctx.lineTo(-S*3.2, -S*1.4);
-  ctx.closePath();
-  ctx.fill();
-
-  // ===== MUZZLE FLASH =====
+  // Muzzle flash - top-left of image
   if (state.muzzleFlash > 0.05){
     var mf = state.muzzleFlash;
-    var fx = -S*6.2, fy2 = -S*2.1;
-    var R = S * 3.5 * mf;
-    var grd = ctx.createRadialGradient(fx, fy2, 0, fx, fy2, R);
-    grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.98) + ')');
-    grd.addColorStop(0.35, 'rgba(255,200,80,' + (mf*0.85) + ')');
-    grd.addColorStop(0.7, 'rgba(255,120,20,' + (mf*0.5) + ')');
+    var fx = px + imgW * 0.15;
+    var fy = py + imgH * 0.20;
+    var R = imgW * 0.35 * mf;
+    var grd = ctx.createRadialGradient(fx, fy, 0, fx, fy, R);
+    grd.addColorStop(0, 'rgba(255,250,210,' + (mf*0.95) + ')');
+    grd.addColorStop(0.4, 'rgba(255,200,80,' + (mf*0.7) + ')');
     grd.addColorStop(1, 'rgba(255,80,0,0)');
     ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.arc(fx, fy2, R, 0, Math.PI*2); ctx.fill();
-    // Core flame
-    ctx.fillStyle = 'rgba(255,255,220,' + mf + ')';
-    ctx.beginPath();
-    ctx.moveTo(fx + R*0.2, fy2 - R*0.25);
-    ctx.lineTo(fx - R*0.9, fy2);
-    ctx.lineTo(fx + R*0.2, fy2 + R*0.25);
-    ctx.closePath();
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(fx, fy, R, 0, Math.PI*2); ctx.fill();
   }
-
   ctx.restore();
 }
 
@@ -1612,6 +1506,7 @@ function drawKnife(){
   ctx.restore();
 }
 
+// ===== BIND BUTTONS =====
 function bindBtn(id, fn){
   var el = document.getElementById(id);
   if (!el) return;
@@ -1658,7 +1553,9 @@ bindBtn('deadMenu', function(){ showMenu(); });
 bindBtn('deadRetry', function(){ startLevel(state.level); });
 bindBtn('winMenu', function(){ showMenu(); });
 bindBtn('winNext', function(){ var n = state.level + 1; if (n > MAX_LEVEL){ showMenu(); return; } startLevel(n); });
-bindBtn('weaponBtn', function(){ if (!state.running || state.dead) return; switchWeapon(); });
+bindBtn('slotKnife', function(){ if (state.running && !state.dead) switchWeapon('knife'); });
+bindBtn('slotPistol', function(){ if (state.running && !state.dead) switchWeapon('pistol'); });
+bindBtn('slotShotgun', function(){ if (state.running && !state.dead) switchWeapon('shotgun'); });
 
 var lastTime = 0;
 var loopRunning = false;
@@ -1684,6 +1581,7 @@ function startLoop(){
 initBgMusic();
 resize();
 updateLevelButtons();
+updateWeaponIcons();
 showMenu();
 })();
 </script>
